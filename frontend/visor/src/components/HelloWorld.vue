@@ -1,29 +1,36 @@
 <template>
   <div class="hello">
+    <md-button class="md-primary">Primary</md-button>
+    <md-button class="md-raised md-accent">Accent</md-button>
     <h1>{{ msg }}</h1>
-    <ul v-for="traza in trazas" v-bind:key="traza.st">
-      <li>{{traza.st}}</li>
-    </ul>
+    <md-button class="md-raised md-accent">Accent</md-button>
+     <md-button
+                slot="buttons"
+                href="javascript:void(0)"
+                class="md-just-icon md-simple md-white"
+              >
+                <i class="fab fa-google-plus-g"></i>
+              </md-button>
+    <md-button class="md-raised md-primary">Primary</md-button>
+    <md-content class="md-accent">Accent</md-content>
   </div>
 </template>
 
 <script>
-import { allTrazasService } from '@/services/trazas/GetAllTrazas.service'
 
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'prueba inicial de datos',
-      trazas: []
+      trazas: [],
+      imagen: ''
     }
   },
   methods: {
     loadtrazas () {
       let vm = this
-      allTrazasService.query().then(data => {
-        vm.trazas = data.body
-      })
+      console.log(vm.msg)
     }
   },
   mounted () {
