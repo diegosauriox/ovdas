@@ -87,7 +87,7 @@ CORS_ORIGIN_WHITELIST = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'w_frez$hhz$tc$99',
+        'NAME': 'ufro_ovdas',
         'USER': 'root',
         'PASSWORD':'',
         'HOST': 'localhost',
