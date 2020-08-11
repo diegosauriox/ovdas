@@ -22,7 +22,6 @@
         :md-description="`No se han podido cargar los datos correctamente o estan vacios los registros, pruebe creando nuevos datos`">
         <md-button class="bh-primary md-raised"  @click="showDialogCreate = true">Crear nuevo VOlcan</md-button>
       </md-table-empty-state>
-
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID" md-sort-by="id_volcan" md-numeric>{{ item.id_volcan }}</md-table-cell>
         <md-table-cell md-label="Nombre" md-sort-by="nombre">{{ item.nombre }}</md-table-cell>
@@ -30,17 +29,17 @@
         <md-table-cell md-label="Latitu" md-sort-by="latitud">{{ item.latitud }}</md-table-cell>
         <md-table-cell md-label="Longitud" md-sort-by="longitud">{{ item.longitud }}</md-table-cell>
         <md-table-cell md-label="Acciones">
-          <md-button class="md-icon-button bh-warning md-primary md-raised">
+          <md-button class="md-icon-button bh-warning md-primary md-raised" @click="elementAuxEdit(item)">
             <md-icon>edit</md-icon>
           </md-button>
-          <md-button class="bh-danger md-icon-button ">
+          <md-button class="bh-danger md-icon-button" @click="elementAuxDelet(item.id_volcan)">
             <md-icon>cancel</md-icon>
           </md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
     <div class="">
-      <md-dialog class="md-size-30" :md-active.sync="showDialogCreate"  style="width:auto;">
+      <md-dialog class="" :md-active.sync="showDialogCreate">
         <md-dialog-title>Nuevo</md-dialog-title>
         <div class="">
         <form>
@@ -55,9 +54,8 @@
             <md-input v-model="element.nombre" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>text_format</md-icon>
             <label>Descripción...</label>
-            <md-textarea v-model="element.descripcion" aria-required="required"></md-textarea>
+            <md-textarea class="bh-pd2" v-model="element.descripcion" aria-required="required"></md-textarea>
           </md-field>
           <md-field class="md-form-group">
             <md-icon>height</md-icon>
@@ -81,13 +79,81 @@
           <md-button class="bh-success" @click="newElement(element)">Crear</md-button>
         </md-dialog-actions>
       </md-dialog>
+      <md-snackbar
+      md-position="center"
+      :style="colorSnackbar"
+      :md-duration="timeout"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>{{textSnackbar}}</span>
+      <md-button class="md-danger bh-text-white" @click="showSnackbar = false">x</md-button>
+    </md-snackbar>
     </div>
+    <div>
+      <md-dialog class="" :md-active.sync="showDialogEdit">
+        <md-dialog-title>Nuevo</md-dialog-title>
+        <div class="">
+        <form>
+          <md-field class="md-form-group">
+            <md-icon>list_alt</md-icon>
+            <label>Id volcán...</label>
+            <md-input v-model="elementAux.id_volcan" type="text" aria-required="required" />
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon>title</md-icon>
+            <label>Nombre...</label>
+            <md-input v-model="elementAux.nombre" type="text" aria-required="required" />
+          </md-field>
+          <md-field class="md-form-group">
+            <label>Descripción...</label>
+            <md-textarea class="bh-pd2" v-model="elementAux.descripcion" aria-required="required"></md-textarea>
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon>height</md-icon>
+            <label>Altura...</label>
+            <md-input v-model="elementAux.altura" type="number" aria-required="required" />
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon>add_location</md-icon>
+            <label>Latitud...</label>
+            <md-input v-model="elementAux.latitud" type="text" aria-required="required" />
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon>add_location</md-icon>
+            <label>Latitud...</label>
+            <md-input v-model="elementAux.longitud" type="text" aria-required="required" />
+          </md-field>
+        </form>
+        </div>
+        <md-dialog-actions>
+          <md-button class="bh-danger" @click="showDialogCreate = false">Cancelar</md-button>
+          <md-button class="bh-success" @click="editSaveElement(elementAux)">Actualizar</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </div>
+    <div>
+      <div class="">
+      <md-dialog class="" :md-active.sync="showDialogDelete">
+        <md-dialog-title>¿Estas seguro de relizar esta acción?</md-dialog-title>
+        <div class="">
+          <p>Se eliminara un <strong>volcán</strong> para siempre</p>
+        </div>
+        <md-dialog-actions>
+          <md-button class="bh-danger" @click="showDialogDelete = false">Cancelar</md-button>
+          <md-button class="bh-default" @click="deleteElement()">Eliminar</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </div>
+  </div>
   </div>
 </template>
 
 <script>
 import { allVolcanesService } from '@/services/volcanes/GetAllVolcanes.service'
 import { createVolcanService } from '@/services/volcanes/CreateVolcan.service'
+import { deleteVolcanService } from '@/services/volcanes/DeleteVolcan.service'
+import { updateVolcanService } from '@/services/volcanes/UpdateVolcan.service'
 
 export default {
   name: 'Volcanes',
@@ -103,8 +169,12 @@ export default {
       timeout: 4000,
       bancos: [],
       showDialogUpdate: false,
+      showDialogDelete: false,
+      showDialogEdit: false,
+      auxElementDelete: -1,
       search: '',
-      element: {}
+      element: {},
+      elementAux: {}
     }
   },
   methods: {
@@ -123,6 +193,7 @@ export default {
         vm.textSnackbar = 'El campo fue creado con éxito'
         vm.showSnackbar = true
         vm.colorSnackbar = 'background-color: green'
+        vm.loadVolacanes()
       },
       response => {
         vm.textSnackbar = 'Hubo un error al crear los datos'
@@ -131,7 +202,56 @@ export default {
       },
       // vm.element.nombre = '',
       // vm.element.rut = '',
+      vm.element = {},
       vm.showDialogCreate = false
+      )
+    },
+    elementAuxEdit (model) {
+      let vm = this
+      vm.elementAux = model
+      vm.showDialogEdit = true
+    },
+    editSaveElement (model) {
+      let vm = this
+      console.log(model)
+      updateVolcanService.update(model.id_volcan, model).then(data => {
+        vm.volcanes = data.body
+        vm.textSnackbar = 'El campo fue actualizado con éxito'
+        vm.showSnackbar = true
+        vm.colorSnackbar = 'background-color: green'
+        vm.loadVolacanes()
+      },
+      response => {
+        vm.textSnackbar = 'Hubo un error al actualizar los datos'
+        vm.showSnackbar = true
+        vm.colorSnackbar = 'background-color: darkred'
+      },
+      // vm.element.nombre = '',
+      // vm.element.rut = '',
+      vm.elementAux = {},
+      vm.showDialogEdit = false
+      )
+    },
+    elementAuxDelet (id) {
+      let vm = this
+      vm.auxElementDelete = id
+      vm.showDialogDelete = true
+    },
+    deleteElement () {
+      let vm = this
+      deleteVolcanService.destroy(vm.auxElementDelete).then(data => {
+        vm.textSnackbar = 'El campo fue creado con eliminado con Exito'
+        vm.showSnackbar = true
+        vm.colorSnackbar = 'background-color: green'
+        vm.loadVolacanes()
+      },
+      response => {
+        vm.textSnackbar = 'Hubo un error al aliminar el volcan'
+        vm.showSnackbar = true
+        vm.colorSnackbar = 'background-color: darkred'
+      },
+      vm.showDialogDelete = false,
+      vm.auxElementDelete = -1
       )
     }
   },
@@ -157,5 +277,9 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.md-dialog .md-dialog-fullscreen {
+  overflow: auto !important;
 }
 </style>

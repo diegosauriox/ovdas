@@ -43,3 +43,12 @@
 .bh-text-white {
     color: #fff !important;
 }
+
+
+form {
+    width: 55rem !important;
+  }
+
+  .bh-pd2{
+    padding: 0.2rem;
+  }
