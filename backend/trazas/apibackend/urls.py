@@ -14,6 +14,7 @@ router.register(r'trazas', views.TrazaViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api/volcanes/', volcanView.index),
+    path('api/createVolcanes', volcanView.create),
     path('test/', views.test),
     #path('showzip/', viewss.download),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
