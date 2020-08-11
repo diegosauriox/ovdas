@@ -15,6 +15,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api/volcanes/', volcanView.index),
     path('api/createVolcanes', volcanView.create),
+    path('api/deleteVolcan/<id>', volcanView.destroy),
+    path('api/updateVolcan/<int:id>', volcanView.update),
     path('test/', views.test),
     #path('showzip/', viewss.download),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))

@@ -232,6 +232,8 @@ class VolcanModel(models.Model):
     latitud = models.CharField(max_length=45, blank=True, null=True)
     longitud = models.CharField(max_length=45)
     altura = models.CharField(max_length=45)
+    #created_at = models.DateTimeField(auto_now_add=True)
+    #updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
