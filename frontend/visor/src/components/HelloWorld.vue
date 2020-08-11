@@ -13,6 +13,29 @@
               </md-button>
     <md-button class="md-raised md-primary">Primary</md-button>
     <md-content class="md-accent">Accent</md-content>
+    <div class="">
+      <md-dialog :md-active.sync="showDialogCreate" style="width: 70% !important;" >
+        <md-dialog-title>Nuevo</md-dialog-title>
+        <div class="">
+        <form>
+          <md-field class="md-form-group">
+            <md-icon>title</md-icon>
+            <label>Nombre...</label>
+            <md-input v-model="element.nombre" type="text" aria-required="required" />
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon>text_format</md-icon>
+            <label>Descripción...</label>
+            <md-input v-model="element.rut" type="text" aria-required="required" />
+          </md-field>
+        </form>
+        </div>
+        <md-dialog-actions>
+          <md-button class="button-danger" @click="showDialogCreate = false">cancelar</md-button>
+          <md-button class="md-success" @click="newElement(element)">Crear</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </div>
   </div>
 </template>
 

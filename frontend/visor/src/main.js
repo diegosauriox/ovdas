@@ -3,11 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import ColorsStyle from './assets/style/colors.css'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/black-green-light.css'
+import 'vue-material/dist/theme/default.css'
 
 Vue.config.productionTip = false
+Vue.use(ColorsStyle)
 Vue.use(VueMaterial)
 
 /* eslint-disable no-new */
