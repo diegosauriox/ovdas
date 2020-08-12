@@ -29,6 +29,9 @@
         <md-table-cell md-label="Latitu" md-sort-by="latitud">{{ item.latitud }}</md-table-cell>
         <md-table-cell md-label="Longitud" md-sort-by="longitud">{{ item.longitud }}</md-table-cell>
         <md-table-cell md-label="Acciones">
+          <md-button class="md-icon-button bh-info md-primary md-raised" @click="showInfo(item)">
+            <md-icon>visibility</md-icon>
+          </md-button>
           <md-button class="md-icon-button bh-warning md-primary md-raised" @click="elementAuxEdit(item)">
             <md-icon>edit</md-icon>
           </md-button>
@@ -39,9 +42,9 @@
       </md-table-row>
     </md-table>
     <div class="">
-      <md-dialog class="" :md-active.sync="showDialogCreate">
+      <md-dialog class="bh-scroll-y" :md-active.sync="showDialogCreate">
         <md-dialog-title>Nuevo</md-dialog-title>
-        <div class="">
+        <md-dialog-content class="">
         <form>
           <md-field class="md-form-group">
             <md-icon>list_alt</md-icon>
@@ -73,7 +76,7 @@
             <md-input v-model="element.longitud" type="text" aria-required="required" />
           </md-field>
         </form>
-        </div>
+        </md-dialog-content>
         <md-dialog-actions>
           <md-button class="bh-danger" @click="showDialogCreate = false">cancelar</md-button>
           <md-button class="bh-success" @click="newElement(element)">Crear</md-button>
@@ -91,9 +94,9 @@
     </md-snackbar>
     </div>
     <div>
-      <md-dialog class="" :md-active.sync="showDialogEdit">
-        <md-dialog-title>Nuevo</md-dialog-title>
-        <div class="">
+      <md-dialog class="bh-scroll-y" :md-active.sync="showDialogEdit">
+        <md-dialog-title>Actualizar</md-dialog-title>
+        <md-dialog-content class="">
         <form>
           <md-field class="md-form-group">
             <md-icon>list_alt</md-icon>
@@ -125,7 +128,7 @@
             <md-input v-model="elementAux.longitud" type="text" aria-required="required" />
           </md-field>
         </form>
-        </div>
+        </md-dialog-content>
         <md-dialog-actions>
           <md-button class="bh-danger" @click="showDialogCreate = false">Cancelar</md-button>
           <md-button class="bh-success" @click="editSaveElement(elementAux)">Actualizar</md-button>
@@ -136,14 +139,25 @@
       <div class="">
       <md-dialog class="" :md-active.sync="showDialogDelete">
         <md-dialog-title>¿Estas seguro de relizar esta acción?</md-dialog-title>
-        <div class="">
+        <md-dialog-content class="">
           <p>Se eliminara un <strong>volcán</strong> para siempre</p>
-        </div>
+        </md-dialog-content>
         <md-dialog-actions>
           <md-button class="bh-danger" @click="showDialogDelete = false">Cancelar</md-button>
           <md-button class="bh-default" @click="deleteElement()">Eliminar</md-button>
         </md-dialog-actions>
       </md-dialog>
+      <div class="">
+        <md-dialog class="" :md-active.sync="ShowDialogInfo">
+          <md-dialog-title>Detalles de <strong>{{elementAux.nombre}}</strong></md-dialog-title>
+          <md-dialog-content>
+            <p>{{elementAux.descripcion}}</p>
+          </md-dialog-content>
+          <md-dialog-actions>
+            <md-button class="bh-success" @click="ShowDialogInfo = false">Ok</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
     </div>
   </div>
   </div>
@@ -171,6 +185,7 @@ export default {
       showDialogUpdate: false,
       showDialogDelete: false,
       showDialogEdit: false,
+      ShowDialogInfo: false,
       auxElementDelete: -1,
       search: '',
       element: {},
@@ -205,6 +220,11 @@ export default {
       vm.element = {},
       vm.showDialogCreate = false
       )
+    },
+    showInfo (model) {
+      let vm = this
+      vm.elementAux = model
+      vm.ShowDialogInfo = true
     },
     elementAuxEdit (model) {
       let vm = this
@@ -279,7 +299,4 @@ a {
   color: #42b983;
 }
 
-.md-dialog .md-dialog-fullscreen {
-  overflow: auto !important;
-}
 </style>
