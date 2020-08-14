@@ -14,6 +14,7 @@ router.register(r'trazas', views.TrazaViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api/volcanes/', volcanView.index),
+    path('api/volcanesIdName/', volcanView.getIdName),
     path('api/createVolcanes', volcanView.create),
     path('api/deleteVolcan/<id>', volcanView.destroy),
     path('api/updateVolcan/<int:id>', volcanView.update),
