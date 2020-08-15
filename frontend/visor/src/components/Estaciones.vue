@@ -26,16 +26,16 @@
         <md-table-cell md-label="ID" md-sort-by="id_estacion" md-numeric>{{ item.id_estacion }}</md-table-cell>
         <md-table-cell md-label="Nombre" md-sort-by="nombre">{{ item.nombre }}</md-table-cell>
         <md-table-cell md-label="altura" md-sort-by="altura">{{ item.altura }}</md-table-cell>
+        <md-table-cell md-label="Pertenece a" md-sort-by="volcan">
+          <div v-for="volcan in volcanes" v-bind:key="volcan.nombre" >
+            <p v-if="volcan.id_volcan === item.volcan">{{volcan.nombre}}</p></div></md-table-cell>
         <md-table-cell md-label="Latitu" md-sort-by="latitud">{{ item.latitud }}</md-table-cell>
         <md-table-cell md-label="Longitud" md-sort-by="longitud">{{ item.longitud }}</md-table-cell>
         <md-table-cell md-label="Acciones">
-          <md-button class="md-icon-button bh-info md-primary md-raised" @click="showInfo(item)">
-            <md-icon>visibility</md-icon>
-          </md-button>
-          <md-button class="md-icon-button bh-warning md-primary md-raised" @click="elementAuxEdit(item)">
+          <md-button class="md-icon-button bh-warning bh-text-white md-raised" @click="elementAuxEdit(item)">
             <md-icon>edit</md-icon>
           </md-button>
-          <md-button class="bh-danger md-icon-button" @click="elementAuxDelet(item.id_estacion)">
+          <md-button class="bh-danger md-icon-button md-raised bh-text-white" @click="elementAuxDelet(item.id_estacion)">
             <md-icon>cancel</md-icon>
           </md-button>
         </md-table-cell>
@@ -47,48 +47,49 @@
         <md-dialog-content class="">
         <form>
           <md-field class="md-form-group">
-            <md-icon>list_alt</md-icon>
+            <md-icon class="bh-text-primary">list_alt</md-icon>
             <label>Id Estacion...</label>
             <md-input v-model="element.id_estacion" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>title</md-icon>
+            <md-icon class="bh-text-primary">title</md-icon>
             <label>Nombre...</label>
             <md-input v-model="element.nombre" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
+            <md-icon class="bh-text-primary">settings_input_antenna</md-icon>
             <label>Sensor...</label>
-            <md-textarea class="bh-pd2" v-model="element.sensor" aria-required="required"></md-textarea>
+            <md-input class="" v-model="element.sensor" type="text" aria-required="required"/>
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>height</md-icon>
+            <md-icon class="bh-text-primary">filter_1</md-icon>
             <label>Periodo...</label>
             <md-input v-model="element.periodo" type="number" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>add_location</md-icon>
+            <md-icon class="bh-text-primary">add_location</md-icon>
             <label>Latitud...</label>
             <md-input v-model="element.latitud" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>add_location</md-icon>
+            <md-icon class="bh-text-primary">add_location</md-icon>
             <label>Latitud...</label>
             <md-input v-model="element.longitud" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>add_location</md-icon>
+            <md-icon class="bh-text-primary">height</md-icon>
             <label>Altura...</label>
             <md-input v-model="element.altura" type="number" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>add_location</md-icon>
+            <md-icon class="bh-text-primary">terrain</md-icon>
             <label>Volcan...</label>
             <md-select v-model="element.volcan" name="volcan"  placeholder="Volcán">
               <md-option v-for="volcan in volcanes" v-bind:key="volcan.id_volcan" :value="volcan.id_volcan">{{ volcan.nombre }}</md-option>
             </md-select>
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>add_location</md-icon>
+            <md-icon class="bh-text-primary">pin_drop</md-icon>
             <label>Distancia al cráter...</label>
             <md-input v-model="element.distancia_crater" type="number" aria-required="required" />
           </md-field>
@@ -116,38 +117,56 @@
         <md-dialog-content class="">
         <form>
           <md-field class="md-form-group">
-            <md-icon>list_alt</md-icon>
-            <label>Id Estación...</label>
+            <md-icon class="bh-text-primary">list_alt</md-icon>
+            <label>Id Estacion...</label>
             <md-input v-model="elementAux.id_estacion" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>title</md-icon>
+            <md-icon class="bh-text-primary">title</md-icon>
             <label>Nombre...</label>
             <md-input v-model="elementAux.nombre" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <label>Descripción...</label>
-            <md-textarea class="bh-pd2" v-model="elementAux.descripcion" aria-required="required"></md-textarea>
+            <md-icon class="bh-text-primary">settings_input_antenna</md-icon>
+            <label>Sensor...</label>
+            <md-input class="" v-model="elementAux.sensor" type="text" aria-required="required"/>
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>height</md-icon>
-            <label>Altura...</label>
-            <md-input v-model="elementAux.altura" type="number" aria-required="required" />
+            <md-icon class="bh-text-primary">filter_1</md-icon>
+            <label>Periodo...</label>
+            <md-input v-model="elementAux.periodo" type="number" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>add_location</md-icon>
+            <md-icon class="bh-text-primary">add_location</md-icon>
             <label>Latitud...</label>
             <md-input v-model="elementAux.latitud" type="text" aria-required="required" />
           </md-field>
           <md-field class="md-form-group">
-            <md-icon>add_location</md-icon>
+            <md-icon class="bh-text-primary">add_location</md-icon>
             <label>Latitud...</label>
             <md-input v-model="elementAux.longitud" type="text" aria-required="required" />
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon class="bh-text-primary">height</md-icon>
+            <label>Altura...</label>
+            <md-input v-model="elementAux.altura" type="number" aria-required="required" />
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon class="bh-text-primary">terrain</md-icon>
+            <label>Volcan...</label>
+            <md-select v-model="elementAux.volcan" name="volcan"  placeholder="Volcán">
+              <md-option v-for="volcan in volcanes" v-bind:key="volcan.id_volcan" :value="volcan.id_volcan">{{ volcan.nombre }}</md-option>
+            </md-select>
+          </md-field>
+          <md-field class="md-form-group">
+            <md-icon class="bh-text-primary">pin_drop</md-icon>
+            <label>Distancia al cráter...</label>
+            <md-input v-model="elementAux.distancia_crater" type="number" aria-required="required" />
           </md-field>
         </form>
         </md-dialog-content>
         <md-dialog-actions>
-          <md-button class="bh-danger" @click="showDialogCreate = false">Cancelar</md-button>
+          <md-button class="bh-danger" @click="showDialogEdit = false">Cancelar</md-button>
           <md-button class="bh-success" @click="editSaveElement(elementAux)">Actualizar</md-button>
         </md-dialog-actions>
       </md-dialog>

@@ -47,7 +47,7 @@
         <md-dialog-content class="">
         <form>
           <md-field class="md-form-group">
-            <md-icon>list_alt</md-icon>
+            <md-icon class="bh-text-primary">list_alt</md-icon>
             <label>Id volcán...</label>
             <md-input v-model="element.id_volcan" type="text" aria-required="required" />
           </md-field>
@@ -297,6 +297,9 @@ li {
 }
 a {
   color: #42b983;
+}
+.md-button-content{
+  color: #fff !important;
 }
 
 </style>

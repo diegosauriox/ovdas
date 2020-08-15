@@ -1,6 +1,8 @@
 .bh-primary {
     background-color: #9c27b0!important;
-    color: #fff !important;
+}
+.bh-text-primary{
+    color:#9c27b0!important;
 }
 .bh-primary .md-icon {
     color: #fff !important;
@@ -15,15 +17,14 @@
 }
 .bh-success {
     background-color: #4caf50!important;
-    color: #fff !important;
 }
+
 .bh-warning {
     background-color: #ff9800!important;
     color: #fff !important;
 }
 .bh-danger {
     background-color: #f44336!important;
-    color: #fff !important;
 }
 .bh-rose {
     background-color: #e91e63!important;
@@ -37,9 +38,7 @@
     background-color: #009  688!important;
     color: #fff !important;
 }
-.md-icon {
-    color: #fff !important;
-}
+
 .bh-text-white {
     color: #fff !important;
 }
@@ -48,41 +47,13 @@
 form {
     width: 55rem !important;
   }
-
   .bh-pd2{
     padding: 0.2rem;
   }
 
-  .bh-scroll-y .md-dialog-container{
-    overflow-y: scroll;
+  .md-button, .md-button-clean {
+      overflow: visible !important;
   }
+  
 
-  /* Ponemos un color de fondo y redondeamos las esquinas del track */
-.md-dialog-container::-webkit-scrollbar-track {
-    background: #e1e1e1;
-    border-radius: 4px;
-}
-/* Cambiamos el fondo cuando esté en active o hover */
-.md-dialog-container::-webkit-scrollbar-track:hover,
-.md-dialog-container::-webkit-scrollbar-track:active {
-  background: #d4d4d4;
-}
-/* Ponemos un color de fondo y redondeamos las esquinas del thumb */
-.md-dialog-container::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
-}
-/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
-.md-dialog-container::-webkit-scrollbar-thumb:hover {
-    background: #b3b3b3;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
-}
-/* Cambiamos el fondo cuando esté en active */
-.md-dialog-container::-webkit-scrollbar-thumb:active {
-    background-color: #999999;
-}
-.md-dialog-container::-webkit-scrollbar {
-    width: 8px;     /* Tamaño del scroll en vertical */
-    height: 8px;    /* Tamaño del scroll en horizontal */
-    display: none;  /* Ocultar scroll */
-}
+ 
