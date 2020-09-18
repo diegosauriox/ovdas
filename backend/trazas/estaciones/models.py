@@ -1,14 +1,15 @@
 from django.db import models
+from apibackend.models import VolcanModel
 
 class EstacionModel(models.Model):
-    id_estacion = models.IntegerField(primary_key=True)
+    id_estacion = models.CharField(primary_key=True, max_length=3)
     nombre = models.CharField(max_length=45)
     sensor = models.CharField(max_length=45, blank=True, null=True)
     periodo = models.IntegerField(blank=True, null=True)
     latitud = models.CharField(max_length=45)
     longitud = models.CharField(max_length=45)
     altura = models.CharField(max_length=45)
-    volcan = models.IntegerField()
+    volcan = models.ForeignKey(VolcanModel, on_delete=models.CASCADE)
     distancia_crater = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

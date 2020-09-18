@@ -2,19 +2,44 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
 from django.http import JsonResponse, HttpResponse
+from requests import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import EstacionModel
 from .serializers import EstacionSerializer
 from django.core.exceptions import ObjectDoesNotExist
+import mysql.connector
+from django.core import serializers
+from mysql.connector import Error
 import json
 
 # Create your viewss here.
 @api_view(['GET'])
 def index(request):
+    serializer_context = {
+        'request': Request(request),
+    }
     estaciones = EstacionModel.objects.all()
-    serializer = EstacionSerializer(estaciones, many=True )
+    print(estaciones)
+    serializer = EstacionSerializer(estaciones, context=serializer_context, many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def estacioneByVolcan(request):
+    estacions = EstacionModel.objects.filter(id_estacion='FRE')
+    serializer = EstacionSerializer(estacions, many=True)
+    connection = mysql.connector.connect(host='localhost',
+                                         database='ufro_ovdas',
+                                         user='root',
+                                         password='')
+
+    cursor = connection.cursor()
+    sql_fetch_blob_query = """SELECT estacion.*, volcan.nombre AS nombre_volcan from estacion INNER JOIN volcan
+        ON estacion.volcan = volcan.id_volcan ORDER BY volcan.nombre DESC"""
+    cursor.execute(sql_fetch_blob_query)
+    record = cursor.fetchall()
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])

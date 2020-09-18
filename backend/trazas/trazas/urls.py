@@ -20,4 +20,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apibackend.urls')),
     path('api/', include('estaciones.urls')),
+    path('api/', include('datasetexternal.urls')),
+    path('api/', include('algoritmoClasi.urls')),
+    path('api/', include('algoritmoDetec.urls')),
+    path('api/', include('algoritmoPick.urls')),
+    path('api/', include('avistamientoRegistro.urls')),
+    path('api/', include('eventoLocali.urls')),
+    path('api/', include('eventoMacro.urls')),
+    path('api/', include('identificacion.urls')),
 ]

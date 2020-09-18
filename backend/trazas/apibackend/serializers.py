@@ -10,6 +10,7 @@ class FrezHhzTc9920200321Serializer(serializers.HyperlinkedModelSerializer):
         fields = ('st', 'et', 'sr', 'datatype', 'tracebuf')
 
 class VolcanSerializer(serializers.ModelSerializer):
+    #estaciones = serializers.StringRelatedField(many=True)
     class Meta:
         model = VolcanModel
         fields = ['id_volcan', 'nombre', 'descripcion', 'latitud', 'longitud', 'altura']

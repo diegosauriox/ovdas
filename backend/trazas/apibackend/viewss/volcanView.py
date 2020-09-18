@@ -20,7 +20,7 @@ def getIdName(request):
 @api_view(['GET'])
 def index(request):
     volcanes = VolcanModel.objects.all()
-    serializer = VolcanSerializer(volcanes, many=True )
+    serializer = VolcanSerializer(volcanes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
