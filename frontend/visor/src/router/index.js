@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Volcanes from '@/components/Volcanes'
 import Estaciones from '@/components/Estaciones'
+import Waves from '@/components/Waves'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/estaciones',
       name: 'Estaciones',
       component: Estaciones
+    },
+    {
+      path: '/waves',
+      name: 'Waves',
+      component: Waves
     }
   ]
 })

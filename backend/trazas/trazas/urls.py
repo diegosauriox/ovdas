@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/', include('eventoLocali.urls')),
     path('api/', include('eventoMacro.urls')),
     path('api/', include('identificacion.urls')),
+    path('api/', include('waves.urls')),
 ]

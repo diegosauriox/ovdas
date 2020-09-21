@@ -1,0 +1,149 @@
+99.FRE.FRE  -36.8689    -71.3952     2629.0   0.0 Complejo Volcanico Chillan 
+  HHE    90     0     1
+  HHN     0     0     1 
+  HHZ     0   -90     1
+99.FU2.FU2  -36.912245  -71.362907     2123.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.PLA.PLA  -36.8336    -71.4593     2091.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.NBL.NBL  -36.853    -71.351     2303.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.LBN.LBN  -36.858400    -71.387967     2659.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.CHS.CHS  -36.8702    -71.3480     0.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.ROB.ROB  -36.798270    -71.228840     0.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.FUM.FUM  -36.909462    -71.345474     0.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.SHG.SHG  -36.889639    -71.385028     0.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.PTZ.PTZ  -36.85    -71.374     0.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.PHI.PHI  -36.877    -71.366     0.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+99.BI0.BI0  -36.663399    -71.273102     0.0   0.0 Complejo Volcanico Chillan
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+
+VV.CVV.CVV  -39.309    -72.161     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.CV2.CV2  -39.309275    -72.161331     0.0   0.0 Volcan Villarrica - Solo presenta mediciones en z 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.VOI.VOI  -39.4353    -71.9636     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.VTD.VTD  -39.434923    -71.961251     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.PCH.  -39.4346    -71.8709     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.CHP.  -39.4817    -71.9463     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.KIK.  -39.4192    -71.8645     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.VN2.  -39.3986    -71.9634     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.CVI.  -39.420423    -71.9338833     0.0   0.0 Volcan Villarrica - Solo componente z y mismas coordenadas que el proximo 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.CRV.  -39.420423    -71.9338833     0.0   0.0 Volcan Villarrica - Solo componente z y mismas coordenadas que el anterior 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.MRN.  -39.4090    -71.9362     0.0   0.0 Volcan Villarrica - Solo componente z y mismas coordenadas que el proximo  
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.MRA.  -39.4090    -71.9362     0.0   0.0 Volcan Villarrica - Solo componente z y mismas coordenadas que el anterior 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.PU2.  -39.275    -71.984     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+VV.TRA.  -39.451    -71.885     0.0   0.0 Volcan Villarrica 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.MAH.  -37.8889    -71.1695     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.CAN.  -37.820    -71.256     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.COP.  -37.8373    -71.1602     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.BOS.  -37.8495    -71.0099     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.HIT.  -37.887538    -71.113000     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.FRO.  -37.817450    -71.139545     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.FR2.  -37.8195    -71.1211     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.MAQ.  -37.83580    -71.07275     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.MLZ.  -37.84334    -71.11556     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.PEH.  -37.85176    -71.20309     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1
+GG.RAL.  -37.877480    -71.206158     0.0   0.0 Volcan Copahue 
+  HHE    90     0     1
+  HHN     0     0     1
+  HHZ     0   -90     1

@@ -7,7 +7,7 @@ from identificacion.models import IdentificacionSenalModel
 class AvistamientoRegistroModel(models.Model):
     cod_event = models.OneToOneField(EventoMacroModel, on_delete=models.CASCADE, db_column='cod_event', primary_key=True)
     cod_event_in = models.CharField(max_length=20)
-    id_evento_macro = models.ForeignKey(EventoMacroModel, on_delete=models.CASCADE)
+    id_evento_macro = models.IntegerField()
     t_p = models.CharField(max_length=45)
     t_s = models.CharField(max_length=45)
     coda = models.CharField(max_length=45)

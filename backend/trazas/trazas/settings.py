@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_seed',
     'corsheaders',
+    'waves.apps.WavesConfig'
 ]
 
 MIDDLEWARE = [
