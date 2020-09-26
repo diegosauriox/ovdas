@@ -21,7 +21,10 @@ import json
 
 
 @api_view(['GET'])
-def algo():
+def algo(request):
+    serializer_context = {
+        'request': Request(request),
+    }
     return Response("xao", status=status.HTTP_200_OK)
 
 @api_view(['POST'])

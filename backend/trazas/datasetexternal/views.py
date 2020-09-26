@@ -12,40 +12,27 @@ from django.core import serializers
 from mysql.connector import Error
 import json
 import pandas as pd
+from django.shortcuts import render
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.core.files.storage import default_storage
+
 
 # Create your viewss here.
 from sqlalchemy.sql.elements import conv
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def loadVolcanesCSV(request):
-    data= pd.read_csv(r'C:\Users\Benja\Desktop\volcanes.csv', sep=';')
-    #df = pd.DataFrame(data, columns=['nombre', 'altura'])
+    print(request.files)
+    print('llega')
+    file = request.data
+    file_name = default_storage.save('prueba', file)
+    #form = UploadFileForm(request.POST, request.FILES)
+    fs = FileSystemStorage()
+    #filename = fs.save(myfile.name, myfile)
+    fs.url('prueba')
 
-    df = pd.DataFrame(data, columns=['id_volcan', 'nombre', 'descripcion', 'latitud', 'longitud', 'altura'])
-    connection = mysql.connector.connect(host='localhost',
-                                         database='ufro_ovdas',
-                                         user='root',
-                                         password='')
-
-    cursor = connection.cursor()
-
-    # Insert DataFrame to Table
-    for row in df.itertuples():
-        print(row.id_volcan)
-        cursor.execute('''
-                    INSERT INTO volcan (id_volcan, nombre, descripcion, latitud, longitud, altura, created_at)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s)
-                    ''',
-                       (row.id_volcan,
-                       row.nombre,
-                       row.descripcion,
-                       row.latitud,
-                       row.longitud,
-                       row.altura,
-                       '2020-08-24 19:36:01')
-                       )
-    connection.commit()
     #estaciones = EstacionModel.objects.all()
     #serializer = EstacionSerializer(estaciones, many=True )
     return Response('funciono', status=status.HTTP_200_OK)
