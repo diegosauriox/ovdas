@@ -3,35 +3,62 @@
     <h1>Formulario</h1>
     <form>
       <md-field class="md-form-group">
-            <label>Nombre Estacion</label>
-            <md-input model="datos.nombre" type="text" aria-required="required" />
-          </md-field>
-          <md-field class="md-form-group">
-            <label>Fecha inicio</label>
-            <md-input model="datos.fecha_inicio" type="text" aria-required="required" />
-          </md-field>
-          <md-field class="md-form-group">
-            <label>Fecha fin</label>
-            <md-input model="datos.fecha_fin" type="text" aria-required="required" />
-          </md-field>
-          <md-button class="bh-success" @click="cargarTraza(datos)">Pedir traza</md-button>
+        <label>Nombre Estacion</label>
+        <md-select v-model="datos.nombre" name="traza" place>
+          <md-option v-for="traza in trazas" v-bind:key="traza.nombre" :value="traza.nombre">{{ traza.nombre }}</md-option>
+        </md-select>
+      </md-field>
+      <md-field class="md-form-group">
+        <label>Fecha inicio</label>
+        <md-input v-model="datos.fecha_inicio" type="text" aria-required="required" />
+      </md-field>
+      <md-field class="md-form-group">
+        <label>Fecha fin</label>
+        <md-input v-model="datos.fecha_fin" type="text" aria-required="required" />
+      </md-field>
+      <md-button class="bh-success" @click="cargarTraza(datos)">Pedir traza</md-button>
     </form>
-    <p>{{datos.nombre}}</p>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <div class="small">
+    <Line :chart-data="datacollection"></Line>
+    <button @click="fillData()">Randomize</button>
+    </div>
   </div>
 </template>
+
 <script>
+
 import { createWaveService } from '@/services/waves/CreateWave.service'
+import { Line } from 'vue-chartjs'
 export default {
   name: 'Form',
+  components: {
+    Line
+  },
   data () {
     return {
+      coordenadasX: [],
+      coordenadasY: [],
       datos: {
-        nombre: 'ejemplo',
+        nombre: '',
         fecha_inicio: '',
-        fecha_fin: ''
+        fecha_fin: '',
+        datacollection: null
       },
-      traza: {
-      }
+      trazas: [
+        {nombre: 'FRE'},
+        {nombre: 'CHS'},
+        {nombre: 'PLA'},
+        {nombre: 'CHA'},
+        {nombre: 'ROB'},
+        {nombre: 'FU2'},
+        {nombre: 'SHG'},
+        {nombre: 'NBL'},
+        {nombre: 'PTZ'},
+        {nombre: 'PHI'},
+        {nombre: 'LBN'},
+        {nombre: 'BI0'}
+      ]
     }
   },
   methods: {
@@ -39,13 +66,39 @@ export default {
       let vm = this
       console.log(datos)
       createWaveService.save(datos).then(data => {
-        console.log("enviado")
-      },
-       vm.traza = data.body
+        console.log('enviado')
+        console.log(data.body)
+        vm.coordenadasX = data.body[0]
+        vm.coordenadasY = data.body[1]
+      }
       // vm.element.rut = '',
       )
+    },
+    fillData () {
+      this.datacollection = {
+        labels: [this.getRandomInt(), this.getRandomInt()],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: '#f87979',
+            data: [this.getRandomInt(), this.getRandomInt()]
+          }, {
+            label: 'Data One',
+            backgroundColor: '#f87979',
+            data: [this.getRandomInt(), this.getRandomInt()]
+          }
+        ]
+      }
+    },
+    getRandomInt () {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
     }
+  },
+  mounted () {
+  // cuando carga la pagina te monta con esa funcion
+    let vm = this
+    vm.filldata()
+    console.log('odio todo')
   }
 }
-
 </script>
