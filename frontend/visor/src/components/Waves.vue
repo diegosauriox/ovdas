@@ -20,8 +20,8 @@
     </form>
     <canvas id="myChart" width="400" height="400"></canvas>
     <div class="small">
-    <Line :chart-data="datacollection"></Line>
-    <button @click="fillData()">Randomize</button>
+      <graficoLiena :chartdata="datacollection"></graficoLiena>
+      <button @click="sfillData()">Randomizar</button>
     </div>
   </div>
 </template>
@@ -29,21 +29,25 @@
 <script>
 
 import { createWaveService } from '@/services/waves/CreateWave.service'
-import { Line } from 'vue-chartjs'
+import { Line as graficoLiena } from 'vue-chartjs'
 export default {
   name: 'Form',
   components: {
-    Line
+    graficoLiena
   },
   data () {
     return {
+      options: {
+        type: Object,
+        default: null
+      },
+      datacollection: null,
       coordenadasX: [],
       coordenadasY: [],
       datos: {
         nombre: '',
         fecha_inicio: '',
-        fecha_fin: '',
-        datacollection: null
+        fecha_fin: ''
       },
       trazas: [
         {nombre: 'FRE'},
@@ -74,7 +78,8 @@ export default {
       // vm.element.rut = '',
       )
     },
-    fillData () {
+    sfillData () {
+      console.log('modifica grafico')
       this.datacollection = {
         labels: [this.getRandomInt(), this.getRandomInt()],
         datasets: [
@@ -89,6 +94,7 @@ export default {
           }
         ]
       }
+      console.log(this.datacollection)
     },
     getRandomInt () {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5
@@ -97,8 +103,15 @@ export default {
   mounted () {
   // cuando carga la pagina te monta con esa funcion
     let vm = this
-    vm.filldata()
+    vm.sfillData()
     console.log('odio todo')
   }
 }
 </script>
+
+<style>
+  .small {
+    max-width: 600px;
+    margin:  150px auto;
+  }
+</style>

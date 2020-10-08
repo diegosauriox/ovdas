@@ -35,8 +35,11 @@
     color: #fff !important;
 }
 .bh-teal {
-    background-color: #009  688!important;
+    background-color: #009688 !important;
     color: #fff !important;
+}
+.bh-text-black {
+    color: #000000 !important;
 }
 
 .bh-text-white {
