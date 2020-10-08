@@ -3,25 +3,28 @@
     <h1>Formulario</h1>
     <form>
       <md-field class="md-form-group">
+        <md-icon class="bh-text-primary">list_alt</md-icon>
         <label>Nombre Estacion</label>
         <md-select v-model="datos.nombre" name="traza" place>
           <md-option v-for="traza in trazas" v-bind:key="traza.nombre" :value="traza.nombre">{{ traza.nombre }}</md-option>
         </md-select>
       </md-field>
-      <md-field class="md-form-group">
+      <md-datepicker v-model="datos.fecha_inicio">
         <label>Fecha inicio</label>
-        <md-input v-model="datos.fecha_inicio" type="text" aria-required="required" />
-      </md-field>
+      </md-datepicker>
+      <md-datepicker v-model="datos.fecha_fin">
+        <label>Fecha Fin</label>
+      </md-datepicker>
+      <label>Hora inicio</label>
+      <VueMaterialDateTimePicker v-model="datos.hora_inicio" :is-date-only="false" :valueFormatted="momento" />
       <md-field class="md-form-group">
-        <label>Fecha fin</label>
-        <md-input v-model="datos.fecha_fin" type="text" aria-required="required" />
+        <label>Hora Fin</label>
+        <md-input v-model="datos.hora_fin" type="text" aria-required="required" pattern="^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"/>
       </md-field>
       <md-button class="bh-success" @click="cargarTraza(datos)">Pedir traza</md-button>
     </form>
-    <canvas id="myChart" width="400" height="400"></canvas>
-    <div class="small">
-    <Line :chart-data="datacollection"></Line>
-    <button @click="fillData()">Randomize</button>
+    <div class="small" style="justify-content: center; height:40% ;width:40% ;">
+    <line-chart :chart-data="datos.datacollection"></line-chart>
     </div>
   </div>
 </template>
@@ -29,11 +32,20 @@
 <script>
 
 import { createWaveService } from '@/services/waves/CreateWave.service'
-import { Line } from 'vue-chartjs'
+// import { Line } from 'vue-chartjs'
+import LineChart from './linechart.js'
+import VueMaterialDateTimePicker from 'vue-material-date-time-picker'
+import moment from 'moment'
 export default {
   name: 'Form',
   components: {
-    Line
+    LineChart,
+    VueMaterialDateTimePicker
+  },
+  computed: {
+    momento () {
+      return moment(String(this.datos.hora_inicio)).format('DD/MM/YYYY hh:mm')
+    }
   },
   data () {
     return {
@@ -43,7 +55,9 @@ export default {
         nombre: '',
         fecha_inicio: '',
         fecha_fin: '',
-        datacollection: null
+        hora_inicio: '',
+        hora_fin: '',
+        datacollection: {}
       },
       trazas: [
         {nombre: 'FRE'},
@@ -68,24 +82,21 @@ export default {
       createWaveService.save(datos).then(data => {
         console.log('enviado')
         console.log(data.body)
-        vm.coordenadasX = data.body[0]
-        vm.coordenadasY = data.body[1]
+        // vm.coordenadasX = data.body[0]
+        // vm.coordenadasY = data.body[1]
+        vm.fillData(data.body[0], data.body[1])
       }
       // vm.element.rut = '',
       )
     },
-    fillData () {
-      this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt()],
+    fillData (coordenadasX, coordenadasY) {
+      this.datos.datacollection = {
+        labels: coordenadasX,
         datasets: [
           {
             label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [this.getRandomInt(), this.getRandomInt()]
-          }, {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [this.getRandomInt(), this.getRandomInt()]
+            backgroundColor: '#ffffff',
+            data: coordenadasY
           }
         ]
       }
@@ -93,12 +104,6 @@ export default {
     getRandomInt () {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5
     }
-  },
-  mounted () {
-  // cuando carga la pagina te monta con esa funcion
-    let vm = this
-    vm.filldata()
-    console.log('odio todo')
   }
 }
 </script>
