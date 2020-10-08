@@ -49,6 +49,11 @@ export default {
   },
   data () {
     return {
+      options: {
+        type: Object,
+        default: null
+      },
+      datacollection: null,
       coordenadasX: [],
       coordenadasY: [],
       datos: {
@@ -100,6 +105,7 @@ export default {
           }
         ]
       }
+      console.log(this.datacollection)
     },
     getRandomInt () {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5
@@ -107,3 +113,10 @@ export default {
   }
 }
 </script>
+
+<style>
+  .small {
+    max-width: 600px;
+    margin:  150px auto;
+  }
+</style>

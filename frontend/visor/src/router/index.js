@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Volcanes from '@/components/Volcanes'
 import Estaciones from '@/components/Estaciones'
 import Waves from '@/components/Waves'
+import LoadData from '@/components/dataset/LoadCSV'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/waves',
       name: 'Waves',
       component: Waves
+    },
+    {
+      path: '/cargar-datos',
+      name: 'LoadData',
+      component: LoadData
     }
   ]
 })

@@ -78,7 +78,7 @@
         </form>
         </md-dialog-content>
         <md-dialog-actions>
-          <md-button class="bh-danger" @click="showDialogCreate = false">cancelar</md-button>
+          <md-button class="bh-danger" @click="showDialogCreate = false">Cancelar</md-button>
           <md-button class="bh-success" @click="newElement(element)">Crear</md-button>
         </md-dialog-actions>
       </md-dialog>
@@ -130,7 +130,7 @@
         </form>
         </md-dialog-content>
         <md-dialog-actions>
-          <md-button class="bh-danger" @click="showDialogCreate = false">Cancelar</md-button>
+          <md-button class="bh-danger" @click="showDialogEdit = false">Cancelar</md-button>
           <md-button class="bh-success" @click="editSaveElement(elementAux)">Actualizar</md-button>
         </md-dialog-actions>
       </md-dialog>

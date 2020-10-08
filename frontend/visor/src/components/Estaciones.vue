@@ -11,12 +11,10 @@
               </md-button>
             </div>
         </div>
-
         <md-field md-clearable class="md-toolbar-section-end">
           <md-input placeholder="Buscar por nombre..."  />
         </md-field>
       </md-table-toolbar>
-
       <md-table-empty-state
         md-label="No existen registros"
         :md-description="`No se han podido cargar los datos correctamente o estan vacios los registros, pruebe creando nuevos datos`">
@@ -25,7 +23,7 @@
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID" md-sort-by="id_estacion" md-numeric>{{ item.id_estacion }}</md-table-cell>
         <md-table-cell md-label="Nombre" md-sort-by="nombre">{{ item.nombre }}</md-table-cell>
-        <md-table-cell md-label="altura" md-sort-by="altura">{{ item.altura }}</md-table-cell>
+        <md-table-cell md-label="Sensor" md-sort-by="sensor">{{ item.sensor }}</md-table-cell>
         <md-table-cell md-label="Pertenece a" md-sort-by="volcan">
           <div v-for="volcan in volcanes" v-bind:key="volcan.nombre" >
             <p v-if="volcan.id_volcan === item.volcan">{{volcan.nombre}}</p></div></md-table-cell>
