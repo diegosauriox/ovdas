@@ -1,10 +1,11 @@
+from django.http import JsonResponse
 import time
 import datetime
 import numpy as np
-#from traces_ufro import *
-#from pyrocko import trace
-#import pyrocko.gui as gui
-#import pyrocko
+from waves.traces_ufro import *
+from pyrocko import trace
+import pyrocko.gui as gui
+import pyrocko
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
@@ -20,6 +21,8 @@ from mysql.connector import Error
 import json
 
 
+
+
 @api_view(['GET'])
 def algo(request):
     serializer_context = {
@@ -29,34 +32,41 @@ def algo(request):
 
 @api_view(['POST'])
 def create(request):
-    print(request.data)
-    station_list=request.data.get("nombre")
-    date1=request.data.get("fecha_inicio")
-    date2=request.data.get("fecha_fin")
+    
+    nombre=str(request.data.get('nombre'))
+    fecha=str(request.data.get('hora_inicio'))
+    station_list=[nombre]
 
-    #si no funciona asi escribir: request.data.get("nombre")
-    # 
-    #  
-    #aca llega nombre de estacion
-    #station_list=['FRE','CHS','PLA','CHA','ROB',\
-     #           'FU2','SHG','NBL','PTZ','PHI','LBN','BI0']
+    stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
+    network='99'
 
 
-
-    #stattion=pyrocko.model.station.load_stations('Estaciones_Pyrocko.pf')
-    #network='99'
     """ Define tiempo """
-    #aca definir tiempo
-    #date1='2020-02-18 00:06:00'
+    date1='2020-02-18 '+ fecha
     #date1='2020-03-25 11:57:59'
     #date2='2020-02-18 00:10:00'
-    #dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
+    dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
     #dt2=datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
-    #posix_dt1 = time.mktime(dt1.timetuple())-30
-    #posix_dt2 = posix_dt1+240 #time.mktime(dt2.timetuple())
+    posix_dt1 = time.mktime(dt1.timetuple())-30 
+    posix_dt2 = posix_dt1+120 #time.mktime(dt2.timetuple())
 
-    #st_final=[]
+    st_final=[]
     """ Carga trazas de forma remota """
-    #st_final=read_stations(st_final,posix_dt1,posix_dt2,station_list,network)
-    return Response("hola", status=status.HTTP_200_OK)
+    st_final=read_stations(st_final,posix_dt1,posix_dt2,station_list,network)
+    #0=Z 1=E 2=N
+    datosXZ=st_final[0].get_xdata()
+    datosYZ=st_final[0].get_ydata()
+    datosXE=st_final[1].get_xdata()
+    datosYE=st_final[1].get_ydata()
+    datosXN=st_final[2].get_xdata()
+    datosYN=st_final[2].get_ydata()
+    lista=[]
+    lista.append(datosXZ)
+    lista.append(datosYZ)
+    # lista.append(datosXE)
+    # lista.append(datosYE)
+    # lista.append(datosXN)
+    # lista.append(datosYN)
+    return Response(lista,status=status.HTTP_200_OK)
+    
 #
