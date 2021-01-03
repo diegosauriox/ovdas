@@ -7,4 +7,4 @@ class CreateWaveService extends ApiService {
   }
 }
 
-export const createWaveService = new CreateWaveService('createWave')
+export const createWaveService = new CreateWaveService('createWave/')
