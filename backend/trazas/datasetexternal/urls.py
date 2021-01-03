@@ -13,7 +13,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('loadVolcanesCSV', views.loadVolcanesCSV),
-    path('loadLocalizacionesCSV', views.loadLocalizacionesCSV),
-    path('loadIdentificacionSenal', views.loadIdentificacionSenalCSV)
+    path('loadIdentificacionSenal', views.loadIdentificacionSenalCSV),
+    path('loadLocalizacionesCSV', views.loadLocalizacionesCSV)
 
 ]

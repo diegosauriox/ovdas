@@ -1,0 +1,12 @@
+Django>=3.0,<4.0
+psycopg2-binary>=2.8
+numpy>=1.19.1
+djangorestframework>=3.11.1
+django-seed>=0.2.2
+django-cors-headers>=3.5.0
+mysql-connector-python>=8.0.21
+PyMySQL>=0.10.1
+mysqlclient>=2.0.2
+obspy>=1.2.2
+pandas>=1.1.2
+JPype1>=1.0.2

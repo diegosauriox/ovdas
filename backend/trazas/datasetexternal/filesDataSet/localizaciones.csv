@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 file1,"﻿id_evento_macro;tiempo;lat;lon;z;rmse;major_half_axes;minor_half_axes;dz;gap;ml;n_fases;descrip;autor
 1;08-09-2020 0:00;-15 12.45;-45 13.15;-15 12.45;4200;1;1;1;158;1,2;6;test;Benja
 1;09-09-2020 0:00;-15 12.45;-45 12.15;-78 45.32;5800;2;2;1;160;1,4;9;test2;benja
@@ -19,4 +20,9 @@ file1,"﻿id_evento_macro;tiempo;lat;lon;z;rmse;major_half_axes;minor_half_axes;
 1;25-09-2020 0:00;-15 12.61;-45 12.31;-78 45.48;5800;2;2;1;160;1,4;9;test18;benja
 1;26-09-2020 0:00;-15 12.62;-45 12.32;-78 45.49;5800;2;2;1;160;1,4;9;test19;benja
 1;27-09-2020 0:00;-15 12.63;-45 12.33;-78 45.50;5800;2;2;1;160;1,4;9;test20;benja
+=======
+file1,"id_evento_macro,tiempo,lat,lon,z,rmse,major_half_axes,minor_half_axes,dz,gap,ml,n_fases,descrip,autor,
+1,09-08-2020 0:00,-15 12.45,-45 13.15,-15 12.45,4200,1,1,1,158,1,2,6,test,Benja
+1,09-09-2020 0:00,-15 12.45,-45 12.15,-78 45.32,5800,2,2,1,160,1,4,9,test2,benja
+>>>>>>> 967ebf8f7af8624cf8f9d02edd5c3ce44e986b21
 "
