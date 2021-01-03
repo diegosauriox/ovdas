@@ -1,5 +1,5 @@
 from django.db import models
-from apibackend.models import VolcanModel
+from volcan.models import VolcanModel
 
 class EstacionModel(models.Model):
     id_estacion = models.CharField(primary_key=True, max_length=3)

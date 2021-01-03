@@ -13,6 +13,7 @@ urlpatterns = [
     path('identificacion/', views.index),
     path('createIdentificacion', views.create),
     path('deleteIdentificacion/<id>', views.destroy),
-    path('updateIdentificacion/<id>', views.update)
+    path('updateIdentificacion/<id>', views.update),
+    path('identificacionFilter', views.filter),
 
 ]

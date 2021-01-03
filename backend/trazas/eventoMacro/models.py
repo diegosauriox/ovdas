@@ -1,5 +1,5 @@
 from django.db import models
-from apibackend.models import VolcanModel
+from volcan.models import VolcanModel
 
 class EventoMacroModel(models.Model):
     id_evento_macro = models.BigAutoField(primary_key=True)

@@ -76,7 +76,6 @@ def loadVolcanesCSV(request):
 @api_view(['POST'])
 def loadLocalizacionesCSV(request):
     file = request.body
-
     #jsonfile = json.loads(file)
     ser = pd.read_json(file, lines=False, typ='series')
     print(ser)
