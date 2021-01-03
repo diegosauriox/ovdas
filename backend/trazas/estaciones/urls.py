@@ -11,7 +11,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('estaciones/', views.index),
-    path('estacioneByVolcan/', views.estacioneByVolcan),
+    path('estacioneByVolcan/<id>', views.estacioneByVolcan),
     path('createEstacion', views.create),
     path('deleteEstacion/<id>', views.destroy),
     path('updateEstacion/<int:id>', views.update)

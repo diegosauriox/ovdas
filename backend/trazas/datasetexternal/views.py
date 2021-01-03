@@ -8,6 +8,7 @@ from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 import time
+import csv
 from django.core import serializers
 from mysql.connector import Error
 import json
@@ -16,25 +17,104 @@ from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.files.storage import default_storage
+from rest_framework.views import APIView
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import ParseError
+from rest_framework.parsers import FileUploadParser
 
-
-# Create your viewss here.
 from sqlalchemy.sql.elements import conv
 
+class MyUploadView(viewsets.ModelViewSet):
+    parser_class = (FileUploadParser,)
+    queryset = 0
+    def put(self, request, format=None):
+        if 'file' not in request.data:
+            raise ParseError("Empty content")
+
+        f = request.data['file']
+        # guardar o procesar el archivo
+        # mymodel.my_file_field.save(f.name, f, save=True)
+        return Response(status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 def loadVolcanesCSV(request):
-    print(request.files)
-    print('llega')
-    file = request.data
-    file_name = default_storage.save('prueba', file)
-    #form = UploadFileForm(request.POST, request.FILES)
-    fs = FileSystemStorage()
-    #filename = fs.save(myfile.name, myfile)
-    fs.url('prueba')
+    file = request.body
 
-    #estaciones = EstacionModel.objects.all()
-    #serializer = EstacionSerializer(estaciones, many=True )
+    jsonfile = json.loads(file)
+    ser = pd.read_json(file, lines=False, typ='series')
+    print(ser)
+    ser.to_csv('datasetexternal/filesDataSet/volcanes.csv', index=1, header=False)
+    data = pd.read_csv('datasetexternal/filesDataSet/volcanes.csv', engine='python', sep=';', encoding='utf-8', error_bad_lines=False)
+    df = pd.DataFrame(data, columns=['file1,"﻿id_volcan', 'nombre', 'descripcion', 'latitud', 'longitud', 'altura'])
+    print(df)
+    connection = mysql.connector.connect(host='localhost',
+                                         database='ufro_ovdas',
+                                         user='root',
+                                         password='')
+
+    cursor = connection.cursor()
+    print(df)
+    # Insert DataFrame to Table
+    for row in df.itertuples():
+        print(row[0])
+        cursor.execute('''
+                            INSERT INTO volcan (id_volcan, nombre, descripcion, latitud, longitud, altura)
+                            VALUES (%s,%s,%s,%s,%s,%s)
+                            ''',
+                       (row[1],
+                        row.nombre,
+                        row.descripcion,
+                        row.latitud,
+                        row.longitud,
+                        row.altura
+                        )
+                       )
+    connection.commit()
+    return Response('funciono', status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def loadLocalizacionesCSV(request):
+    file = request.body
+    #jsonfile = json.loads(file)
+    ser = pd.read_json(file, lines=False, typ='series')
+    print(ser)
+    ser.to_csv('datasetexternal/filesDataSet/localizaciones.csv', index=1, header=False)
+    data = pd.read_csv('datasetexternal/filesDataSet/localizaciones.csv', engine='python', sep=';', encoding='utf-8', error_bad_lines=False)
+    df = pd.DataFrame(data, columns=['file1,"﻿id_evento_macro', 'tiempo', 'lat', 'lon', 'z', 'rmse', 'major_half_axes', 'minor_half_axes', 'dz', 'gap', 'ml', 'n_fases', 'descrip', 'autor'])
+    print(df)
+    connection = mysql.connector.connect(host='localhost',
+                                         database='ufro_ovdas',
+                                         user='root',
+                                         password='')
+
+    cursor = connection.cursor()
+    print(df)
+    # Insert DataFrame to Table
+    for row in df.itertuples():
+        print(row[0])
+        cursor.execute('''
+                            INSERT INTO evento_localizado (id_evento_macro, tiempo, lat, lon, z, rmse, major_half_axes, minor_half_axes, dz, gap, ml, n_fases, descrip, autor, created_at)
+                            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                            ''',
+                       (row[1],
+                        row.tiempo,
+                        row.lat,
+                        row.lon,
+                        row.z,
+                        row.rmse,
+                        row.major_half_axes,
+                        row.minor_half_axes,
+                        row.dz,
+                        row.gap,
+                        row.ml,
+                        row.n_fases,
+                        row.descrip,
+                        row.autor,
+                        time.strftime("%c")
+                        )
+                       )
+    connection.commit()
     return Response('funciono', status=status.HTTP_200_OK)
 
 @api_view(['GET'])

@@ -21,26 +21,25 @@ def index(request):
         'request': Request(request),
     }
     estaciones = EstacionModel.objects.all()
-    print(estaciones)
     serializer = EstacionSerializer(estaciones, context=serializer_context, many=True)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def estacioneByVolcan(request):
-    estacions = EstacionModel.objects.filter(id_estacion='FRE')
-    serializer = EstacionSerializer(estacions, many=True)
-    connection = mysql.connector.connect(host='localhost',
-                                         database='ufro_ovdas',
-                                         user='root',
-                                         password='')
+def estacioneByVolcan(request, id):
 
-    cursor = connection.cursor()
-    sql_fetch_blob_query = """SELECT estacion.*, volcan.nombre AS nombre_volcan from estacion INNER JOIN volcan
-        ON estacion.volcan = volcan.id_volcan ORDER BY volcan.nombre DESC"""
-    cursor.execute(sql_fetch_blob_query)
-    record = cursor.fetchall()
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    estacions = EstacionModel.objects.values('id_estacion', 'nombre').filter(volcan_id=id)
+    # serializer = EstacionSerializer(estacions, many=True)
+    # connection = mysql.connector.connect(host='localhost',
+    #                                     database='ufro_ovdas',
+    #                                     password='')
+
+    # cursor = connection.cursor()
+    # sql_fetch_blob_query = """SELECT estacion.*, volcan.nombre AS nombre_volcan from estacion INNER JOIN volcan
+    #    ON estacion.volcan_id = volcan.id_volcan ORDER BY volcan.nombre DESC"""
+    # cursor.execute(sql_fetch_blob_query)
+    # record = cursor.fetchall()
+    return Response(estacions, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def create(request):

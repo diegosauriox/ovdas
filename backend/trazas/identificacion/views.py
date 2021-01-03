@@ -21,11 +21,17 @@ def index(request):
     serializer_context = {
         'request': Request(request),
     }
-    estaciones = IdentificacionSenalModel.objects.all()
-    print(estaciones)
-    serializer = IdentificacionSenalSerializer(estaciones, context=serializer_context, many=True)
+    identificaciones = IdentificacionSenalModel.objects.all()
+    print(identificaciones)
+    serializer = IdentificacionSenalSerializer(identificaciones, context=serializer_context, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+def filter(request):
+    print(request.data.get('fechaIni'))
+    identificaciones = IdentificacionSenalModel.objects.all().filter(est = request.data.get('estacion'))
+    serializer = IdentificacionSenalSerializer(identificaciones, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def create(request):

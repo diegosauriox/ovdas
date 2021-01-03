@@ -5,6 +5,7 @@ from . import views
 
 
 router = routers.DefaultRouter()
+#router.register(r'subirArchivo', views.MyUploadView, basename='MyModel')
 #osrouter.register(r'estaciones', viewss.Test2)
 
 # Wire up >our API using automatic URL routing.
@@ -14,4 +15,5 @@ urlpatterns = [
     path('loadVolcanesCSV', views.loadVolcanesCSV),
     path('loadIdentificacionSenal', views.loadIdentificacionSenalCSV),
     path('loadLocalizacionesCSV', views.loadLocalizacionesCSV)
+
 ]

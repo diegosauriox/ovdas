@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apibackend.apps.ApibackendConfig',
-
     'estaciones.apps.EstacionesConfig',
     'algoritmoDetec.apps.AlgoritmodetecConfig',
     'algoritmoClasi.apps.AlgoritmoclasiConfig',
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'eventoMacro.apps.EventomacroConfig',
     'datasetexternal.apps.DatasetexternalConfig',
     'identificacion.apps.IdentificacionConfig',
+    'volcan.apps.VolcanConfig',
     'rest_framework',
     'django_seed',
     'corsheaders',

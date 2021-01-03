@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import EstacionModel
 
-
 class EstacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = EstacionModel
