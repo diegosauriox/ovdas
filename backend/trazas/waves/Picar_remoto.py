@@ -8,7 +8,7 @@ import pyrocko
 
 station_list=['FRE']
 
-stattion=pyrocko.model.station.load_stations('Estaciones_Pyrocko.pf')
+stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
 network='99'
 
 

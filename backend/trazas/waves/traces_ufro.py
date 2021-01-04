@@ -35,7 +35,7 @@ def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','
     return str_final
 def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=80):
     try:
-        jp.startJVM(classpath=['./usgs.jar'])
+        jp.startJVM(classpath=['/home/diego/Escritorio/ovdas/backend/trazas/waves/usgs.jar'])
     except:
         print("JVM running")
     from gov.usgs.winston.server import WWSClient
@@ -86,7 +86,7 @@ def create_trace(station,network,compo_uniq,junk,y):
     
     return st
 
-def read_values(esta,comp,file_gain='./Gain_esta.conf'):
+def read_values(esta,comp,file_gain='/home/diego/Escritorio/ovdas/backend/trazas/waves/Gain_esta.conf'):
     """ Programa que lee estaciones y sus ganancias
     Programado por Ivo fustos, 2020
     """
