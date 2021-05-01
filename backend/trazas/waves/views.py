@@ -3,9 +3,9 @@ import time
 import datetime
 import numpy as np
 from waves.traces_ufro import *
-from pyrocko import trace
-import pyrocko.gui as gui
-import pyrocko
+#from pyrocko import trace
+#import pyrocko.gui as gui
+#import pyrocko
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo

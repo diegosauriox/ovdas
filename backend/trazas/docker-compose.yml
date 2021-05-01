@@ -2,11 +2,11 @@ version: '3'
 
 services:
   ufro_ovdas:
-   container_name: ufro_ovdas
-   image: mariadb:latest
+   container_name: ovdas-db
+   image: mysql
    environment:
     MYSQL_DATABASE: ufro_ovdas
-    MYSQL_ROOT_PASSWORD: root
+    MYSQL_ROOT_PASSWORD: ufro-ovdas
     MYSQL_ROOT_HOST: '%'
    ports:
    - "127.0.0.1:3306:3306"

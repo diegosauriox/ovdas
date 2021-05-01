@@ -17,7 +17,7 @@ import jpype.imports
 
 # Pull in types
 from jpype.types import *
-from pyrocko import trace
+#from pyrocko import trace
 # Launch the JVM
 
 def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=81):

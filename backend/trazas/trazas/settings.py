@@ -101,8 +101,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ufro_ovdas',
         'USER': 'root',
-        'PASSWORD':'root',
-        'HOST': 'ufro_ovdas',
+        'PASSWORD':'',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

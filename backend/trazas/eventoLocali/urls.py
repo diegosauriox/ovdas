@@ -13,6 +13,7 @@ urlpatterns = [
     path('localizaciones/', views.index),
     path('createLocalizacion', views.create),
     path('deleteLocalizacion/<id>', views.destroy),
-    path('updateLocalizacion/<id>', views.update)
+    path('updateLocalizacion/<id>', views.update),
+    path('lastItemMaxLocali/', views.loadLastItem)
 
 ]

@@ -21,9 +21,9 @@ def index(request):
     serializer_context = {
         'request': Request(request),
     }
-    estaciones = EventoLocalizadoModel.objects.all()
-    print(estaciones)
-    serializer = EventoLocaliSerializer(estaciones, context=serializer_context, many=True)
+    localizaciones = EventoLocalizadoModel.objects.all()
+    print(localizaciones)
+    serializer = EventoLocaliSerializer(localizaciones, context=serializer_context, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -64,3 +64,13 @@ def destroy(request, id):
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['GET'])
+def loadLastItem(request):
+    serializer_context = {
+        'request': Request(request),
+    }
+    localizaciones = EventoLocalizadoModel.objects.filter(ml__gte = 2).order_by('-id_evento_loc')[:5]
+    print(localizaciones)
+    serializer = EventoLocaliSerializer(localizaciones, context=serializer_context, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
