@@ -20,7 +20,7 @@ from jpype.types import *
 #from pyrocko import trace
 # Launch the JVM
 
-def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=81):
+def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=80):
     
     for station in station_list:
         #try:
@@ -33,7 +33,7 @@ def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','
         
     
     return str_final
-def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=81):
+def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=80):
     try:
         jp.startJVM(classpath=['/home/diego/Escritorio/ovdas/backend/trazas/waves/usgs.jar'])
     except:

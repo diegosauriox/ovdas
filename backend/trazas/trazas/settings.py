@@ -102,8 +102,7 @@ DATABASES = {
         'NAME': 'ufro_ovdas',
         'USER': 'root',
         'PASSWORD':'',
-        'HOST': 'localhost',
-        'PORT': '3306',
+
     }
 }
 

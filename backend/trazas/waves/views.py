@@ -30,16 +30,20 @@ def algo(request):
     }
     return Response("xao", status=status.HTTP_200_OK)
 
-@api_view(['POST'])
+@api_view(['GET'])
 def create(request):
     
-    nombre=str(request.data.get('nombre'))
-    fecha=str(request.data.get('hora_inicio'))
+    # nombre=str(request.data.get('nombre'))
+    # fecha=str(request.data.get('hora_inicio'))
+    fecha='11:57:59'
+    nombre='FRE'
     station_list=[nombre]
 
     stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
     network='99'
 
+
+    
 
     """ Define tiempo """
     date1='2020-02-18 '+ fecha
@@ -48,9 +52,9 @@ def create(request):
     dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
     #dt2=datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
     posix_dt1 = time.mktime(dt1.timetuple())-30 
-    posix_dt2 = posix_dt1+120 #time.mktime(dt2.timetuple())
+    posix_dt2 = posix_dt1+0.10 #time.mktime(dt2.timetuple())
 
-    st_final=[]
+    st_final=[  ]
     """ Carga trazas de forma remota """
     st_final=read_stations(st_final,posix_dt1,posix_dt2,station_list,network)
     #0=Z 1=E 2=N
