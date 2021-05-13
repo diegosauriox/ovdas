@@ -1,19 +1,9 @@
 version: '3'
 
 services:
-  ufro_ovdas:
-   container_name: ovdas-backend
-   image: mysql
-   environment:
-    MYSQL_DATABASE: ufro_ovdas
-    MYSQL_ROOT_PASSWORD: ufro-ovdas
-    MYSQL_ROOT_HOST: '%'
-    #ports:
-    # - "127.0.0.1:3306:3306"
-   restart: always
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 8000
     env_file:
       - ./.envs/.mysql
     volumes:
