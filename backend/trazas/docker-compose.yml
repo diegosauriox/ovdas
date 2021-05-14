@@ -13,7 +13,6 @@ services:
       - ./.envs/.mysql
     volumes:
       - .:/code
-      - entrypoint: ""
+    entrypoint: ""
     command: usr/bin/uwsgi --module=app.wsgi:application --master --http=:8000 --processes=5 --max-requests=5000
    #/usr/local/bin/gunicorn docker_django.wsgi:application -w 2 -b :8000
-  
