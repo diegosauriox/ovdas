@@ -1,14 +1,19 @@
 version: '3'
 
 services:
-  web:
+  app:
+    container_name: api_ovdas
+    environment:
+      - PYTHONUNBUFFERED=1
     restart: always
-    build: ./web
+    build: ./trazas
     expose:
       - "8000"
     env_file:
       - ./.envs/.mysql
     volumes:
       - .:/code
-    command: /usr/local/bin/gunicorn docker_django.wsgi:application -w 2 -b :8000
-
+      - entrypoint: ""
+    command: usr/bin/uwsgi --module=app.wsgi:application --master --http=:8000 --processes=5 --max-requests=5000
+   #/usr/local/bin/gunicorn docker_django.wsgi:application -w 2 -b :8000
+  
