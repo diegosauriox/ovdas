@@ -4,11 +4,11 @@ services:
   web:
     restart: always
     build: ./web
+    exponse:
+      - "8000"
     env_file:
       - ./.envs/.mysql
     volumes:
       - .:/code
-    exponse:
-      - "8000"
     command: /usr/local/bin/gunicorn docker_django.wsgi:application -w 2 -b :8000
 
