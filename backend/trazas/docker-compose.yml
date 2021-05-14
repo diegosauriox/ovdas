@@ -2,13 +2,13 @@ version: '3'
 
 services:
   web:
-    build: .
-    command: python manage.py runserver 8000
+    restart: always
+    build: ./web
     env_file:
       - ./.envs/.mysql
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
-      - ufro_ovdas
+    exponse:
+      - "8000"
+    command: /usr/local/bin/gunicorn docker_django.wsgi:application -w 2 -b :8000
+
