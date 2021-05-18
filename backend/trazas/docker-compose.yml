@@ -6,7 +6,6 @@ services:
     environment:
       DEBUG: 'true'
     restart: always
-    dock
     build: ./
     expose:
       - "8000"
