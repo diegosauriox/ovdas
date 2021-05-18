@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  app:
-    container_name: api_ovdas
+  trazas:
+    #container_name: api_ovdas
     environment:
-      - PYTHONUNBUFFERED=1
+      DEBUG: 'true'
     restart: always
-    build: ./
+    build: ./trazas
     expose:
       - "8000"
     env_file:
