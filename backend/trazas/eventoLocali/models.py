@@ -2,8 +2,8 @@ from django.db import models
 from eventoMacro.models import EventoMacroModel
 
 class EventoLocalizadoModel(models.Model):
-    id_evento_loc = models.BigAutoField(primary_key=True)
-    id_evento_macro = models.ForeignKey(EventoMacroModel, on_delete=models.CASCADE)
+    evento_loc_id = models.BigIntegerField(primary_key=True, max_length=45)
+    evento_macro = models.ForeignKey(EventoMacroModel, on_delete=models.CASCADE)
     tiempo = models.DateTimeField()
     lat = models.CharField(max_length=45)
     lon = models.CharField(max_length=45)

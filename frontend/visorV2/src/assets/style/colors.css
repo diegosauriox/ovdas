@@ -1,0 +1,62 @@
+.bh-primary {
+    background-color: #9c27b0!important;
+}
+.bh-text-primary{
+    color:#9c27b0!important;
+}
+.bh-primary .md-icon {
+    color: #fff !important;
+}
+.bh-default {
+    background-color: #999!important;
+    color: #fff !important;
+}
+.bh-info {
+    background-color: #00bcd4!important;
+    color: #fff !important;
+}
+.bh-success {
+    background-color: #4caf50!important;
+}
+
+.bh-warning {
+    background-color: #ff9800!important;
+    color: #fff !important;
+}
+.bh-danger {
+    background-color: #f44336!important;
+}
+.bh-rose {
+    background-color: #e91e63!important;
+    color: #fff !important;
+}
+.bh-yellow {
+    background-color: #ffde03!important;
+    color: #fff !important;
+}
+.bh-teal {
+    background-color: #009688 !important;
+    color: #fff !important;
+}
+.bh-text-black {
+    color: #000000 !important;
+}
+
+.bh-text-white {
+    color: #fff !important;
+}
+
+
+form {
+    width: 55rem !important;
+  }
+  .bh-pd2{
+    padding: 0.2rem;
+  }
+
+  .md-button, .md-button-clean {
+      overflow: visible !important;
+  }
+  
+
+ 

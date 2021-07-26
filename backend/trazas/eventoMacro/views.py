@@ -35,11 +35,23 @@ def create(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def show(request, id):
+    evento = EventoMacroModel.objects.get(id_evento_macro=id)
+    print(evento.volcan_id)
+    serializer = EventoMacroSerializer(evento, many=True)
+    return HttpResponse(serializer)
 
-def show(id):
-    estacion = EventoMacroModel.objects.get(id_evento_macro=id)
-    return HttpResponse(estacion)
+def validador(id):
+    if(EventoMacroModel.objects.filter(id_evento_macro=id).exists()):
+        return True
+    else:
+        return False
 
+def createInternal(volcan_id, macro_evento, fecha_inicio, fecha_termino):
+    eve = EventoMacroModel(id_evento_macro=macro_evento, volcan_id=volcan_id, inicio=fecha_inicio, fin=fecha_termino )
+    eve.save()
+    return True
 
 @api_view(["PUT"])
 def update(request, id):

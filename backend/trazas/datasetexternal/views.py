@@ -22,6 +22,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import FileUploadParser
+from eventoMacro.views import *
+from datetime import datetime, date, timezone, datetime
 
 from sqlalchemy.sql.elements import conv
 
@@ -81,10 +83,10 @@ def loadLocalizacionesCSV(request):
     print(ser)
     ser.to_csv('datasetexternal/filesDataSet/localizaciones.csv', index=1, header=False)
     data = pd.read_csv('datasetexternal/filesDataSet/localizaciones.csv', engine='python', sep=';', encoding='utf-8', error_bad_lines=False)
-    df = pd.DataFrame(data, columns=['file1,"﻿id_evento_macro', 'tiempo', 'lat', 'lon', 'z', 'rmse', 'major_half_axes', 'minor_half_axes', 'dz', 'gap', 'ml', 'n_fases', 'descrip', 'autor'])
+    df = pd.DataFrame(data, columns=['code_macroevent', 'tiempo_origen', 'lat', 'lon', 'z', 'rmse', 'major_half_axes', 'minor_half_axes', 'dz', 'gap', 'ml', 'n_fases', 'descrip', 'autor'])
     print(df)
     connection = mysql.connector.connect(host='localhost',
-                                         database='ufro_ovdas',
+                                         database='ufro_ovdas_v1',
                                          user='root',
                                          password='')
 
@@ -92,13 +94,14 @@ def loadLocalizacionesCSV(request):
     print(df)
     # Insert DataFrame to Table
     for row in df.itertuples():
+        print(row)
         print(row[0])
         cursor.execute('''
-                            INSERT INTO evento_localizado (id_evento_macro, tiempo, lat, lon, z, rmse, major_half_axes, minor_half_axes, dz, gap, ml, n_fases, descrip, autor, created_at)
+                            INSERT INTO evento_localizado (evento_macro_id, tiempo, lat, lon, z, rmse, major_half_axes, minor_half_axes, dz, gap, ml, n_fases, descrip, autor, created_at)
                             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                             ''',
-                       (row[1],
-                        row.tiempo,
+                       (row.code_macroevent,
+                        row.tiempo_origen,
                         row.lat,
                         row.lon,
                         row.z,
@@ -111,20 +114,24 @@ def loadLocalizacionesCSV(request):
                         row.n_fases,
                         row.descrip,
                         row.autor,
-                        time.strftime("%c")
+                        datetime.now(timezone.utc).timestamp()
                         )
                        )
     connection.commit()
     return Response('funciono', status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+@api_view(['POST'])
 def loadIdentificacionSenalCSV(request):
-    #data= pd.read_csv(r'/home/diego/Escritorio', sep=';')
-    #df = pd.DataFrame(data, columns=['nombre', 'altura'])
+    file = request.body
+    # jsonfile = json.loads(file)
+    ser = pd.read_json(file, lines=False, typ='series')
+    ser.to_csv('datasetexternal/filesDataSet/identificiones.csv', index=1, header=False)
+    data = pd.read_csv('datasetexternal/filesDataSet/identificiones.csv', engine='python', sep=';', encoding='utf-8',
+                       error_bad_lines=False)
 
-    df = pd.DataFrame(data, columns=['cod_event_in', 'volcan', 'est', 'componente', 'id_cl', 'id_det', 'fecha_pick', 'analista', 'snr', 'label_event', 'c_label', 'descripcion', 'prom_ruido_fond', 'inicio', 'fin'])
+    df = pd.DataFrame(data, columns=['file1,"cod_event', 'cod_event_in', 'volcan', 'est', 'componente', 'id_cl', 'fecha_pick', 'analista', 'snr', 'label_event', 'c_label', 'descripcion', 'prom_ruido_fondo', 'inicio', 'fin', 'largo', 'prob_vt', 'prob_lp', 'prob_tr', 'prob_ot'])
     connection = mysql.connector.connect(host='localhost',
-                                         database='ufro_ovdas',
+                                         database='ufro_ovdas_v1',
                                          user='root',
                                          password='')
 
@@ -132,17 +139,20 @@ def loadIdentificacionSenalCSV(request):
     print(df)
     # Insert DataFrame to Table
     for row in df.itertuples():
-        print(row.prom_ruido_fond)
+        print(row)
+        print('cambiado')
+        print(row.est)
         cursor.execute('''
-                        INSERT INTO indentificacion_senal (cod_event_in, volcan, est, componente, id_cl, id_det, fecha_pick, analista, snr, label_event, c_label, created_at, descripcion, prom_ruido_fondo, inicio, fin)
-                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                        INSERT INTO identificacion_senal (cod_event, cod_event_in, volcan, est, componente, id_cl, algo_detecion_id, fecha_pick, analista, snr, label_event, c_label, created_at, descripcion, prom_ruido_fondo, inicio, fin, largo, prob_vt, prob_lp, prob_tr, prob_ot)
+                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                         ''',
-                       (row.cod_event_in,
+                       (row[1], # obtiene el valor de file1,"cod_event
+                        row.cod_event_in,
                         row.volcan,
                         row.est,
                         row.componente,
+                        1,
                         row.id_cl,
-                        row.id_det,
                         row.fecha_pick,
                         row.analista,
                         row.snr,
@@ -150,55 +160,86 @@ def loadIdentificacionSenalCSV(request):
                         row.c_label,
                         time.strftime("%c"),
                         row.descripcion,
-                        row.prom_ruido_fond,
+                        row.snr,
                         row.inicio,
-                        row.fin)
+                        row.fin,
+                        row.largo,
+                        row.prob_vt,
+                        row.prob_lp,
+                        row.prob_tr,
+                        row.prob_ot)
                        )
     connection.commit()
 
     return Response('funciono', status=status.HTTP_200_OK)
 
 @api_view(['POST'])
-def loadLocalizacionesCSV(request):
+def loadRegistroCSV(request):
     file = request.body
 
-    #jsonfile = json.loads(file)
     ser = pd.read_json(file, lines=False, typ='series')
-    print(ser)
-    ser.to_csv('datasetexternal/filesDataSet/localizaciones.csv', index=1, header=False)
-    data = pd.read_csv('datasetexternal/filesDataSet/localizaciones.csv', engine='python', sep=';', encoding='utf-8', error_bad_lines=False)
-    df = pd.DataFrame(data, columns=['file1,"﻿id_evento_macro', 'tiempo', 'lat', 'lon', 'z', 'rmse', 'major_half_axes', 'minor_half_axes', 'dz', 'gap', 'ml', 'n_fases', 'descrip', 'autor'])
+    ser.to_csv('datasetexternal/filesDataSet/registro.csv', index=1, header=False)
+    data = pd.read_csv('datasetexternal/filesDataSet/registro.csv', engine='python', sep=';', encoding='utf-8',
+                       error_bad_lines=False)
+
+    df = pd.DataFrame(data, columns=['componente', 'cod_event', 'id_evento_macro', 'file1,"cod_event_in', 'id_tecnica', 'fecha_pick', 'autor', 't_p', 't_s', 'c_p', 'c_s', 'inicio', 'snr', 'polar', 'descripcion', 'label_event', 'amplitud', 'coda', 'frecuencia', 'id_volcan'])
     print(df)
     connection = mysql.connector.connect(host='localhost',
-                                         database='ufro_ovdas',
-                                         user='diego',
-                                         password='beyblade1')
+                                         database='ufro_ovdas_v1',
+                                         user='root',
+                                         password='')
 
     cursor = connection.cursor()
     print(df)
     # Insert DataFrame to Table
     for row in df.itertuples():
-        print(row[0])
+        # evualuar si existe evento macro, sino crearlo.
+        # usar find de modelos para macro envento
+        print(row)
+        estado = False
+        if (validador(row.id_evento_macro)):
+            print('si existe la row')
+        else:
+             #crear evento macro
+            print('crea evento macro')
+            createInternal(row.id_volcan, row.id_evento_macro, row.inicio, row.inicio)
+
         cursor.execute('''
-                            INSERT INTO evento_localizado (id_evento_macro, tiempo, lat, lon, z, rmse, major_half_axes, minor_half_axes, dz, gap, ml, n_fases, descrip, autor, created_at)
-                            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                            INSERT INTO avistamiento_registro (cod_event, cod_event_in, id_evento_macro, t_p, t_s, coda, c_p, c_s, c_coda, inicio, polar, frecuencia, amplitud, autor, label_event, descripcion, componente, snr, id_tecnica, fecha_pick, created_at)
+                            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                             ''',
-                       (row[1],
-                        row.tiempo,
-                        row.lat,
-                        row.lon,
-                        row.z,
-                        row.rmse,
-                        row.major_half_axes,
-                        row.minor_half_axes,
-                        row.dz,
-                        row.gap,
-                        row.ml,
-                        row.n_fases,
-                        row.descrip,
-                        row.autor,
-                        time.strftime("%c")
-                        )
-                       )
+                           (row.cod_event,
+                            row[0],
+                            row.id_evento_macro,
+                            row.t_p,
+                            row.t_s,
+                            row.coda,
+                            row.c_p,
+                            row.c_s,
+                            1,
+                            row.inicio,
+                            row.polar,
+                            row.frecuencia,
+                            row.amplitud,
+                            row.autor,
+                            row.label_event,
+                            row.descripcion,
+                            row.componente,
+                            row.snr,
+                            row.id_tecnica,
+                            row.fecha_pick,
+                            time.strftime("%c"))
+                           )
     connection.commit()
+
     return Response('funciono', status=status.HTTP_200_OK)
+
+def createEventoMacro(volcan_id, macro_evento, fecha_inicio, fecha_fermino):
+
+    try:
+        # alamacenar los datos de evento macro
+        return True
+    except Exception as e:
+        #error
+        return False
+

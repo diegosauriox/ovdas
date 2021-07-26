@@ -12,6 +12,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('eventosMacro/', views.index),
     path('createEventoMacro', views.create),
+    path('showEventoMacro/<id>', views.show),
     path('deleteEventoMacro/<id>', views.destroy),
     path('updateEventoMacro/<id>', views.update)
 

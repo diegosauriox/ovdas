@@ -99,10 +99,11 @@ CORS_ORIGIN_WHITELIST = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ufro_ovdas',
+        'NAME': 'ufro_ovdas_v1',
         'USER': 'root',
         'PASSWORD':'',
-
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
@@ -146,3 +147,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploaded_media')
 MEDIA_URL = '/media/'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = None

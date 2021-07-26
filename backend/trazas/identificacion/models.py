@@ -7,7 +7,7 @@ from algoritmoDetec.models import AlgortimoDeteccionModel
 
 # Create your models here.
 class IdentificacionSenalModel(models.Model):
-    cod_event = models.BigAutoField(primary_key=True)
+    cod_event = models.CharField(primary_key=True, max_length=45)
     cod_event_in = models.CharField(max_length=20)
     volcan = models.CharField(max_length=12)
     est = models.ForeignKey(EstacionModel, models.DO_NOTHING, db_column='est')
