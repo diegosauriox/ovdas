@@ -10,13 +10,13 @@ import datetime
 import numpy as np
 import configparser
 # Import module
-import jpype as jp
+#import jpype as jp
 
 # Enable Java imports
-import jpype.imports
+#import jpype.imports
 
 # Pull in types
-from jpype.types import *
+#from jpype.types import *
 #from pyrocko import trace
 # Launch the JVM
 

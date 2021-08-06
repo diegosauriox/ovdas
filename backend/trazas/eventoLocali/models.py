@@ -17,7 +17,7 @@ class EventoLocalizadoModel(models.Model):
     n_fases = models.IntegerField()
     descrip = models.CharField(max_length=45)
     autor = models.CharField(max_length=45)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
