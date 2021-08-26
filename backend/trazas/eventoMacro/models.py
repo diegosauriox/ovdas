@@ -12,3 +12,4 @@ class EventoMacroModel(models.Model):
     class Meta:
         managed = False
         db_table = 'evento_macro'
+

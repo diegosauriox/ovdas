@@ -90,8 +90,8 @@ class Estacion(models.Model):
 
 
 class EventoLocalizado(models.Model):
-    id_evento_loc = models.BigAutoField(primary_key=True)
-    id_evento_macro = models.ForeignKey('EventoMacro', models.DO_NOTHING, db_column='id_evento_macro')
+    evento_loc_id = models.BigAutoField(primary_key=True)
+    evento_macro_id = models.ForeignKey('EventoMacro', models.DO_NOTHING, db_column='id_evento_macro')
     tiempo = models.DateTimeField()
     lat = models.CharField(max_length=45)
     lon = models.CharField(max_length=45)

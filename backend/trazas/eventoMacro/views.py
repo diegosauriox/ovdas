@@ -21,10 +21,17 @@ def index(request):
     serializer_context = {
         'request': Request(request),
     }
-    estaciones = EventoMacroModel.objects.all()
-    print(estaciones)
-    serializer = EventoMacroSerializer(estaciones, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    eventoMacros = EventoMacroModel.objects.values("id_evento_macro","inicio")
+    #eventoMacros = EventoMacroModel.objects.select_related("id_evento_macro")
+    #evento=EventoLocalizadoModel.objects.all()
+    
+
+
+    print(eventoMacros)
+    serializer = EventoMacroSerializer(eventoMacros, many=True)
+
+    return Response(eventoMacros, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -84,3 +91,4 @@ def updateOnlyEtiqueta(data, id):
         return True
     except ObjectDoesNotExist as e:
         False
+
