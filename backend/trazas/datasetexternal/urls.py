@@ -15,6 +15,7 @@ urlpatterns = [
     path('loadVolcanesCSV', views.loadVolcanesCSV),
     path('loadIdentificacionSenal', views.loadIdentificacionSenalCSV),
     path('loadLocalizacionesCSV', views.loadLocalizacionesCSV),
-    path('loadRegistroCSV', views.loadRegistroCSV)
+    path('loadRegistroCSV', views.loadRegistroCSV),
+    path('loadEtiqueta', views.updateIndentificacionMacroCSV)
 
 ]

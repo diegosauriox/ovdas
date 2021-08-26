@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import EventoLocalizadoModel
-from .serializers import EventoLocaliSerializer
+from .serializers import EventoLocaliSerializer, EventoLocaliSerializer2
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 from django.core import serializers
@@ -70,7 +70,8 @@ def loadLastItem(request):
     serializer_context = {
         'request': Request(request),
     }
-    localizaciones = EventoLocalizadoModel.objects.filter(ml__gte = 2).order_by('-id_evento_loc')[:5]
+    #localizaciones = EventoLocalizadoModel.objects.filter(ml__gte = 2).order_by('evento_loc_id')[:5]
+    localizaciones = EventoLocalizadoModel.objects.values_list('evento_loc_id', 'ml')
     print(localizaciones)
-    serializer = EventoLocaliSerializer(localizaciones, context=serializer_context, many=True)
+    serializer = EventoLocaliSerializer2(localizaciones, context=serializer_context, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

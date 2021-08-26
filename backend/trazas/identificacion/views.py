@@ -72,3 +72,8 @@ def destroy(request, id):
 from django.shortcuts import render
 
 # Create your views here.
+def validador(id):
+    if(IdentificacionSenalModel.objects.filter(cod_event=id).exists()):
+        return True
+    else:
+        return False

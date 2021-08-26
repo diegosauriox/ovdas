@@ -1,31 +1,31 @@
-file1,"pk	code_macroevent	tiempo_origen	lat	lon	z	rmse	major_half_axes	minor_half_axes	dz	gap	ml	n_fases	fecha_cr	descrip	autor
-1	20171212_092241.832	2017-12-12T09:22:39.180Z	-36.8238	-71.3845	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.6	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-2	20171212_095028.512	2017-12-12T09:50:08.220Z	-36.3078	-72.5579	3200	0.611	-999.0	-999.0	Fixed	357.7	1.6	8	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-3	20171212_095530.585	2017-12-12T09:54:33.573Z	-37.3222	-73.7245	3300	22.880	-999.0	-999.0	Fixed	-999.0	1.3	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-4	20171212_151908.713	2017-12-12T15:19:08.445Z	-36.9121	-71.3644	3300	0.230	-999.0	-999.0	Fixed	-999.0	0.7	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-5	20171212_153820.704	2017-12-12T15:38:06.970Z	-36.7649	-72.1909	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.9	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-6	20171212_154010.027	2017-12-12T15:40:07.834Z	-36.8213	-71.3849	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.9	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-7	20171212_154414.272	2017-12-12T15:43:27.326Z	-34.5158	-71.6250	3300	14.802	-999.0	-999.0	Fixed	-999.0	1.8	3	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-8	20171212_154631.832	2017-12-12T15:46:27.100Z	-36.7227	-71.3976	3300	0.000	-999.0	-999.0	Fixed	-999.0	1.0	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-9	20171212_162429.492	2017-12-12T16:24:25.380Z	-36.8278	-71.5472	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.6	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-10	20171212_165519.772	2017-12-12T16:55:06.247Z	-36.8006	-71.8105	3300	18.800	-999.0	-999.0	Fixed	-999.0	0.5	3	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-11	20171212_165915.512	2017-12-12T16:58:56.806Z	-36.7321	-72.5472	3300	0.000	-999.0	-999.0	Fixed	-999.0	1.1	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-12	20171212_181124.053	2017-12-12T18:11:19.284Z	-37.0498	-71.5472	3200	22.427	-999.0	-999.0	Fixed	351.6	0.4	5	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-13	20171212_183221.315	2017-12-12T18:31:57.089Z	-36.6956	-72.9559	3300	0.000	-999.0	-999.0	Fixed	-999.0	1.2	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-14	20171212_185414.303	2017-12-12T18:54:10.030Z	-36.7443	-71.3948	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.4	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-15	20171212_193133.832	2017-12-12T19:30:57.798Z	-36.0181	-73.7551	3200	0.169	-999.0	-999.0	Fixed	358.8	2.0	6	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-16	20171212_193619.265	2017-12-12T19:36:13.702Z	-36.8186	-71.6295	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.6	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-17	20171212_230625.672	2017-12-12T23:06:24.805Z	-36.8853	-71.3735	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.3	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-18	20171213_043012.314	2017-12-13T04:30:06.101Z	-36.6332	-71.2869	3300	0.000	-999.0	-999.0	Fixed	-999.0	0.9	2	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-19	20171213_060725.572	2017-12-13T06:07:21.172Z	-36.7560	-71.5508	3200	0.040	-999.0	-999.0	Fixed	346.1	0.6	3	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-20	20171213_075740.262	2017-12-13T07:57:39.101Z	-36.7875	-71.4730	3200	1.510	-999.0	-999.0	Fixed	338.4	0.7	8	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-21	20171213_130043.512	2017-12-13T13:00:40.065Z	-36.7954	-71.5472	3200	0.317	-999.0	-999.0	Fixed	344.2	0.6	6	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-22	20171213_214328.452	2017-12-13T21:43:25.772Z	-36.8582	-71.5739	-2480	0.233	3.51	2.65	Fixed	346.6	0.5	8	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-23	20171214_170150.582	2017-12-14T17:01:48.596Z	-36.8253	-71.4367	3200	0.284	3.28	2.23	Fixed	324.8	0.7	8	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-24	20171214_173028.042	2017-12-14T17:30:25.166Z	-36.7306	-71.4886	3200	0.136	-999.0	-999.0	Fixed	345.5	0.9	4	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-25	20171214_184317.812	2017-12-14T18:43:16.340Z	-36.9107	-71.3118	-3290	0.308	-999.0	-999.0	Fixed	296.5	1.4	8	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-26	20171214_220238.742	2017-12-14T22:02:37.014Z	-36.8719	-71.4533	3200	0.306	-999.0	-999.0	Fixed	329.1	0.5	5	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-27	20171214_224401.012	2017-12-14T22:43:58.715Z	-36.9510	-71.3321	3200	0.327	-999.0	-999.0	Fixed	334.1	0.5	5	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-28	20171214_224956.102	2017-12-14T22:49:54.548Z	-36.8516	-71.3391	3200	0.099	-999.0	-999.0	Fixed	335.1	0.4	3	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
-29	20171214_234450.882	2017-12-14T23:44:48.672Z	-36.7869	-71.5087	3200	0.265	-999.0	-999.0	Fixed	346.9	0.6	5	2021-07-09T11:26:02Z	SacadoconcodigopythonExtrae_fromhypo-out.py	IFT_python3
+file1,"pk;code_macroevent;tiempo_origen;lat;lon;z;rmse;major_half_axes;minor_half_axes;dz;gap;ml;n_fases;fecha_cr;descrip;autor
+1;20171212_092241.832;2017-12-12T09:22:39.180Z;-368.238;-713.845;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.6;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+2;20171212_095028.512;2017-12-12T09:50:08.220Z;-363.078;-725.579;3200;0.611;-999.0;-999.0;Fixed;357.7;1.6;8;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+3;20171212_095530.585;2017-12-12T09:54:33.573Z;-373.222;-737.245;3300;22.880;-999.0;-999.0;Fixed;-999.0;1.3;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+4;20171212_151908.713;2017-12-12T15:19:08.445Z;-369.121;-713.644;3300;0.230;-999.0;-999.0;Fixed;-999.0;0.7;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+5;20171212_153820.704;2017-12-12T15:38:06.970Z;-367.649;-721.909;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.9;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+6;20171212_154010.027;2017-12-12T15:40:07.834Z;-368.213;-713.849;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.9;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+7;20171212_154414.272;2017-12-12T15:43:27.326Z;-345.158;-716.250;3300;14.802;-999.0;-999.0;Fixed;-999.0;1.8;3;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+8;20171212_154631.832;2017-12-12T15:46:27.100Z;-367.227;-713.976;3300;0.000;-999.0;-999.0;Fixed;-999.0;1.0;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+9;20171212_162429.492;2017-12-12T16:24:25.380Z;-368.278;-715.472;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.6;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+10;20171212_165519.772;2017-12-12T16:55:06.247Z;-368.006;-718.105;3300;18.800;-999.0;-999.0;Fixed;-999.0;0.5;3;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+11;20171212_165915.512;2017-12-12T16:58:56.806Z;-367.321;-725.472;3300;0.000;-999.0;-999.0;Fixed;-999.0;1.1;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+12;20171212_181124.053;2017-12-12T18:11:19.284Z;-370.498;-715.472;3200;22.427;-999.0;-999.0;Fixed;351.6;0.4;5;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+13;20171212_183221.315;2017-12-12T18:31:57.089Z;-366.956;-729.559;3300;0.000;-999.0;-999.0;Fixed;-999.0;1.2;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+14;20171212_185414.303;2017-12-12T18:54:10.030Z;-367.443;-713.948;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.4;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+15;20171212_193133.832;2017-12-12T19:30:57.798Z;-360.181;-737.551;3200;0.169;-999.0;-999.0;Fixed;358.8;2.0;6;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+16;20171212_193619.265;2017-12-12T19:36:13.702Z;-368.186;-716.295;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.6;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+17;20171212_230625.672;2017-12-12T23:06:24.805Z;-368.853;-713.735;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.3;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+18;20171213_043012.314;2017-12-13T04:30:06.101Z;-366.332;-712.869;3300;0.000;-999.0;-999.0;Fixed;-999.0;0.9;2;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+19;20171213_060725.572;2017-12-13T06:07:21.172Z;-367.560;-715.508;3200;0.040;-999.0;-999.0;Fixed;346.1;0.6;3;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+20;20171213_075740.262;2017-12-13T07:57:39.101Z;-367.875;-714.730;3200;1.510;-999.0;-999.0;Fixed;338.4;0.7;8;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+21;20171213_130043.512;2017-12-13T13:00:40.065Z;-367.954;-715.472;3200;0.317;-999.0;-999.0;Fixed;344.2;0.6;6;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+22;20171213_214328.452;2017-12-13T21:43:25.772Z;-368.582;-715.739;-2480;0.233;3.51;2.65;Fixed;346.6;0.5;8;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+23;20171214_170150.582;2017-12-14T17:01:48.596Z;-368.253;-714.367;3200;0.284;3.28;2.23;Fixed;324.8;0.7;8;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+24;20171214_173028.042;2017-12-14T17:30:25.166Z;-367.306;-714.886;3200;0.136;-999.0;-999.0;Fixed;345.5;0.9;4;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+25;20171214_184317.812;2017-12-14T18:43:16.340Z;-369.107;-713.118;-3290;0.308;-999.0;-999.0;Fixed;296.5;1.4;8;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+26;20171214_220238.742;2017-12-14T22:02:37.014Z;-368.719;-714.533;3200;0.306;-999.0;-999.0;Fixed;329.1;0.5;5;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+27;20171214_224401.012;2017-12-14T22:43:58.715Z;-369.510;-713.321;3200;0.327;-999.0;-999.0;Fixed;334.1;0.5;5;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+28;20171214_224956.102;2017-12-14T22:49:54.548Z;-368.516;-713.391;3200;0.099;-999.0;-999.0;Fixed;335.1;0.4;3;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
+29;20171214_234450.882;2017-12-14T23:44:48.672Z;-367.869;-715.087;3200;0.265;-999.0;-999.0;Fixed;346.9;0.6;5;2021-07-09T11:26:02Z;SacadoconcodigopythonExtrae_fromhypo-out.py;IFT_python3
 "

@@ -23,7 +23,9 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import FileUploadParser
 from eventoMacro.views import *
-from datetime import datetime, date, timezone, datetime
+from identificacion.views import validador as existIden
+from datetime import datetime, date, datetime
+from django.utils import timezone
 
 from sqlalchemy.sql.elements import conv
 
@@ -75,6 +77,30 @@ def loadVolcanesCSV(request):
     connection.commit()
     return Response('funciono', status=status.HTTP_200_OK)
 
+
+@api_view(['POST'])
+def updateIndentificacionMacroCSV(request):
+    file = request.body
+    #jsonfile = json.loads(file)
+    ser = pd.read_json(file, lines=False, typ='series')
+    print(ser)
+    ser.to_csv('datasetexternal/filesDataSet/updateEtiqueta.csv', index=1, header=False)
+    data = pd.read_csv('datasetexternal/filesDataSet/updateEtiqueta.csv', engine='python', sep=';', encoding='utf-8', error_bad_lines=False)
+    df = pd.DataFrame(data, columns=['code_event', 'code_macroevent', 'class_macroevent', 'prob_class', 'confiabilidad'])
+    print(df)
+
+    # Insert DataFrame to Table
+    for row in df.itertuples():
+        print(row)
+        if(validador(row.code_macroevent)):
+            print()
+            updateOnlyEtiqueta(row.code_macroevent)
+            # Actualiza la etiqueta del macro evento
+        else:
+            # return Response('Error al cargar los datos', status=status.HTTP_400_BAD_REQUEST)
+            print('no econtro datos')
+    return Response('Datos actualizados', status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 def loadLocalizacionesCSV(request):
     file = request.body
@@ -85,39 +111,42 @@ def loadLocalizacionesCSV(request):
     data = pd.read_csv('datasetexternal/filesDataSet/localizaciones.csv', engine='python', sep=';', encoding='utf-8', error_bad_lines=False)
     df = pd.DataFrame(data, columns=['code_macroevent', 'tiempo_origen', 'lat', 'lon', 'z', 'rmse', 'major_half_axes', 'minor_half_axes', 'dz', 'gap', 'ml', 'n_fases', 'descrip', 'autor'])
     print(df)
-    connection = mysql.connector.connect(host='localhost',
-                                         database='ufro_ovdas_v1',
-                                         user='root',
-                                         password='')
 
-    cursor = connection.cursor()
+
+
     print(df)
     # Insert DataFrame to Table
     for row in df.itertuples():
-        print(row)
-        print(row[0])
-        cursor.execute('''
-                            INSERT INTO evento_localizado (evento_macro_id, tiempo, lat, lon, z, rmse, major_half_axes, minor_half_axes, dz, gap, ml, n_fases, descrip, autor, created_at)
-                            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                            ''',
-                       (row.code_macroevent,
-                        row.tiempo_origen,
-                        row.lat,
-                        row.lon,
-                        row.z,
-                        row.rmse,
-                        row.major_half_axes,
-                        row.minor_half_axes,
-                        row.dz,
-                        row.gap,
-                        row.ml,
-                        row.n_fases,
-                        row.descrip,
-                        row.autor,
-                        datetime.now(timezone.utc).timestamp()
-                        )
-                       )
-    connection.commit()
+            print(row)
+            print(row[0])
+            if(validador(row.code_macroevent)):
+                connection = mysql.connector.connect(host='localhost',
+                                                     database='ufro_ovdas_v1',
+                                                     user='root',
+                                                     password='')
+                cursor = connection.cursor()
+                cursor.execute('''
+                                    INSERT INTO evento_localizado (evento_macro_id, tiempo, lat, lon, z, rmse, major_half_axes, minor_half_axes, dz, gap, ml, n_fases, descrip, autor, created_at)
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                                    ''',
+                               (row.code_macroevent,
+                                row.tiempo_origen,
+                                row.lat,
+                                row.lon,
+                                row.z,
+                                row.rmse,
+                                row.major_half_axes,
+                                row.minor_half_axes,
+                                row.dz,
+                                row.gap,
+                                row.ml,
+                                row.n_fases,
+                                row.descrip,
+                                row.autor,
+                                datetime.now(timezone.utc).timestamp()
+                                )
+                               )
+                connection.commit()
     return Response('funciono', status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -130,46 +159,45 @@ def loadIdentificacionSenalCSV(request):
                        error_bad_lines=False)
 
     df = pd.DataFrame(data, columns=['file1,"cod_event', 'cod_event_in', 'volcan', 'est', 'componente', 'id_cl', 'fecha_pick', 'analista', 'snr', 'label_event', 'c_label', 'descripcion', 'prom_ruido_fondo', 'inicio', 'fin', 'largo', 'prob_vt', 'prob_lp', 'prob_tr', 'prob_ot'])
-    connection = mysql.connector.connect(host='localhost',
-                                         database='ufro_ovdas_v1',
-                                         user='root',
-                                         password='')
 
-    cursor = connection.cursor()
     print(df)
     # Insert DataFrame to Table
     for row in df.itertuples():
-        print(row)
-        print('cambiado')
-        print(row.est)
-        cursor.execute('''
-                        INSERT INTO identificacion_senal (cod_event, cod_event_in, volcan, est, componente, id_cl, algo_detecion_id, fecha_pick, analista, snr, label_event, c_label, created_at, descripcion, prom_ruido_fondo, inicio, fin, largo, prob_vt, prob_lp, prob_tr, prob_ot)
-                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                        ''',
-                       (row[1], # obtiene el valor de file1,"cod_event
-                        row.cod_event_in,
-                        row.volcan,
-                        row.est,
-                        row.componente,
-                        1,
-                        row.id_cl,
-                        row.fecha_pick,
-                        row.analista,
-                        row.snr,
-                        row.label_event,
-                        row.c_label,
-                        time.strftime("%c"),
-                        row.descripcion,
-                        row.snr,
-                        row.inicio,
-                        row.fin,
-                        row.largo,
-                        row.prob_vt,
-                        row.prob_lp,
-                        row.prob_tr,
-                        row.prob_ot)
-                       )
-    connection.commit()
+        print(row.index)
+        if(False == existIden(row[1])):
+            connection = mysql.connector.connect(host='localhost',
+                                                 database='ufro_ovdas_v1',
+                                                 user='root',
+                                                 password='')
+            cursor = connection.cursor()
+            cursor.execute('''
+                            INSERT INTO identificacion_senal (cod_event, cod_event_in, volcan, est, componente, cl_id, algo_detecion_id, fecha_pick, analista, snr, label_event, c_label, created_at, descripcion, prom_ruido_fondo, inicio, fin, largo, prob_vt, prob_lp, prob_tr, prob_ot)
+                            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                            ''',
+                           (row[1], # obtiene el valor de file1,"cod_event
+                            row.cod_event_in,
+                            row.volcan,
+                            row.est,
+                            row.componente,
+                            1,
+                            row.id_cl,
+                            row.fecha_pick,
+                            row.analista,
+                            row.snr,
+                            row.label_event,
+                            row.c_label,
+                            timezone.now(),
+                            row.descripcion,
+                            row.snr,
+                            row.inicio,
+                            row.fin,
+                            row.largo,
+                            row.prob_vt,
+                            row.prob_lp,
+                            row.prob_tr,
+                            row.prob_ot)
+                           )
+            connection.commit()
 
     return Response('funciono', status=status.HTTP_200_OK)
 
@@ -182,14 +210,14 @@ def loadRegistroCSV(request):
     data = pd.read_csv('datasetexternal/filesDataSet/registro.csv', engine='python', sep=';', encoding='utf-8',
                        error_bad_lines=False)
 
-    df = pd.DataFrame(data, columns=['componente', 'cod_event', 'id_evento_macro', 'file1,"cod_event_in', 'id_tecnica', 'fecha_pick', 'autor', 't_p', 't_s', 'c_p', 'c_s', 'inicio', 'snr', 'polar', 'descripcion', 'label_event', 'amplitud', 'coda', 'frecuencia', 'id_volcan'])
+    df = pd.DataFrame(data, columns=['componente', 'code_event', 'code_macroevent', 'file1,"cod_event_in', 'id_tecnica', 'fecha_pick', 'autor', 't_p', 't_s', 'c_p', 'c_s', 'inicio', 'snr', 'polar', 'descripcion', 'label_event', 'amplitud', 'coda', 'frecuencia', 'id_volcan'])
     print(df)
     connection = mysql.connector.connect(host='localhost',
                                          database='ufro_ovdas_v1',
                                          user='root',
                                          password='')
 
-    cursor = connection.cursor()
+
     print(df)
     # Insert DataFrame to Table
     for row in df.itertuples():
@@ -197,40 +225,44 @@ def loadRegistroCSV(request):
         # usar find de modelos para macro envento
         print(row)
         estado = False
-        if (validador(row.id_evento_macro)):
+        if (validador(row.code_macroevent)):
             print('si existe la row')
         else:
              #crear evento macro
             print('crea evento macro')
-            createInternal(row.id_volcan, row.id_evento_macro, row.inicio, row.inicio)
-
-        cursor.execute('''
-                            INSERT INTO avistamiento_registro (cod_event, cod_event_in, id_evento_macro, t_p, t_s, coda, c_p, c_s, c_coda, inicio, polar, frecuencia, amplitud, autor, label_event, descripcion, componente, snr, id_tecnica, fecha_pick, created_at)
-                            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                            ''',
-                           (row.cod_event,
-                            row[0],
-                            row.id_evento_macro,
-                            row.t_p,
-                            row.t_s,
-                            row.coda,
-                            row.c_p,
-                            row.c_s,
-                            1,
-                            row.inicio,
-                            row.polar,
-                            row.frecuencia,
-                            row.amplitud,
-                            row.autor,
-                            row.label_event,
-                            row.descripcion,
-                            row.componente,
-                            row.snr,
-                            row.id_tecnica,
-                            row.fecha_pick,
-                            time.strftime("%c"))
-                           )
-    connection.commit()
+            createInternal(row.id_volcan, row.code_macroevent, row.inicio, row.inicio)
+            print('termina de crear evento macro')
+            if(existIden(row.code_event)):
+                cursor = connection.cursor()
+                cursor.execute('''
+                                    INSERT INTO avistamiento_registro (cod_event, cod_event_in, evento_macro_id, t_p, t_s, coda, c_p, c_s, c_coda, inicio, polar, frecuencia, amplitud, autor, label_event, descripcion, componente, snr, tecnica_id, fecha_pick, created_at)
+                                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                                    ''',
+                                   (row.code_event,
+                                    row[0],
+                                    row.code_macroevent,
+                                    row.t_p,
+                                    row.t_s,
+                                    row.coda,
+                                    row.c_p,
+                                    row.c_s,
+                                    1,
+                                    row.inicio,
+                                    row.polar,
+                                    row.frecuencia,
+                                    row.amplitud,
+                                    row.autor,
+                                    row.label_event,
+                                    row.descripcion,
+                                    row.componente,
+                                    row.snr,
+                                    row.id_tecnica,
+                                    row.fecha_pick,
+                                    time.strftime("%c"))
+                                   )
+                connection.commit()
+            else:
+                print('no econtro evento en indentificaciones')
 
     return Response('funciono', status=status.HTTP_200_OK)
 

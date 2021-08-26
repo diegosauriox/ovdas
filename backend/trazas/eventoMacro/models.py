@@ -2,7 +2,7 @@ from django.db import models
 from volcan.models import VolcanModel
 
 class EventoMacroModel(models.Model):
-    id_evento_macro = models.CharField(max_length=25 ,primary_key=True)
+    evento_macro_id = models.CharField(max_length=25 ,primary_key=True)
     volcan_id = models.CharField(max_length=3)
     inicio = models.CharField(max_length=45)
     fin = models.CharField(max_length=45)

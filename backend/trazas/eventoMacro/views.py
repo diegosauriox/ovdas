@@ -43,13 +43,13 @@ def show(request, id):
     return HttpResponse(serializer)
 
 def validador(id):
-    if(EventoMacroModel.objects.filter(id_evento_macro=id).exists()):
+    if(EventoMacroModel.objects.filter(evento_macro_id=id).exists()):
         return True
     else:
         return False
 
 def createInternal(volcan_id, macro_evento, fecha_inicio, fecha_termino):
-    eve = EventoMacroModel(id_evento_macro=macro_evento, volcan_id=volcan_id, inicio=fecha_inicio, fin=fecha_termino )
+    eve = EventoMacroModel(evento_macro_id=macro_evento, volcan_id=volcan_id, inicio=fecha_inicio, fin=fecha_termino )
     eve.save()
     return True
 
@@ -75,6 +75,12 @@ def destroy(request, id):
         return Response(status=status.HTTP_200_OK)
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
-from django.shortcuts import render
 
-# Create your views here.
+def updateOnlyEtiqueta(data, id):
+    try:
+        eventoMacro = EventoMacroModel.objects.get(id_evento_macro=id)
+        eventoMacro.clasificacion = data
+        eventoMacro.save()
+        return True
+    except ObjectDoesNotExist as e:
+        False
