@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import EventoMacroModel
 from .serializers import EventoMacroSerializer
+from estaciones.views import estacioneByVolcan as estacionByVolcan
+
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 from django.core import serializers
@@ -33,6 +35,13 @@ def index(request):
 
     return Response(eventoMacros, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def getEstacionesByEventoMacro(request,id):
+    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
+    print(eventoMacro.volcan_id)
+    estaciones= estacionByVolcan(eventoMacro.volcan_id)
+
+    return Response(estaciones, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def create(request):
