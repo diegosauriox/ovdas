@@ -4,7 +4,7 @@ from django.utils.timezone import now
 
 # Create your models here.
 class VolcanModel(models.Model):
-    id_volcan = models.CharField(primary_key=True, max_length=3)
+    volcan_id = models.CharField(primary_key=True, max_length=3)
     nombre = models.CharField(max_length=45)
     descripcion = models.CharField(max_length=45, blank=True, null=True)
     latitud = models.CharField(max_length=45, blank=True, null=True)

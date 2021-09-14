@@ -2,7 +2,7 @@ from django.db import models
 from volcan.models import VolcanModel
 
 class EstacionModel(models.Model):
-    id_estacion = models.CharField(primary_key=True, max_length=3)
+    estacion_id = models.CharField(primary_key=True, max_length=3)
     nombre = models.CharField(max_length=45)
     sensor = models.CharField(max_length=45, blank=True, null=True)
     periodo = models.IntegerField(blank=True, null=True)

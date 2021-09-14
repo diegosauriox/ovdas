@@ -23,7 +23,8 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import FileUploadParser
 from eventoMacro.views import *
-from identificacion.views import validador as existIden
+from identificacion.views import updateProbConf, validador as existIden
+
 from datetime import datetime, date, datetime
 from django.utils import timezone
 
@@ -86,20 +87,21 @@ def updateIndentificacionMacroCSV(request):
     print(ser)
     ser.to_csv('datasetexternal/filesDataSet/updateEtiqueta.csv', index=1, header=False)
     data = pd.read_csv('datasetexternal/filesDataSet/updateEtiqueta.csv', engine='python', sep=';', encoding='utf-8', error_bad_lines=False)
-    df = pd.DataFrame(data, columns=['code_event', 'code_macroevent', 'class_macroevent', 'prob_class', 'confiabilidad'])
+    df = pd.DataFrame(data, columns=['file1,"code_macroevent', 'code_event', 'class_macroevent', 'prob_class', 'conf'])
     print(df)
-
+    errores = 0
     # Insert DataFrame to Table
     for row in df.itertuples():
-        print(row)
-        if(validador(row.code_macroevent)):
-            print()
-            updateOnlyEtiqueta(row.code_macroevent)
+        if(validador(row[1]) & existIden(row.code_event)):
+            updateOnlyEtiqueta(row.class_macroevent, row[1])
+            updateProbConf(row.code_event, row.prob_class, row.conf)
+            #print('carga para' + row.class_macroevent + row[1])
             # Actualiza la etiqueta del macro evento
         else:
-            # return Response('Error al cargar los datos', status=status.HTTP_400_BAD_REQUEST)
-            print('no econtro datos')
-    return Response('Datos actualizados', status=status.HTTP_200_OK)
+            errores += 1
+            #return Response('Error al cargar los datos', status=status.HTTP_400_BAD_REQUEST)
+            #print('no econtro datos')
+    return Response('Datos actualizados,'+ ' no ha cargado '+ str(errores), status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def loadLocalizacionesCSV(request):
@@ -210,7 +212,7 @@ def loadRegistroCSV(request):
     data = pd.read_csv('datasetexternal/filesDataSet/registro.csv', engine='python', sep=';', encoding='utf-8',
                        error_bad_lines=False)
 
-    df = pd.DataFrame(data, columns=['componente', 'code_event', 'code_macroevent', 'file1,"cod_event_in', 'id_tecnica', 'fecha_pick', 'autor', 't_p', 't_s', 'c_p', 'c_s', 'inicio', 'snr', 'polar', 'descripcion', 'label_event', 'amplitud', 'coda', 'frecuencia', 'id_volcan'])
+    df = pd.DataFrame(data, columns=['componente', 'code_event', 'code_macroevent', 'file1,"cod_event_in', 'id_tecnica', 'fecha_pick', 'autor', 't_p', 't_s', 'c_p', 'c_s', 'inicio', 'snr', 'polar', 'descrip', 'label_event', 'amplitud', 'coda', 'frecuencia', 'id_volcan'])
     print(df)
     connection = mysql.connector.connect(host='localhost',
                                          database='ufro_ovdas_v1',
@@ -253,7 +255,7 @@ def loadRegistroCSV(request):
                                     row.amplitud,
                                     row.autor,
                                     row.label_event,
-                                    row.descripcion,
+                                    row.descrip,
                                     row.componente,
                                     row.snr,
                                     row.id_tecnica,

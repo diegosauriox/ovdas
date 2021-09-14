@@ -85,7 +85,7 @@ def destroy(request, id):
 
 def updateOnlyEtiqueta(data, id):
     try:
-        eventoMacro = EventoMacroModel.objects.get(id_evento_macro=id)
+        eventoMacro = EventoMacroModel.objects.get(evento_macro_id=id)
         eventoMacro.clasificacion = data
         eventoMacro.save()
         return True

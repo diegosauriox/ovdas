@@ -77,3 +77,14 @@ def validador(id):
         return True
     else:
         return False
+
+def updateProbConf(id, prob, conf):
+    try:
+        print('entra a actualizar la identificacion')
+        identificacion = IdentificacionSenalModel.objects.get(cod_event=id)
+        identificacion.c_label = conf
+        identificacion.prob_ge = prob
+        identificacion.save()
+        return True
+    except ObjectDoesNotExist as e:
+        return False
