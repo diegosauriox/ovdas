@@ -38,10 +38,9 @@ def index(request):
 @api_view(['GET'])
 def getEstacionesByEventoMacro(request,id):
     eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
-    print(eventoMacro.volcan_id)
     estaciones= estacionByVolcan(eventoMacro.volcan_id)
-
     return Response(estaciones, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def create(request):

@@ -14,6 +14,6 @@ urlpatterns = [
     path('createEventoMacro', views.create),
     path('showEventoMacro/<id>', views.show),
     path('deleteEventoMacro/<id>', views.destroy),
-    path('updateEventoMacro/<id>', views.update)
-
+    path('updateEventoMacro/<id>', views.update),
+    path('getEstacionesVolcanId/<id>', views.getEstacionesByEventoMacro)
 ]

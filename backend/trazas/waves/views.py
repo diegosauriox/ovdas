@@ -19,7 +19,8 @@ import mysql.connector
 from django.core import serializers
 from mysql.connector import Error
 import json
-
+from eventoMacro.models import EventoMacroModel
+from estaciones.views import estacioneByVolcan as estacionByVolcan
 
 
 
@@ -30,6 +31,10 @@ def algo(request):
     }
     return Response("xao", status=status.HTTP_200_OK)
 
+
+
+
+
 @api_view(['GET'])
 def create(request):
     
@@ -38,12 +43,8 @@ def create(request):
     fecha='11:57:59'
     nombre='FRE'
     station_list=[nombre]
-
     stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
     network='99'
-
-
-    
 
     """ Define tiempo """
     date1='2020-02-18 '+ fecha
@@ -72,5 +73,30 @@ def create(request):
     # lista.append(datosXN)
     # lista.append(datosYN)
     return Response(lista,status=status.HTTP_200_OK)
-    
-#
+
+@api_view(['GET'])
+def createAllTrazas(request):
+    evento_macro_id=request.data.get('evento_macro_id')
+    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
+    estaciones= estacionByVolcan(eventoMacro.volcan_id)
+    lista=recorrerEstaciones(estaciones,request.data.get('hora'))
+    return Response(lista,status=status.HTTP_200_OK)
+   
+def recorrerEstaciones(estaciones,hora):
+    lista=[]
+    for estacion in estaciones:
+        nombre = estacion.estacion_id
+        station_list=[nombre]
+        stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
+        network='99'
+        dt1=datetime.datetime.strptime(hora,'%Y-%m-%d %H:%M:%S')
+        posix_dt1 = time.mktime(dt1.timetuple())-30
+        posix_dt2 = posix_dt1+0.10
+        st_final=[  ]
+        st_final=read_stations(st_final,posix_dt1,posix_dt2,station_list,network)
+        datosXZ=st_final[0].get_xdata()
+        datosYZ=st_final[0].get_ydata()
+        lista.append(datosXZ)
+        lista.append(datosYZ)
+    return lista
+
