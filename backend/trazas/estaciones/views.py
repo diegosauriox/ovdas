@@ -52,7 +52,10 @@ def create(request):
 def show(id):
     estacion = EstacionModel.objects.get(id=id)
     return  HttpResponse(estacion)
-
+def estacioneByVolcan(id):
+    estaciones = EstacionModel.objects.values('estacion_id', 'nombre','latitud','longitud').filter(volcan_id=id)
+    return estaciones
+    
 @api_view(["PUT"])
 def update(request, id):
     try:

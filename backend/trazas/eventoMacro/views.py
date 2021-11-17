@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import EventoMacroModel
 from .serializers import EventoMacroSerializer
+from estaciones.views import estacioneByVolcan as estacionByVolcan
+
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 from django.core import serializers
@@ -25,13 +27,24 @@ def index(request):
     eventoMacros = EventoMacroModel.objects.values("id_evento_macro","inicio")
     #eventoMacros = EventoMacroModel.objects.select_related("id_evento_macro")
     #evento=EventoLocalizadoModel.objects.all()
-    
-
-
     print(eventoMacros)
     serializer = EventoMacroSerializer(eventoMacros, many=True)
 
     return Response(eventoMacros, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getEstacionesByEventoMacro(request,id):
+    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
+    estaciones= estacionByVolcan(eventoMacro.volcan_id)
+    return Response(estaciones, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getEstacionesByEventoMacroById(request,id):
+    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
+    
+    datos= {volcanid:eventoMacro.volcan_id, clasificacion: eventoMacro.clasificacion}
+
+    return Response(datos, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
