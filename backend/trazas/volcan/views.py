@@ -30,6 +30,8 @@ def create(request):
     serializer = VolcanSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        volcanes = VolcanModel.objects.all()
+        serializer = VolcanSerializer(volcanes, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -41,11 +43,13 @@ def show(id):
 @api_view(["PUT"])
 def update(request, id):
     try:
-        volcanAux = VolcanModel.objects.get(cod_event=id)
+        volcanAux = VolcanModel.objects.get(volcan_id=id)
         serializer = VolcanSerializer(data=request.data, instance=volcanAux)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            volcanes = VolcanModel.objects.all()
+            serializer = VolcanSerializer(volcanes, many=True)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
             return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except ObjectDoesNotExist as e:
@@ -55,11 +59,20 @@ def update(request, id):
 @api_view(["DELETE"])
 def destroy(request, id):
     try:
-        estacion = VolcanModel.objects.get(cod_event=id)
+        estacion = VolcanModel.objects.get(volcan_id=id)
         estacion.delete()
-        return Response(status=status.HTTP_200_OK)
+        volcanes = VolcanModel.objects.all()
+        serializer = VolcanSerializer(volcanes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
 from django.shortcuts import render
 
-# Create your views here.
+@api_view(['GET'])
+def getAllEstacioneByVolcan(request):
+
+    estacions = VolcanModel.objects.filter(volcan_id__isnull=False).values_list('nombre', 'altura')
+    estacions.objects.create('nombre')
+    #for estacion in estacions:
+     #   estacion.nombre = 'jas'
+    return Response(estacions, status=status.HTTP_200_OK)

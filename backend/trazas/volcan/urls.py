@@ -12,5 +12,5 @@ urlpatterns = [
     path('createVolcan', views.create),
     path('deleteVolcan/<id>', views.destroy),
     path('updateVolcan/<id>', views.update),
-
+    path('estacionesporvolcan', views.getAllEstacioneByVolcan),
 ]
