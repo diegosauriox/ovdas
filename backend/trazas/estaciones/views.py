@@ -21,9 +21,13 @@ def index(request):
         'request': Request(request),
     }
     estaciones = EstacionModel.objects.all()
+    estaciones = EstacionModel.objects.select_related('volcan')
+    print(estaciones.query)
     serializer = EstacionSerializer(estaciones, context=serializer_context, many=True)
 
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    #return Response(serializer.data, status=status.HTTP_200_OK)
+    qs_json = serializers.serialize('json', estaciones)
+    return HttpResponse(qs_json, content_type='application/json')
 
 @api_view(['GET'])
 def estacioneByVolcan(request, id):

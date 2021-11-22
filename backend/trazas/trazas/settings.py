@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'datasetexternal.apps.DatasetexternalConfig',
     'identificacion.apps.IdentificacionConfig',
     'volcan.apps.VolcanConfig',
+    'alertas.apps.AlertasConfig',
     'rest_framework',
     'django_seed',
     'corsheaders',
