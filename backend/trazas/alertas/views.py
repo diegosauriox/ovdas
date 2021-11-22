@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
+from numpy import array
 from django.http import JsonResponse, HttpResponse
 from requests import Request
 from rest_framework.decorators import api_view
@@ -22,22 +23,31 @@ from mysql.connector import Error
 import json
 
 @api_view(['GET'])
-def obtenerAlertas(request, id):
+def obtenerAlertas(request):
     #alertas = AlertasModel.objects.all()
     alertas = AlertasModel.objects.select_related('evento')
-    print(alertas.query)
+    #print(alertas.query)
     #alertas = AlertasModel.filter(eventob__isnull=False)
     #serializer = AlertasSerializer(alertas, many=True)
-    datosAlertas=[]
-    '''for alerta in alertas:
-        datos=getEstacionesByEventoMacroById(alerta.evento_id)""" me trae el id volcan y la clasificacion"""
-        clasificacion=datos.clasificacion
-        volcan_id=datos.volcan_id
+    datosAlerta=[]
+    for alerta in alertas:
+        #print(alerta.evento_id)
+        datos=getEstacionesByEventoMacroById(alerta.evento_id)
+        #print(datos["clasificacion"])
+        clasificacion=datos["clasificacion"]
+        volcan_id=datos["volcanid"]
         nombreVolcan=getNombreVolcanById(volcan_id)
+        #print(nombreVolcan.) 
         ml=getMlById(alerta.evento_id)
-        datosAlerta.append({volcan:nombreVolcan,ml:ml,clasificacion:clasificacion,tiempo:alerta.created_at})'''
+        #print(ml)
+        json={"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"tiempo":alerta.created_at}
+        datosAlerta.append({"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"tiempo":alerta.created_at}) 
+        print (datosAlerta)
+        #print(json)
     #return HttpResponse(alertas, status=status.HTTP_200_OK)
+    
     qs_json = serializers.serialize('json', alertas)
-    return HttpResponse(qs_json, content_type='application/json')
+    
+    return Response(datosAlerta,status=status.HTTP_200_OK)
 # Create your views here.
 

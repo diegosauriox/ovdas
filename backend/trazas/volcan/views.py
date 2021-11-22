@@ -24,9 +24,9 @@ def index(request):
     serializer = VolcanSerializer(volcanes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-def getNombreVolcanById(request,id):
+def getNombreVolcanById(id):
     volcan = VolcanModel.objects.get(volcan_id=id)
-    return HttpResponse(volcan)
+    return volcan.nombre
 
 @api_view(['POST'])
 def create(request):

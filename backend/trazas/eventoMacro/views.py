@@ -38,13 +38,12 @@ def getEstacionesByEventoMacro(request,id):
     estaciones= estacionByVolcan(eventoMacro.volcan_id)
     return Response(estaciones, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-def getEstacionesByEventoMacroById(request,id):
+
+def getEstacionesByEventoMacroById(id):
     eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
     
-    datos= {volcanid:eventoMacro.volcan_id, clasificacion: eventoMacro.clasificacion}
-
-    return Response(datos, status=status.HTTP_200_OK)
+    datos= {"volcanid":eventoMacro.volcan_id, "clasificacion": eventoMacro.clasificacion}
+    return datos
 
 
 @api_view(['POST'])
