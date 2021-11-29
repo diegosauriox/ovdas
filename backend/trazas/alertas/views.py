@@ -17,6 +17,7 @@ from eventoMacro.views import getEstacionesByEventoMacroById as getEstacionesByE
 from volcan.views import getNombreVolcanById as getNombreVolcanById
 from eventoLocali.views import getMlById as getMlById
 from eventoLocali.views import getAllLocalizadoByMl as getAllLocalizadoByMl
+from eventoMacro.views import getEventoMacroId as getEventoMacroId
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 from django.core import serializers
@@ -47,11 +48,11 @@ def guardarAlertas(request):
     eventoLocalizado=getAllLocalizadoByMl()
     for evento in eventoLocalizado:
         #alertas= AlertasModel(evento=e,)
-        print(evento["ml"])
-        print(evento["evento_macro_id"])
-        
-        alerta= AlertasModel(evento='20171212_165915.512')
-        alerta.save()
+        #print(type(evento["ml"]))
+        if(evento["ml"]>1):
+            eventoMacro=getEventoMacroId(evento["evento_macro_id"])  
+            alerta= AlertasModel(evento=eventoMacro)
+            alerta.save()
     return Response(eventoLocalizado,status=status.HTTP_200_OK)
 
 
