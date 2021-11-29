@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+CRONJOBS = [
+    ('*/1 * * * * ', 'alertas.cron.subirAlertas')
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,7 +54,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_seed',
     'corsheaders',
-    'waves.apps.WavesConfig'
+    'waves.apps.WavesConfig',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [

@@ -46,6 +46,7 @@ def getEstacionesByEventoMacroById(id):
     return datos
 
 
+
 @api_view(['POST'])
 def create(request):
     serializer = EventoMacroSerializer(data=request.data)

@@ -16,38 +16,44 @@ from .serializers import AlertasSerializer
 from eventoMacro.views import getEstacionesByEventoMacroById as getEstacionesByEventoMacroById
 from volcan.views import getNombreVolcanById as getNombreVolcanById
 from eventoLocali.views import getMlById as getMlById
+from eventoLocali.views import getAllLocalizadoByMl as getAllLocalizadoByMl
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 from django.core import serializers
 from mysql.connector import Error
 import json
+from datetime import date
+
+from background_task import background
+
 
 @api_view(['GET'])
 def obtenerAlertas(request):
-    #alertas = AlertasModel.objects.all()
     alertas = AlertasModel.objects.select_related('evento')
-    #print(alertas.query)
-    #alertas = AlertasModel.filter(eventob__isnull=False)
-    #serializer = AlertasSerializer(alertas, many=True)
     datosAlerta=[]
-    for alerta in alertas:
-        #print(alerta.evento_id)
+    for alerta in alertas: 
         datos=getEstacionesByEventoMacroById(alerta.evento_id)
-        #print(datos["clasificacion"])
         clasificacion=datos["clasificacion"]
         volcan_id=datos["volcanid"]
-        nombreVolcan=getNombreVolcanById(volcan_id)
-        #print(nombreVolcan.) 
+        nombreVolcan=getNombreVolcanById(volcan_id) 
         ml=getMlById(alerta.evento_id)
-        #print(ml)
-        json={"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"tiempo":alerta.created_at}
         datosAlerta.append({"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"tiempo":alerta.created_at}) 
         print (datosAlerta)
-        #print(json)
-    #return HttpResponse(alertas, status=status.HTTP_200_OK)
-    
-    qs_json = serializers.serialize('json', alertas)
     
     return Response(datosAlerta,status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def guardarAlertas(request):
+    eventoLocalizado=getAllLocalizadoByMl()
+    for evento in eventoLocalizado:
+        #alertas= AlertasModel(evento=e,)
+        print(evento["ml"])
+        print(evento["evento_macro_id"])
+        
+        alerta= AlertasModel(evento='20171212_165915.512')
+        alerta.save()
+    return Response(eventoLocalizado,status=status.HTTP_200_OK)
+
+
 # Create your views here.
 

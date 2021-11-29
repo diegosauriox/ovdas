@@ -11,4 +11,5 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('obtenerAlertas/', views.obtenerAlertas),
+    path('guardarAlertas/',views.guardarAlertas)
 ]

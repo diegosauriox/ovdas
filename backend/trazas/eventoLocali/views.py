@@ -42,6 +42,10 @@ def getMlById(id):
     #print(localizado.ml)
     return localizado.ml
 
+def getAllLocalizadoByMl():
+    localizacionesMl=EventoLocalizadoModel.objects.values("evento_macro_id","ml","created_at")
+    return localizacionesMl
+
 @api_view(['POST'])
 def create(request):
     serializer = EventoLocaliSerializer(data=request.data)

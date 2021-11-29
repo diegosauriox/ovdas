@@ -16,4 +16,5 @@ urlpatterns = [
     path('updateLocalizacion/<id>', views.update),
     path('lastItemMaxLocali/', views.loadLastItem),
     path('dataPDF/', views.dataToPdf)
+
 ]
