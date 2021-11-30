@@ -49,11 +49,12 @@ def guardarAlertas(request):
         #alertas= AlertasModel(evento=e,)
         print(evento["ml"])
         print(evento["evento_macro_id"])
-        
-        alerta= AlertasModel(evento='20171212_165915.512')
+        id = 20171212_165915.512
+        alerta = AlertasModel(evento= id)
         alerta.save()
     return Response(eventoLocalizado,status=status.HTTP_200_OK)
 
-
-# Create your views here.
-
+def createAlertas(id):
+    alerta = AlertasModel(evento=id)
+    alerta.save()
+    return True

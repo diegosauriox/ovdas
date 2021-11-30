@@ -27,6 +27,8 @@ from identificacion.views import updateProbConf, validador as existIden
 
 from datetime import datetime, date, datetime
 from django.utils import timezone
+from criterioAlerta import views as criterioAlerta
+from alertas import views as alerta
 
 from sqlalchemy.sql.elements import conv
 
@@ -148,6 +150,9 @@ def loadLocalizacionesCSV(request):
                                 datetime.now(timezone.utc).timestamp()
                                 )
                                )
+
+                if(row.ml >= criterioAlerta.getUmbralVT(getIdVolcanByEventoMacho(row.code_macroevent))):
+                    alerta.createAlertas(row.code_macroevent)
                 connection.commit()
     return Response('funciono', status=status.HTTP_200_OK)
 
