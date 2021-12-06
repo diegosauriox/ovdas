@@ -10,17 +10,17 @@ import datetime
 import numpy as np
 import configparser
 # Import module
-#import jpype as jp
+import jpype as jp
 
 # Enable Java imports
-#import jpype.imports
+import jpype.imports
 
 # Pull in types
 #from jpype.types import *
-#from pyrocko import trace
+from pyrocko import trace
 # Launch the JVM
 
-def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=80):
+def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
     
     for station in station_list:
         #try:
@@ -29,11 +29,11 @@ def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','
    
             
 #        except:
-#            print("Error en estacion "+station)
+#            print("Error en estacion "+station)server_ip
         
     
     return str_final
-def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='190.160.164.51',port=80):
+def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
     try:
         jp.startJVM(classpath=['/home/diego/Escritorio/ovdas/backend/trazas/waves/usgs.jar'])
     except:

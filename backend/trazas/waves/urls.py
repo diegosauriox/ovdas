@@ -9,6 +9,6 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    #path('createWave/', views.create),
+    path('createWave/', views.create),
     #path('algo/', views.algo),
 ]

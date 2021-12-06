@@ -100,8 +100,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ufro_ovdas_v1',
-        'USER': 'root',
-        'PASSWORD':'',
+        'USER': 'diego',
+        'PASSWORD':'beyblade1',
         'HOST': 'localhost',
         'PORT': '3306'
     }
