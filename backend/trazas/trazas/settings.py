@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+CRONJOBS = [
+    ('*/1 * * * * ', 'alertas.cron.subirAlertas')
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,10 +50,12 @@ INSTALLED_APPS = [
     'datasetexternal.apps.DatasetexternalConfig',
     'identificacion.apps.IdentificacionConfig',
     'volcan.apps.VolcanConfig',
+    'alertas.apps.AlertasConfig',
     'rest_framework',
     'django_seed',
     'corsheaders',
-    'waves.apps.WavesConfig'
+    'waves.apps.WavesConfig',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [

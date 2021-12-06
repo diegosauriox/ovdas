@@ -10,11 +10,6 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    path('localizaciones/', views.index),
-    path('createLocalizacion', views.create),
-    path('deleteLocalizacion/<id>', views.destroy),
-    path('updateLocalizacion/<id>', views.update),
-    path('lastItemMaxLocali/', views.loadLastItem),
-    path('dataPDF/', views.dataToPdf)
-
+    path('obtenerAlertas/', views.obtenerAlertas),
+    path('guardarAlertas/',views.guardarAlertas)
 ]

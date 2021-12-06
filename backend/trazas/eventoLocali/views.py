@@ -37,6 +37,14 @@ def dataToPdf(request):
     #serializer = EventoLocaliSerializer(localizaciones, context=serializer_context, many=True)
     return Response(localizaciones, status=status.HTTP_200_OK)
 
+def getMlById(id):
+    localizado =EventoLocalizadoModel.objects.filter(evento_macro_id=id).first()
+    #print(localizado.ml)
+    return localizado.ml
+
+def getAllLocalizadoByMl():
+    localizacionesMl=EventoLocalizadoModel.objects.values("evento_macro_id","ml","created_at")
+    return localizacionesMl
 
 @api_view(['POST'])
 def create(request):

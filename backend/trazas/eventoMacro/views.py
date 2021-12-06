@@ -27,9 +27,6 @@ def index(request):
     eventoMacros = EventoMacroModel.objects.values("id_evento_macro","inicio")
     #eventoMacros = EventoMacroModel.objects.select_related("id_evento_macro")
     #evento=EventoLocalizadoModel.objects.all()
-    
-
-
     print(eventoMacros)
     serializer = EventoMacroSerializer(eventoMacros, many=True)
 
@@ -41,6 +38,16 @@ def getEstacionesByEventoMacro(request,id):
     estaciones= estacionByVolcan(eventoMacro.volcan_id)
     return Response(estaciones, status=status.HTTP_200_OK)
 
+
+def getEstacionesByEventoMacroById(id):
+    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
+    
+    datos= {"volcanid":eventoMacro.volcan_id, "clasificacion": eventoMacro.clasificacion}
+    return datos
+
+def getEventoMacroId(id):
+    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
+    return eventoMacro
 
 @api_view(['POST'])
 def create(request):
@@ -99,4 +106,10 @@ def updateOnlyEtiqueta(data, id):
         return True
     except ObjectDoesNotExist as e:
         False
+
+
+def getIdVolcanByEventoMacho(id):
+    eventoMacro = EventoMacroModel.objects.get(evento_macro_id=id)
+    # datos = {"volcanid": eventoMacro.volcan_id, "clasificacion": eventoMacro.clasificacion}
+    return eventoMacro.volcan_id
 

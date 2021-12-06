@@ -32,4 +32,5 @@ urlpatterns = [
     path('api/', include('identificacion.urls')),
     path('api/', include('volcan.urls')),
     path('api/', include('waves.urls')),
+    path('api/', include('alertas.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
