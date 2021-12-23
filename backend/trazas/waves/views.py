@@ -3,9 +3,9 @@ import time
 import datetime
 import numpy as np
 from waves.traces_ufro import *
-#from pyrocko import trace
-#import pyrocko.gui as gui
-#import pyrocko
+from pyrocko import trace
+import pyrocko.gui as gui
+import pyrocko
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
@@ -21,7 +21,9 @@ from mysql.connector import Error
 import json
 from eventoMacro.models import EventoMacroModel
 from estaciones.views import estacioneByVolcan as estacionByVolcan
+import os 
 
+ruta=os.getcwd()+"/Estaciones_Pyrocko.pf"
 
 
 @api_view(['GET'])
@@ -43,7 +45,7 @@ def create(request):
     fecha='11:57:59'
     nombre='FRE'
     station_list=[nombre]
-    stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
+    stattion=pyrocko.model.station.load_stations(ruta)
     network='99'
 
     """ Define tiempo """
@@ -87,7 +89,7 @@ def recorrerEstaciones(estaciones,hora):
     for estacion in estaciones:
         nombre = estacion.estacion_id
         station_list=[nombre]
-        stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
+        stattion=pyrocko.model.station.load_stations(ruta)
         network='99'
         dt1=datetime.datetime.strptime(hora,'%Y-%m-%d %H:%M:%S')
         posix_dt1 = time.mktime(dt1.timetuple())-30

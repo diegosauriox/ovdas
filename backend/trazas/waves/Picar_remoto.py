@@ -5,24 +5,27 @@ from traces_ufro import *
 from pyrocko import trace
 import pyrocko.gui as gui
 import pyrocko
+import os 
 
+ruta=os.getcwd()+"/Estaciones_Pyrocko.pf"
+#print(ruta)
 station_list=['FRE']
-
-stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
+fecha='11:57:59'
+stattion=pyrocko.model.station.load_stations(ruta)
 network='99'
 
 
-
-
-
 """ Define tiempo """
-date1='2020-02-18 00:06:00'
-date1='2020-03-25 11:57:59'
+#date1='2020-02-18 00:06:00'
+#date1='2020-03-25 11:57:59'
+#date2='2020-02-18 00:10:00'
+date1='2019-12-19 '+ fecha
+#date1='2020-03-25 11:57:59'
 #date2='2020-02-18 00:10:00'
 dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
 #dt2=datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
-posix_dt1 = time.mktime(dt1.timetuple())-30
-posix_dt2 = posix_dt1+240 #time.mktime(dt2.timetuple())
+posix_dt1 = time.mktime(dt1.timetuple())-10 
+posix_dt2 = posix_dt1+0.10 #time.mktime(dt2.timetuple())
 
 st_final=[]
 """ Carga trazas de forma remota """
@@ -31,9 +34,7 @@ datosx=[]
 datosY=[]
 #datosX=st_final[0].get_xdata()
 #datosY=st_final[0].get_ydata()
-print(st_final[0])
-
-
+print(st_final[0].get_ydata())
 
 
 
