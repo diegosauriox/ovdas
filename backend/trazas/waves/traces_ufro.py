@@ -19,6 +19,10 @@ import jpype.imports
 #from jpype.types import *
 from pyrocko import trace
 # Launch the JVM
+import os
+
+rutaJAR=os.getcwd()+"/usgs.jar"
+rutaGAIN=os.getcwd()+"/Gain_esta.conf"
 
 def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
     
@@ -35,7 +39,7 @@ def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','
     return str_final
 def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
     try:
-        jp.startJVM(classpath=['/home/diego/Escritorio/ovdas/backend/trazas/waves/usgs.jar'])
+        jp.startJVM(classpath=[rutaJAR])
     except:
         print("JVM running")
     from gov.usgs.winston.server import WWSClient
@@ -86,7 +90,7 @@ def create_trace(station,network,compo_uniq,junk,y):
     
     return st
 
-def read_values(esta,comp,file_gain='/home/diego/Escritorio/ovdas/backend/trazas/waves/Gain_esta.conf'):
+def read_values(esta,comp,file_gain=rutaGAIN):
     """ Programa que lee estaciones y sus ganancias
     Programado por Ivo fustos, 2020
     """

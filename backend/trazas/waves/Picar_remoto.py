@@ -5,10 +5,13 @@ from traces_ufro import *
 from pyrocko import trace
 import pyrocko.gui as gui
 import pyrocko
+import os 
 
+ruta=os.getcwd()+"/Estaciones_Pyrocko.pf"
+#print(ruta)
 station_list=['FRE']
 fecha='11:57:59'
-stattion=pyrocko.model.station.load_stations('/home/diego/Escritorio/ovdas/backend/trazas/waves/Estaciones_Pyrocko.pf')
+stattion=pyrocko.model.station.load_stations(ruta)
 network='99'
 
 
