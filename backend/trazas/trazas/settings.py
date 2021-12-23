@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'volcan.apps.VolcanConfig',
     'alertas.apps.AlertasConfig',
     'criterioAlerta.apps.CriterioalertaConfig',
+    'paramDiscrFisc.apps.ParamDiscrFiscConfig',
     'rest_framework',
     'django_seed',
     'corsheaders',
