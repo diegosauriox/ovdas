@@ -9,6 +9,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('volcanes/', views.index),
+    path('volcan5/', views.show),
     path('createVolcan', views.create),
     path('deleteVolcan/<id>', views.destroy),
     path('updateVolcan/<id>', views.update),

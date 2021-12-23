@@ -1,3 +1,5 @@
+from typing import re
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
@@ -13,6 +15,8 @@ import mysql.connector
 from django.core import serializers
 from mysql.connector import Error
 import json
+from volcan.models import VolcanModel
+from volcan.serializers import VolcanSerializer
 
 # Create your viewss here.
 @api_view(['GET'])
@@ -21,13 +25,13 @@ def index(request):
         'request': Request(request),
     }
     estaciones = EstacionModel.objects.all()
-    estaciones = EstacionModel.objects.select_related('volcan')
+    #estaciones = EstacionModel.objects.select_related('volcan')
     print(estaciones.query)
-    serializer = EstacionSerializer(estaciones, context=serializer_context, many=True)
+    serializer = EstacionSerializer(estaciones, many=True)
 
     #return Response(serializer.data, status=status.HTTP_200_OK)
     qs_json = serializers.serialize('json', estaciones)
-    return HttpResponse(qs_json, content_type='application/json')
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def estacioneByVolcan(request, id):
@@ -47,14 +51,22 @@ def estacioneByVolcan(request, id):
 
 @api_view(['POST'])
 def create(request):
+    vol = VolcanModel.objects.get(volcan_id=request.data['volcan_id'])
     serializer = EstacionSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        #print(serializer.data)
+        serializer.save(volcan=vol)
+        return getAll()
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def show(id):
-    estacion = EstacionModel.objects.get(id=id)
+def getAll():
+    estaciones = EstacionModel.objects.all()
+    serializer = EstacionSerializer(estaciones, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def show(request):
+    estacion = EstacionModel.objects.filter(volcan_id=id)
     return  HttpResponse(estacion)
 def estacioneByVolcan(id):
     estaciones = EstacionModel.objects.values('estacion_id', 'nombre','latitud','longitud').filter(volcan_id=id)
@@ -63,11 +75,11 @@ def estacioneByVolcan(id):
 @api_view(["PUT"])
 def update(request, id):
     try:
-        estacionAux = EstacionModel.objects.get(id_estacion=id)
+        estacionAux = EstacionModel.objects.get(estacion_id=id)
         serializer = EstacionSerializer(data=request.data, instance =estacionAux)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return getAll()
         else:
             return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except ObjectDoesNotExist as e:
@@ -77,8 +89,9 @@ def update(request, id):
 @api_view(["DELETE"])
 def destroy(request, id):
     try:
-        estacion = EstacionModel.objects.get(id_estacion=id)
+        estacion = EstacionModel.objects.get(estacion_id=id)
         estacion.delete()
-        return Response(status=status.HTTP_200_OK)
+        return getAll()
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, safe=False, status=status.HTTP_404_NOT_FOUND)
+
