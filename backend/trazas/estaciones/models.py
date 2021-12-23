@@ -5,6 +5,7 @@ class EstacionModel(models.Model):
     estacion_id = models.CharField(primary_key=True, max_length=3)
     nombre = models.CharField(max_length=45)
     sensor = models.CharField(max_length=45, blank=True, null=True)
+    prioridad = models.IntegerField(blank=True, null=True)
     digitalizador = models.CharField(max_length=45)
     periodo = models.IntegerField(blank=True, null=True)
     latitud = models.CharField(max_length=45)
@@ -13,6 +14,9 @@ class EstacionModel(models.Model):
     volcan = models.ForeignKey(VolcanModel, on_delete=models.CASCADE)
     distancia_crater = models.FloatField(blank=True)
     calibracion = models.FloatField(blank=True)
+    poles = models.TextField(blank=True, null=True)
+    zeros = models.TextField(blank=True, null=True)
+    gain = models.FloatField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

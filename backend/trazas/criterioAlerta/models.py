@@ -8,7 +8,7 @@ class CriterioAlertaModel(models.Model):
     volcan = models.ForeignKey(VolcanModel, on_delete=models.CASCADE)
     cantidad_vt = models.IntegerField()
     cantidad_lp = models.IntegerField()
-    umbral_vt = models.FloatField()
+    umbral_ml = models.FloatField()
     umbral_dr = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -38,9 +38,12 @@ def create(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
 def show(id):
-    estacion = VolcanModel.objects.get(cod_event=id)
-    return HttpResponse(estacion)
+    estacion = VolcanModel.objects.get(volcan_id='99')
+    serializer = VolcanSerializer(estacion, many=False)
+
+    return Response(serializer.data)
 
 
 @api_view(["PUT"])
@@ -62,8 +65,8 @@ def update(request, id):
 @api_view(["DELETE"])
 def destroy(request, id):
     try:
-        estacion = VolcanModel.objects.get(volcan_id=id)
-        estacion.delete()
+        volcan = VolcanModel.objects.get(volcan_id=id)
+        volcan.delete()
         volcanes = VolcanModel.objects.all()
         serializer = VolcanSerializer(volcanes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

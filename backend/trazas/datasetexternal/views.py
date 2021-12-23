@@ -164,9 +164,7 @@ def loadIdentificacionSenalCSV(request):
     ser.to_csv('datasetexternal/filesDataSet/identificiones.csv', index=1, header=False)
     data = pd.read_csv('datasetexternal/filesDataSet/identificiones.csv', engine='python', sep=';', encoding='utf-8',
                        error_bad_lines=False)
-
     df = pd.DataFrame(data, columns=['file1,"cod_event', 'cod_event_in', 'volcan', 'est', 'componente', 'id_cl', 'fecha_pick', 'analista', 'snr', 'label_event', 'c_label', 'descripcion', 'prom_ruido_fondo', 'inicio', 'fin', 'largo', 'prob_vt', 'prob_lp', 'prob_tr', 'prob_ot'])
-
     print(df)
     # Insert DataFrame to Table
     for row in df.itertuples():
@@ -207,6 +205,34 @@ def loadIdentificacionSenalCSV(request):
             connection.commit()
 
     return Response('funciono', status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def updateIdentificacionSenalCSV(request):
+    file = request.body
+    # jsonfile = json.loads(file)
+    ser = pd.read_json(file, lines=False, typ='series')
+    ser.to_csv('datasetexternal/filesDataSet/identificiones.csv', index=1, header=False)
+    data = pd.read_csv('datasetexternal/filesDataSet/identificiones.csv', engine='python', sep=';', encoding='utf-8',
+                       error_bad_lines=False)
+    df = pd.DataFrame(data, columns=['file1,"cod_event', 'inicio', 'fin'])
+    # Insert DataFrame to Table
+    connection = mysql.connector.connect(host='172.22.131.68',
+                                         database='ufro_ovdas_v1',
+                                         user='root',
+                                         password='ovdas123')
+    cursor = connection.cursor()
+    for row in df.itertuples():
+        if(existIden(row[1])):
+
+            sql_update_query = """Update identificacion_senal set inicio = %s, fin = %s where cod_event = %s"""
+            parametros = (row.inicio, row.fin, row[1])
+            cursor.execute(sql_update_query, parametros)
+
+            cursor.execute(sql_update_query, parametros)
+            print('actualiaza 1 linea')
+    connection.commit()
+
+    return Response('Actualizado!!!', status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def loadRegistroCSV(request):
