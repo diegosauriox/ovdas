@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 import time
-import datetime
+from datetime import datetime
 import numpy as np
 from waves.traces_ufro import *
 from pyrocko import trace
@@ -23,7 +23,7 @@ from eventoMacro.models import EventoMacroModel
 from estaciones.views import estacioneByVolcan as estacionByVolcan
 import os 
 
-ruta=os.getcwd()+"/Estaciones_Pyrocko.pf"
+ruta=os.getcwd()+"/waves/Estaciones_Pyrocko.pf"
 
 
 @api_view(['GET'])
@@ -38,24 +38,32 @@ def algo(request):
 
 
 @api_view(['GET'])
-def create(request):
+def create(request,fecha):
     
     # nombre=str(request.data.get('nombre'))
     # fecha=str(request.data.get('hora_inicio'))
-    fecha='11:57:59'
+    #fecha='11:57:59'
+
+    fecha=fecha
+    #print(fecha)
+
     nombre='FRE'
     station_list=[nombre]
     stattion=pyrocko.model.station.load_stations(ruta)
     network='99'
 
     """ Define tiempo """
-    date1='2020-02-18 '+ fecha
+    #date1='2020-02-18 '+ fecha
+        
     #date1='2020-03-25 11:57:59'
     #date2='2020-02-18 00:10:00'
-    dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
+    dt1=datetime.datetime.strptime(fecha[:19],'%Y-%m-%dT%H:%M:%S')
+    
+    #dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
     #dt2=datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
+    
     posix_dt1 = time.mktime(dt1.timetuple())-30 
-    posix_dt2 = posix_dt1+0.10 #time.mktime(dt2.timetuple())
+    posix_dt2 = posix_dt1+120 #time.mktime(dt2.timetuple())
 
     st_final=[  ]
     """ Carga trazas de forma remota """

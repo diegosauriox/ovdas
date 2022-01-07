@@ -21,8 +21,8 @@ from pyrocko import trace
 # Launch the JVM
 import os
 
-rutaJAR=os.getcwd()+"/usgs.jar"
-rutaGAIN=os.getcwd()+"/Gain_esta.conf"
+rutaJAR=os.getcwd()+"/waves/usgs.jar"
+rutaGAIN=os.getcwd()+"/waves/Gain_esta.conf"
 
 def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
     
