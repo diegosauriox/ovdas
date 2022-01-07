@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import AlertasModel
 from django.core import serializers
-from .serializers import AlertasSerializer
+from .serializers import AlertasSerializer, AlertasSerializer2
 """ from .serializers import EventoMacroSerializer
  """
 from eventoMacro.views import getEstacionesByEventoMacroById as getEstacionesByEventoMacroById
@@ -42,6 +42,13 @@ def obtenerAlertas(request):
         print (datosAlerta)
     
     return Response(datosAlerta,status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def getAllAlertas(request):
+    alertas = AlertasModel.objects.all()
+    serializer= AlertasSerializer2(alertas, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def guardarAlertas(request):

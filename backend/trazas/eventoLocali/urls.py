@@ -15,6 +15,8 @@ urlpatterns = [
     path('deleteLocalizacion/<id>', views.destroy),
     path('updateLocalizacion/<id>', views.update),
     path('lastItemMaxLocali/', views.loadLastItem),
-    path('dataPDF/', views.dataToPdf)
+    path('dataPDF/', views.dataToPdf),
+    path('getLocalizacionesAlerta/', views.getLocalizacionByAlertas),
+    
 
 ]

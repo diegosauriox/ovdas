@@ -6,8 +6,11 @@ from requests import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+from alertas.serializers import AlertasSerializer2
 from .models import EventoLocalizadoModel
 from .serializers import EventoLocaliSerializer, EventoLocaliSerializer2
+from alertas.models import AlertasModel
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 from django.core import serializers
@@ -16,6 +19,11 @@ import json
 
 
 # Create your viewss here.
+
+
+
+
+
 @api_view(['GET'])
 def index(request):
     serializer_context = {
@@ -27,6 +35,18 @@ def index(request):
     return Response(localizaciones, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+def getLocalizacionByAlertas(request):
+    alertas = AlertasModel.objects.all()
+    serializer= AlertasSerializer2(alertas, many=True)
+    localizadosByAlertas=[]
+    for alerta in serializer.data:
+        localizado=EventoLocalizadoModel.objects.filter(evento_macro_id=alerta["evento_id"]).first()
+        localizadosByAlertas.append(localizado)
+    localizacionSerializer=EventoLocaliSerializer(localizadosByAlertas,many=True)
+    return Response(localizacionSerializer.data,status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
 def dataToPdf(request):
     serializer_context = {
         'request': Request(request),
@@ -36,6 +56,8 @@ def dataToPdf(request):
     print(localizaciones) 
     #serializer = EventoLocaliSerializer(localizaciones, context=serializer_context, many=True)
     return Response(localizaciones, status=status.HTTP_200_OK)
+
+
 
 def getMlById(id):
     localizado =EventoLocalizadoModel.objects.filter(evento_macro_id=id).first()

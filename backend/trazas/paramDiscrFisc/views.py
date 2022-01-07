@@ -1,3 +1,4 @@
+from eventoMacro.views import getEventoMacroId
 from .models import ParmFisDiscretoModel
 from eventoMacro.models import EventoMacroModel
 from .serializers import ParamDiscrFisiSerializer
@@ -9,7 +10,9 @@ from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 
-
+from criterioAlerta.views import getUmbralDR as getUmbralDR
+from criterioAlerta.views import getUmbralML as getUmbralML
+from alertas.models import AlertasModel
 
 def getAll():
     parametro = ParmFisDiscretoModel.objects.all()
@@ -23,8 +26,19 @@ def recorrerParametros(request):
         'request': Request(request),
     }
     parametros = getAll()
-    print(parametros[0]['evento_macro'])
-    return Response(parametros,status.HTTP_200_OK)
+    for parametro in parametros:
+        
+        criterioDr=getUmbralDR(parametro["evento_macro"]["volcan_id"])
+        criterioMl=getUmbralML(parametro["evento_macro"]["volcan_id"])
+        if(parametro["ml"]>=criterioMl or parametro["dr_c"]>=criterioDr):
+            eventoMacro=getEventoMacroId(parametro["evento_macro"]["evento_macro_id"])  
+            alerta= AlertasModel(evento=eventoMacro)
+            alerta.save()
+
+
+    return Response(parametros,status=status.HTTP_200_OK)
+    # for parametro in parametros:
+      
     #for parametro in parametros:
     #    evento_macro_id = parametro.evento_macro_id
     #    print(evento_macro_id)
