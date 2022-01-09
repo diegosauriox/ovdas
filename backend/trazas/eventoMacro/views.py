@@ -9,6 +9,7 @@ from rest_framework import status
 from .models import EventoMacroModel
 from .serializers import EventoMacroSerializer
 from estaciones.views import estacioneByVolcan as estacionByVolcan
+from eventoLocali.models import EventoLocalizadoModel
 
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
@@ -20,17 +21,19 @@ import json
 # Create your viewss here.
 @api_view(['GET'])
 def index(request):
-    serializer_context = {
-        'request': Request(request),
-    }
-    
-    eventoMacros = EventoMacroModel.objects.values("id_evento_macro","inicio")
-    #eventoMacros = EventoMacroModel.objects.select_related("id_evento_macro")
-    #evento=EventoLocalizadoModel.objects.all()
-    print(eventoMacros)
-    serializer = EventoMacroSerializer(eventoMacros, many=True)
+    eventoMacros = EventoMacroModel.objects.all()[:5]
+    eventoMacros2 = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=True).values_list('evento_macro_id')[:5]
+    datos = []
+    for evento in eventoMacros2:
+        locali = EventoLocalizadoModel.objects.get(evento_macro_id=evento)
+        #print(evento.eventolocalizadomodel)
+        datos.append(locali)
+    print(eventoMacros2.query)
 
-    return Response(eventoMacros, status=status.HTTP_200_OK)
+    #serializer = EventoMacroSerializer(eventoMacros, many=True)
+    #data = serializers.serialize('json', eventoMacros2)
+    return HttpResponse(eventoMacros2, content_type="application/json")
+    #return JsonResponse(eventoMacros2, safe=False)
 
 @api_view(['GET'])
 def getEstacionesByEventoMacro(request,id):

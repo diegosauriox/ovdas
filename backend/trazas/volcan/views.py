@@ -78,7 +78,7 @@ from django.shortcuts import render
 def getAllEstacioneByVolcan(request):
 
     estacions = VolcanModel.objects.filter(volcan_id__isnull=False).values_list('nombre', 'altura')
-    estacions.objects.create('nombre')
+    #estacions.objects.create('nombre')
     #for estacion in estacions:
      #   estacion.nombre = 'jas'
     return Response(estacions, status=status.HTTP_200_OK)
