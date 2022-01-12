@@ -9,15 +9,16 @@ from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 
-def getUmbralVT(volcan_id):
-    criterio = CriterioAlertaModel.objects.get(volcan_id=volcan_id)
-    #datos = {"umbral_vt": criterio.umbral_vt}
-    return criterio.umbral_vt
+
 
 def getUmbralDR(volcan_id):
     criterio = CriterioAlertaModel.objects.get(volcan_id=volcan_id)
     #datos = {"umbral_vt": criterio.umbral_vt}
     return criterio.umbral_dr
+def getUmbralML(volcan_id):
+    criterio = CriterioAlertaModel.objects.get(volcan_id=volcan_id)
+    #datos = {"umbral_vt": criterio.umbral_vt}
+    return criterio.umbral_ml
 
 @api_view(['GET'])
 def index(request):
