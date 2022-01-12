@@ -58,6 +58,8 @@ def executeRegistros(datos):
     t_ini = str(fechaIncio)
     t_fin = str(fechaFin)
 
+
+
     cfgfile = open('algoritmos/' + "clasi.conf", 'w+')
 
     Config = configparser.ConfigParser()
@@ -90,9 +92,73 @@ def executeLocali(datos):
     cfgfile.close()
     return Response(status=status.HTTP_200_OK)
 
+def executeAlgoEtiqueta(inicio, fin):
+    fechaIncio =  inicio
+    fechaFin = fin
+
+    ip = '127.0.0.1'
+    port = '3306'
+    user = 'benja'
+    password = ''
+    db = 'ufro_ovdas_v1'
+    table_iden = 'identificacion_senal'
+
+    #[Temporal_request]
+    # string como identificacion tanto para t_ini y t_fin
+    t_ini = str(fechaIncio)
+    t_fin = str(fechaFin)
+
+    #[Confiabilidad_estaciones]
+    FRE = '0.99'
+    SHG = '0.98'
+    LBN = '0.97'
+    PTZ = '0.96'
+    NBL = '0.95'
+    CHS = '0.94'
+    FU2 = '0.93'
+    PHI = '0.92'
+    PLA = '0.91'
+    ROB = '0.90'
+    print('llega a cambiar archivo')
+    #cfgfile = open('algoritmos/UpdateEtiqueta/' + "clasi.conf", 'w+')
+    cfgfile = open(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/algoritmos/UpdateEtiqueta/' + 'clasi.conf', 'w+')
+    print(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/algoritmos/UpdateEtiqueta/')
+    # add the settings to the structure of the file, and lets write it out...i
+    Config = configparser.ConfigParser()
+    Config.add_section('Database')
+    Config.set('Database', 'ip', ip)
+    Config.set('Database', 'port', port)
+    Config.set('Database', 'user', user)
+    Config.set('Database', 'password', password)
+    Config.set('Database', 'db', db)
+    Config.set('Database', 'table_iden', table_iden)
+
+    Config.add_section('Temporal_request')
+    Config.set('Temporal_request', 't_ini', t_ini)
+    Config.set('Temporal_request', 't_fin', t_fin)
+
+    Config.add_section('Confiabilidad_estaciones')
+    Config.set('Confiabilidad_estaciones', 'FRE', FRE)
+    Config.set('Confiabilidad_estaciones', 'SHG', SHG)
+    Config.set('Confiabilidad_estaciones', 'LBN', LBN)
+    Config.set('Confiabilidad_estaciones', 'PTZ', PTZ)
+    Config.set('Confiabilidad_estaciones', 'NBL', NBL)
+    Config.set('Confiabilidad_estaciones', 'CHS', CHS)
+    Config.set('Confiabilidad_estaciones', 'FU2', FU2)
+    Config.set('Confiabilidad_estaciones', 'PHI', PHI)
+    Config.set('Confiabilidad_estaciones', 'PLA', PLA)
+    Config.set('Confiabilidad_estaciones', 'ROB', ROB)
+
+    Config.write(cfgfile)
+    cfgfile.close()
+
+    if Clasificador_Multiestacion_Final.executeMain():
+        return True
+    else:
+        return False
 
 def executeAlgoAlejandro(datos):
-    print(datos)
+
     date_time_obj = datetime.strptime(datos['fechaIni'][:19], '%Y-%m-%dT%H:%M:%S')
     fechaIncio =  date_time_obj.toordinal()
     date_time_obj = datetime.strptime(datos['fechaFin'][:19], '%Y-%m-%dT%H:%M:%S')
@@ -133,7 +199,6 @@ def executeAlgoAlejandro(datos):
     Config.set('Database', 'password', password)
     Config.set('Database', 'db', db)
     Config.set('Database', 'table_iden', table_iden)
-
 
     Config.add_section('Temporal_request')
     Config.set('Temporal_request', 't_ini', t_ini)
