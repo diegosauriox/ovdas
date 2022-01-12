@@ -163,7 +163,7 @@ def executeAlgoAlejandro(datos):
     fechaIncio =  date_time_obj.toordinal()
     date_time_obj = datetime.strptime(datos['fechaFin'][:19], '%Y-%m-%dT%H:%M:%S')
     fechaFin = date_time_obj.toordinal()
-
+    #server
     ip = '143.198.234.8'
     port = '3306'
     user = 'teamRegistro'
