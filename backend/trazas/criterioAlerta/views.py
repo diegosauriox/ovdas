@@ -10,7 +10,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 
 
-
 def getUmbralDR(volcan_id):
     criterio = CriterioAlertaModel.objects.get(volcan_id=volcan_id)
     #datos = {"umbral_vt": criterio.umbral_vt}

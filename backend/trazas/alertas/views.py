@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
 from numpy import array
+import numpy as np
 from django.http import JsonResponse, HttpResponse
 from requests import Request
 from rest_framework.decorators import api_view
@@ -40,8 +41,8 @@ def obtenerAlertas(request):
         ml=getMlById(alerta.evento_id)
         datosAlerta.append({"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"tiempo":alerta.created_at}) 
         print (datosAlerta)
-    
-    return Response(datosAlerta,status=status.HTTP_200_OK)
+    reverse=np.flip(datosAlerta)
+    return Response(reverse,status=status.HTTP_200_OK)
 
 @api_view(["GET"])
 def getAllAlertas(request):

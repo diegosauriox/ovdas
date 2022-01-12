@@ -5,4 +5,4 @@ from .models import AlgoritmoClasifiacionModel
 class Algoritmo_Clasi_Serializer(serializers.ModelSerializer):
     class Meta:
         model = AlgoritmoClasifiacionModel
-        fields = ('id_algoritmo_clasi', 'nombre', 'descripcion', 'created_at', 'updated_at')
+        fields = ('algoritmo_clasi_id', 'nombre', 'descripcion', 'created_at', 'updated_at')

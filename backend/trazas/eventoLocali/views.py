@@ -16,7 +16,7 @@ import mysql.connector
 from django.core import serializers
 from mysql.connector import Error
 import json
-
+import numpy as np
 
 # Create your viewss here.
 
@@ -42,7 +42,9 @@ def getLocalizacionByAlertas(request):
     for alerta in serializer.data:
         localizado=EventoLocalizadoModel.objects.filter(evento_macro_id=alerta["evento_id"]).first()
         localizadosByAlertas.append(localizado)
-    localizacionSerializer=EventoLocaliSerializer(localizadosByAlertas,many=True)
+    reverse=np.flip(localizadosByAlertas)
+    localizacionSerializer=EventoLocaliSerializer(reverse,many=True)
+
     return Response(localizacionSerializer.data,status=status.HTTP_200_OK)
 
 

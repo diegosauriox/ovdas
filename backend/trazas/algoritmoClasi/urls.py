@@ -10,9 +10,9 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    path('algoritmosClasi/', views.index),
-    path('createAlgoritmosClasi', views.create),
-    path('deleteAlgoritmosClasi/<id>', views.destroy),
-    path('updateAlgoritmosClasi/<int:id>', views.update)
+    path('algoClasi/', views.index),
+    path('createAlgoClasi', views.create),
+    path('deleteAlgoClasi/<id>', views.destroy),
+    path('updateAlgoClasi/<int:id>', views.update)
 
 ]
