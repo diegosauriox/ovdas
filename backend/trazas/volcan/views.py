@@ -6,6 +6,8 @@ from requests import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+from eventoMacro.views import getEstacionesByEventoMacroById 
 from .models import VolcanModel
 from .serializers import VolcanSerializer
 from django.core.exceptions import ObjectDoesNotExist
@@ -23,6 +25,15 @@ def index(request):
     volcanes = VolcanModel.objects.all()
     serializer = VolcanSerializer(volcanes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def getNombreVolcanByEventoMacroId(request,id):
+    datosVolcan=getEstacionesByEventoMacroById(id)
+    
+    volcan = VolcanModel.objects.get(volcan_id=datosVolcan["volcanid"])
+    return Response(volcan.nombre, status=status.HTTP_200_OK)
+     
+
 
 def getNombreVolcanById(id):
     volcan = VolcanModel.objects.get(volcan_id=id)
