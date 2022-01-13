@@ -15,15 +15,27 @@ import mysql.connector
 from django.core import serializers
 from mysql.connector import Error
 import json
-
+from eventoMacro.models import EventoMacroModel
 
 # Create your viewss here.
 
 
 @api_view(['GET'])
 def PSCoda(request,id):
-    datos=AvistamientoRegistroModel.objects.filter(evento_macro_id=id)
-   
+    serializer_context = {
+        'request': Request(request),
+    }
+    print(id)
+    avistamiento=AvistamientoRegistroModel.objects.filter(evento_macro_id=id)
+    
+    serializer = AvistamientoRegistroSerializer(avistamiento, context=serializer_context,many=True)
+    print(serializer.data[0]["coda"])
+
+    datos=[]
+    datos.append(serializer.data[0]["t_p"])
+    datos.append(serializer.data[0]["t_s"])
+    datos.append(serializer.data[0]["coda"])
+    
     return Response(datos, status=status.HTTP_200_OK)
 
 
