@@ -1,3 +1,4 @@
+from decimal import Context
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
@@ -6,6 +7,7 @@ from requests import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.serializers import Serializer
 from .models import AvistamientoRegistroModel
 from .serializers import AvistamientoRegistroSerializer
 from django.core.exceptions import ObjectDoesNotExist
@@ -16,6 +18,16 @@ import json
 
 
 # Create your viewss here.
+
+
+@api_view(['GET'])
+def PSCoda(request,id):
+    datos=AvistamientoRegistroModel.objects.filter(evento_macro_id=id)
+   
+    return Response(datos, status=status.HTTP_200_OK)
+
+
+
 @api_view(['GET'])
 def index(request):
     serializer_context = {
