@@ -7,7 +7,7 @@ from identificacion.models import IdentificacionSenalModel
 
 class AvistamientoRegistroModel(models.Model):
     cod_event = models.OneToOneField(IdentificacionSenalModel, on_delete=models.CASCADE, db_column='cod_event', primary_key=True)
-    cod_event_in = models.IntegerField()
+    cod_event_in = models.CharField(max_length=20)
     evento_macro = models.ForeignKey(EventoMacroModel, on_delete=models.CASCADE)
     t_p = models.CharField(max_length=45)
     t_s = models.CharField(max_length=45)
@@ -25,8 +25,12 @@ class AvistamientoRegistroModel(models.Model):
     componente = models.CharField(max_length=1)
     snr = models.FloatField()
     tecnica = models.ForeignKey(AlgoritmoPickingModel, on_delete=models.CASCADE)
+<<<<<<< HEAD
     fecha_pick=models.CharField(max_length=60)
     created_at = models.DateField()
+=======
+    created_at = models.DateTimeField()
+>>>>>>> 37a2eb52c16c1bf967dcb7234446f7b04a210402
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:

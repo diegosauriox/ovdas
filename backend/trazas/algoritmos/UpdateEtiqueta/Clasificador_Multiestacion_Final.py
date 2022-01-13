@@ -1,13 +1,17 @@
 import pandas as pd
 import numpy as np
 import mysql.connector
-import configparser
+import configparser,string,sys,os
 # Inicialización
 
 def executeMain():
+    print('entra a algoritmo de alejandro')
     config = configparser.ConfigParser()
-    config.read('./algoritmos/UpdateEtiqueta/clasi.conf')# debe estar en la carpeta de ejecucion
-    print(config.sections())
+    print(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    config.read(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/UpdateEtiqueta/clasi.conf')
+    print(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/UpdateEtiqueta/clasi.conf')
+    #config.read('./algoritmos/UpdateEtiqueta/clasi.conf')# debe estar en la carpeta de ejecucion
+    print('debaeri haber leido los datos')
     fbx = mysql.connector.connect(
     	user=config['Database']['user'],
     	password=config['Database']['password'],
@@ -25,7 +29,7 @@ def executeMain():
             config['Database']['db']+'.'+config['Database']['table_iden']+'.inicio between '+t_ini+' and '+t_fin+';')
     #query1 = ('show columns from identificacion_senal')
     ########################################
-    # Ejecición de aurora
+    # Ejecición de auror.a
     cursor = fbx.cursor()
     cursor.execute(query1)
     result1 = cursor.fetchall()
