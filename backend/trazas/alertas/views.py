@@ -39,7 +39,7 @@ def obtenerAlertas(request):
         volcan_id=datos["volcanid"]
         nombreVolcan=getNombreVolcanById(volcan_id) 
         ml=getMlById(alerta.evento_id)
-        datosAlerta.append({"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"tiempo":alerta.created_at}) 
+        datosAlerta.append({"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"motivo":alerta.motivo,"tiempo":alerta.created_at}) 
         print (datosAlerta)
     reverse=np.flip(datosAlerta)
     return Response(reverse,status=status.HTTP_200_OK)
@@ -53,15 +53,28 @@ def getAllAlertas(request):
 
 @api_view(['GET'])
 def guardarAlertas(request):
+
+    #eventoLocalizado=getAllLocalizadoByMl()[:10000]
+
     eventoLocalizado=getAllLocalizadoByMl()
+    bla=[]
     for evento in eventoLocalizado:
-        #alertas= AlertasModel(evento=e,)
-        #print(type(evento["ml"]))
-        if(evento["ml"]>1):
+        bla.append(evento.ml)
+        """ if(evento.ml>3):
             eventoMacro=getEventoMacroId(evento["evento_macro_id"])  
-            alerta= AlertasModel(evento=eventoMacro)
+            alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad Ml sobre el criterio")
             alerta.save()
-    return Response(eventoLocalizado,status=status.HTTP_200_OK)
+    listaAlertas=AlertasModel.objects.all()
+    serializer=AlertasSerializer2(listaAlertas,many=True) """
+    return Response(bla,status=status.HTTP_200_OK)
+   
+#--------------------------------------
+
+""" @api_view(["GET"])
+def infoLocaliByAlerta(request):
+ """
+
+#-------------------------------------
 
 def createAlertas(id):
     alerta = AlertasModel(evento=id)

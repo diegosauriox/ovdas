@@ -1,3 +1,4 @@
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
@@ -9,7 +10,7 @@ from rest_framework import status
 
 from alertas.serializers import AlertasSerializer2
 from .models import EventoLocalizadoModel
-from .serializers import EventoLocaliSerializer, EventoLocaliSerializer2
+from .serializers import EventoLocaliSerializer, EventoLocaliSerializer2, EventoLocaliSerializer3
 from alertas.models import AlertasModel
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
@@ -32,7 +33,7 @@ def index(request):
     localizaciones = EventoLocalizadoModel.objects.all()
     print(localizaciones)
     serializer = EventoLocaliSerializer(localizaciones, context=serializer_context, many=True)
-    return Response(localizaciones, status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def getLocalizacionByAlertas(request):
@@ -67,7 +68,8 @@ def getMlById(id):
     return localizado.ml
 
 def getAllLocalizadoByMl():
-    localizacionesMl=EventoLocalizadoModel.objects.values("evento_macro_id","ml","created_at")
+    localizacionesMl=EventoLocalizadoModel.objects.filter(tiempo__range=('2017-11-16 00:00:00',"2018-08-23 00:00:00"))
+    #serializer=EventoLocaliSerializer(localizacionesMl,many=True)
     return localizacionesMl
 
 @api_view(['POST'])

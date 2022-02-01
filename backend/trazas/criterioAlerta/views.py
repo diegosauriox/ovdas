@@ -1,3 +1,4 @@
+from os import stat
 from criterioAlerta.models import CriterioAlertaModel
 from volcan.models import VolcanModel
 from .serializers import CriterioAlertaSerializer
@@ -40,6 +41,7 @@ def create(request):
         serializer.save(volcan=vol)
         return getAll()
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 def getAll():
     criterios = CriterioAlertaModel.objects.all()
