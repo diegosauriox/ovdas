@@ -17,6 +17,8 @@ urlpatterns = [
     path('lastItemMaxLocali/', views.loadLastItem),
     path('dataPDF/', views.dataToPdf),
     path('getLocalizacionesAlerta/', views.getLocalizacionByAlertas),
+    path('conteoLocalizaciones/', views.getAllCountLocalizado),
+    
     
 
 ]

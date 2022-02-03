@@ -1,3 +1,4 @@
+from itertools import count
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
@@ -18,6 +19,7 @@ from eventoMacro.views import getEstacionesByEventoMacroById as getEstacionesByE
 from volcan.views import getNombreVolcanById as getNombreVolcanById
 from eventoLocali.views import getMlById as getMlById
 from eventoLocali.views import getAllLocalizadoByMl as getAllLocalizadoByMl
+from eventoLocali.views import getAllCountLocalizado as getAllCountLocalizado
 from eventoMacro.views import getEventoMacroId as getEventoMacroId
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
@@ -70,10 +72,15 @@ def guardarAlertas(request):
    
 #--------------------------------------
 
-""" @api_view(["GET"])
-def infoLocaliByAlerta(request):
- """
-
+@api_view(["GET"])
+def crearAlertaVT(request):
+    countLocalizado=getAllCountLocalizado()
+    if countLocalizado[0]>=30:
+        eventoMacro=getEventoMacroId(countLocalizado[1])
+        alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad VT sobre el criterio")
+        alerta.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT)
 #-------------------------------------
 
 def createAlertas(id):

@@ -52,6 +52,7 @@ def getEventoMacroId(id):
     eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
     return eventoMacro
 
+
 @api_view(['POST'])
 def create(request):
     serializer = EventoMacroSerializer(data=request.data)
