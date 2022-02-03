@@ -72,15 +72,14 @@ def guardarAlertas(request):
    
 #--------------------------------------
 
-@api_view(["GET"])
-def crearAlertaVT(request):
+def crearAlertaVT():
     countLocalizado=getAllCountLocalizado()
     if countLocalizado[0]>=30:
         eventoMacro=getEventoMacroId(countLocalizado[1])
         alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad VT sobre el criterio")
         alerta.save()
-        return Response(status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_204_NO_CONTENT)
+        """ return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT) """
 #-------------------------------------
 
 def createAlertas(id):
