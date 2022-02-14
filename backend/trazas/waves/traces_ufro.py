@@ -16,7 +16,7 @@ import jpype as jp
 import jpype.imports
 
 # Pull in types
-#from jpype.types import *
+from jpype.types import *
 from pyrocko import trace
 # Launch the JVM
 import os
@@ -24,11 +24,11 @@ import os
 rutaJAR=os.getcwd()+"/waves/usgs.jar"
 rutaGAIN=os.getcwd()+"/waves/Gain_esta.conf"
 
-def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
+def read_stations(str_final,st_tiempo,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
     
     for station in station_list:
         #try:
-        str_final=read_traces(str_final,posix_dt1,posix_dt2,station,network)
+        str_final,st_tiempo=read_traces(str_final,st_tiempo,posix_dt1,posix_dt2,station,network)
         
    
             
@@ -36,8 +36,8 @@ def read_stations(str_final,posix_dt1,posix_dt2,station_list,network,comp=['Z','
 #            print("Error en estacion "+station)server_ip
         
     
-    return str_final
-def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
+    return str_final,st_tiempo
+def read_traces(str_final, st_tiempo,posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
     try:
         jp.startJVM(classpath=[rutaJAR])
     except:
@@ -46,23 +46,21 @@ def read_traces(str_final, posix_dt1,posix_dt2,station,network,comp=['Z','E','N'
     wws=WWSClient(server_ip,port);#datos local"localhost",16022
     print("Bajando "+station)
     
-    for i in comp:
-        #try:
-        junk=wws.getRawData(station+i,'HH'+i,'TC',network,posix_dt1,posix_dt2)
-        time.sleep(0.2)
-        value_gain=read_values(station,i)
-        """ Acomoda la traza"""
-        if junk is not None:
-            y=java_int2float(junk.buffer,value_gain)
-            st=create_trace(station,network,i,junk,y)
-            str_final.append(st)
-        #except:
-        #    print('Comp='+i+' in '+station +' not found!')
-    
-        
 
-    
-    return str_final
+    #try:
+    junk=wws.getRawData(station+"Z",'HH'+"Z",'TC',network,posix_dt1,posix_dt2)
+    time.sleep(0.2)
+    value_gain=read_values(station,"Z")
+    """ Acomoda la traza"""
+    if junk is not None:
+        y=java_int2float(junk.buffer,value_gain)
+        st=create_trace(station,network,"Z",junk,y)
+        st_tiempo=np.linspace(junk.getStartTime(),junk.getEndTime(),len(y))
+        str_final.append(st)
+    #except:
+    #    print('Comp='+i+' in '+station +' not found!')
+
+    return str_final,st_tiempo
 
 def java_int2float(yy,value_gain):
     """ Transforma valores de string de java a flotante"""
