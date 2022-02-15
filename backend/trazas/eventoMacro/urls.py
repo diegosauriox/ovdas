@@ -15,5 +15,7 @@ urlpatterns = [
     path('showEventoMacro/<id>', views.show),
     path('deleteEventoMacro/<id>', views.destroy),
     path('updateEventoMacro/<id>', views.update),
-    path('getEstacionesVolcanId/<id>', views.getEstacionesByEventoMacro)
+    path('getEstacionesVolcanId/<id>', views.getEstacionesByEventoMacro),
+    path('resumenDash', views.resumenDash)
+
 ]
