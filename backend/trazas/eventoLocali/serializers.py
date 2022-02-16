@@ -11,4 +11,9 @@ class EventoLocaliSerializer(serializers.ModelSerializer):
 class EventoLocaliSerializer2(serializers.ModelSerializer):
     class Meta:
         model = EventoLocalizadoModel
-        fields = ('evento_loc_id', 'ml')
+        fields = ('evento_macro_id', 'ml')
+        
+class EventoLocaliSerializer3(serializers.ModelSerializer):
+    class Meta:
+        model = EventoLocalizadoModel
+        fields = ('evento_macro_id', 'ml','lat','lon')

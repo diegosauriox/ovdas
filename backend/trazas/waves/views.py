@@ -65,24 +65,41 @@ def create(request,fecha):
     posix_dt1 = time.mktime(dt1.timetuple())-30 
     posix_dt2 = posix_dt1+120 #time.mktime(dt2.timetuple())
 
-    st_final=[  ]
+    st_final=[]
+    st_tiempo=[]
     """ Carga trazas de forma remota """
-    st_final=read_stations(st_final,posix_dt1,posix_dt2,station_list,network)
+    st_final,st_tiempo=read_stations(st_final,st_tiempo,posix_dt1,posix_dt2,station_list,network)
     #0=Z 1=E 2=N
     datosXZ=st_final[0].get_xdata()
     datosYZ=st_final[0].get_ydata()
-    datosXE=st_final[1].get_xdata()
-    datosYE=st_final[1].get_ydata()
-    datosXN=st_final[2].get_xdata()
-    datosYN=st_final[2].get_ydata()
+    #datosXE=st_final[1].get_xdata()
+    #datosYE=st_final[1].get_ydata()
+    #datosXN=st_final[2].get_xdata()
+    #datosYN=st_final[2].get_ydata()
+    datos=[]
     lista=[]
+    tiempos=[]
     lista.append(datosXZ)
     lista.append(datosYZ)
+
+    for tiempo in st_tiempo:
+        tiempoAñadir=str(datetime.datetime.fromtimestamp(tiempo))
+        if tiempoAñadir[3:]=="304":
+            print(tiempoAñadir)
+        
+        tiempos.append(tiempoAñadir[:23])
+        
+    datos.append(lista)
+    datos.append(tiempos)
+    aux="2017-11-24 01:00:22.304"
+    
+
     # lista.append(datosXE)
     # lista.append(datosYE)
     # lista.append(datosXN)
     # lista.append(datosYN)
-    return Response(lista,status=status.HTTP_200_OK)
+    print(tiempos.index(aux))
+    return Response(datos,status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def createAllTrazas(request):

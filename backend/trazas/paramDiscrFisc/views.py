@@ -15,7 +15,7 @@ from criterioAlerta.views import getUmbralML as getUmbralML
 from alertas.models import AlertasModel
 
 def getAll():
-    parametro = ParmFisDiscretoModel.objects.all()
+    parametro = ParmFisDiscretoModel.objects.all()[:10000]
     serializer = ParamDiscrFisiSerializer(parametro, many=True)
     #return Response(serializer.data, status=status.HTTP_200_OK)
     return serializer.data
@@ -26,16 +26,13 @@ def recorrerParametros(request):
         'request': Request(request),
     }
     parametros = getAll()
-    for parametro in parametros:
-        
+    for  parametro in parametros:
         criterioDr=getUmbralDR(parametro["evento_macro"]["volcan_id"])
         criterioMl=getUmbralML(parametro["evento_macro"]["volcan_id"])
         if(parametro["ml"]>=criterioMl or parametro["dr_c"]>=criterioDr):
             eventoMacro=getEventoMacroId(parametro["evento_macro"]["evento_macro_id"])  
             alerta= AlertasModel(evento=eventoMacro)
             alerta.save()
-
-
     return Response(parametros,status=status.HTTP_200_OK)
     # for parametro in parametros:
       
@@ -49,7 +46,7 @@ def index(request):
     serializer_context = {
         'request': Request(request),
     }
-    parametro = ParmFisDiscretoModel.objects.all()
+    parametro = ParmFisDiscretoModel.objects.all()[:100]
     serializer = ParamDiscrFisiSerializer(parametro, many=True)
     # return Response(serializer.data, status=status.HTTP_200_OK)
     qs_json = serializers.serialize('json', parametro)

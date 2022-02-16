@@ -14,4 +14,8 @@ urlpatterns = [
     path('deleteVolcan/<id>', views.destroy),
     path('updateVolcan/<id>', views.update),
     path('estacionesporvolcan', views.getAllEstacioneByVolcan),
+    path('nombreVolcan/<id>', views.getNombreVolcanByEventoMacroId),
+
+
+    
 ]

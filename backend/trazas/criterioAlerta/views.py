@@ -1,3 +1,4 @@
+from os import stat
 from criterioAlerta.models import CriterioAlertaModel
 from volcan.models import VolcanModel
 from .serializers import CriterioAlertaSerializer
@@ -9,15 +10,15 @@ from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 
-def getUmbralML(volcan_id):
-    criterio = CriterioAlertaModel.objects.get(volcan_id=volcan_id)
-    #datos = {"umbral_vt": criterio.umbral_vt}
-    return criterio.umbral_ml
 
 def getUmbralDR(volcan_id):
     criterio = CriterioAlertaModel.objects.get(volcan_id=volcan_id)
     #datos = {"umbral_vt": criterio.umbral_vt}
     return criterio.umbral_dr
+def getUmbralML(volcan_id):
+    criterio = CriterioAlertaModel.objects.get(volcan_id=volcan_id)
+    #datos = {"umbral_vt": criterio.umbral_vt}
+    return criterio.umbral_ml
 
 @api_view(['GET'])
 def index(request):
@@ -40,6 +41,7 @@ def create(request):
         serializer.save(volcan=vol)
         return getAll()
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 def getAll():
     criterios = CriterioAlertaModel.objects.all()

@@ -15,6 +15,7 @@ class AvistamientoRegistroModel(models.Model):
     c_p = models.IntegerField()
     c_s = models.IntegerField()
     c_coda = models.IntegerField()
+    inicio=models.CharField(max_length=45)
     polar = models.CharField(max_length=2, blank=True, null=True)
     frecuencia = models.FloatField(blank=True, null=True)
     amplitud = models.FloatField(blank=True, null=True)

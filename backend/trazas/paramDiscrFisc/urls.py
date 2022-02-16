@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
+    path('indexpara/', views.index),
     path('parametros/', views.recorrerParametros),
     path('createCriterio', views.create),
     path('deleteCriterio/<id>', views.destroy),

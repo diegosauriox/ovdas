@@ -13,6 +13,7 @@ urlpatterns = [
     path('avistamientos/', views.index),
     path('createAvistamiento', views.create),
     path('deleteAvistamiento/<id>', views.destroy),
-    path('updateAvistamiento/<id>', views.update)
+    path('updateAvistamiento/<id>', views.update),
+    path('pscoda/<id>',views.PSCoda)
 
 ]
