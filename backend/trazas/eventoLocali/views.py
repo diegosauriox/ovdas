@@ -74,6 +74,17 @@ def getAllLocalizadoByMl():
     #serializer=EventoLocaliSerializer(localizacionesMl,many=True)
     return localizacionesMl
 
+
+@api_view(['POST'])
+def getLocalizacionesBytiempo(request):
+    print(request.data)
+    #localizaciones = EventoLocalizadoModel.objects.all()
+    localizaciones=EventoLocalizadoModel.objects.filter(tiempo__range=(request.data["fechaIni"],request.data["fechaFin"]))
+    print(localizaciones) 
+    serializer = EventoLocaliSerializer(localizaciones,many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 def getAllCountLocalizado():
     fechaActual=datetime.now()
     fecha1=fechaActual.strftime("%Y-%m-%d %H:%M:%S")

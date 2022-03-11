@@ -29,7 +29,7 @@ def PSCoda(request,id):
     avistamiento=AvistamientoRegistroModel.objects.filter(evento_macro_id=id)
     
     serializer = AvistamientoRegistroSerializer(avistamiento, context=serializer_context,many=True)
-    print(serializer.data[0]["coda"])
+    print("tiempo coda"+serializer.data[0]["coda"])
 
     datos=[]
     datos.append(serializer.data[0]["t_p"])

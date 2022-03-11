@@ -62,13 +62,13 @@ def guardarAlertas(request):
     bla=[]
     for evento in eventoLocalizado:
         bla.append(evento.ml)
-        """ if(evento.ml>3):
-            eventoMacro=getEventoMacroId(evento["evento_macro_id"])  
+        if(evento.ml>1):
+            eventoMacro=getEventoMacroId(evento.evento_macro_id)  
             alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad Ml sobre el criterio")
             alerta.save()
     listaAlertas=AlertasModel.objects.all()
-    serializer=AlertasSerializer2(listaAlertas,many=True) """
-    return Response(bla,status=status.HTTP_200_OK)
+    serializer=AlertasSerializer2(listaAlertas,many=True)
+    return Response(serializer.data,status=status.HTTP_200_OK)
    
 #--------------------------------------
 

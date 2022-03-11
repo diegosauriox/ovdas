@@ -18,7 +18,7 @@ urlpatterns = [
     path('dataPDF/', views.dataToPdf),
     path('getLocalizacionesAlerta/', views.getLocalizacionByAlertas),
     path('conteoLocalizaciones/', views.getAllCountLocalizado),
-    
+    path('localizacionesByTiempo/', views.getLocalizacionesBytiempo),
     
 
 ]
