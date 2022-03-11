@@ -65,6 +65,8 @@ def dataToPdf(request):
 
 
 def getMlById(id):
+    print(id)
+    print('esta buscando ml por id')
     localizado =EventoLocalizadoModel.objects.filter(evento_macro_id=id).first()
     print(localizado)
     return localizado.ml

@@ -36,4 +36,5 @@ urlpatterns = [
     path('api/', include('criterioAlerta.urls')),
     path('api/', include('paramDiscrFisc.urls')),
     path('api/', include('algoritmos.urls')),
+    path('api/', include('paramContinuo.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
