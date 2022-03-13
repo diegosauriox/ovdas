@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import EventoMacroModel
+from .serializers import EventoMacroSerializer2
 from .serializers import EventoMacroSerializer
 from estaciones.views import estacioneByVolcan as estacionByVolcan
 from eventoLocali.models import EventoLocalizadoModel
@@ -27,17 +28,26 @@ import locale
 @api_view(['GET'])
 def index(request):
     eventoMacros = EventoMacroModel.objects.all()[:5]
-    eventoMacros2 = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=True).values_list('evento_macro_id')[:5]
-    datos = []
-    for evento in eventoMacros2:
-        locali = EventoLocalizadoModel.objects.get(evento_macro_id=evento)
-        #print(evento.eventolocalizadomodel)
-        datos.append(locali)
+    #FALTA PONER QUE ITEM CORRESPONDE CON CADA COSA
+    clasificacion = ['VT','TR']
+    #eventoMacros2 = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=False).values_list('evento_macro_id','eventolocalizadomodel','eventolocalizadomodel__lat','eventolocalizadomodel__lon','eventolocalizadomodel__z','eventolocalizadomodel__ml','eventolocalizadomodel__gap')[:5]
+    eventoMacros2 = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=True, clasificacion__in=clasificacion, volcan_id=99,
+                                                    eventolocalizadomodel__ml__range=(0, 1.5), eventolocalizadomodel__dr__range=(0, 10)).values('evento_macro_id','clasificacion', 'eventolocalizadomodel','eventolocalizadomodel__lat','eventolocalizadomodel__lon','eventolocalizadomodel__z','eventolocalizadomodel__ml','eventolocalizadomodel__gap')
+    eventoMacros3 = EventoMacroModel.objects.all()[:5]
+    #qs = EventoMacroModel.objects.filter(departmentvolunteer__isnull=True).values_list('name', flat=True)
     print(eventoMacros2.query)
 
-    #serializer = EventoMacroSerializer(eventoMacros, many=True)
+    datos = []
+    #for evento in eventoMacros2:
+    #    locali = EventoLocalizadoModel.objects.get(evento_macro_id=evento)
+    #    #print(evento.eventolocalizadomodel)
+    #    datos.append(locali)
+    #print(eventoMacros2.query)
+
+    serializer = EventoMacroSerializer(eventoMacros2, many=True)
     #data = serializers.serialize('json', eventoMacros2)
-    return HttpResponse(eventoMacros2, content_type="application/json")
+    #serializer2 = EventoMacroSerializer2(eventoMacros2, many=False)
+    return Response(eventoMacros2)
     #return JsonResponse(eventoMacros2, safe=False)
 
 @api_view(['GET'])
@@ -186,6 +196,57 @@ def getEventosPorMes():
 def getCantidadesResumenMes():
     mesActual = datetime.now()
     #vt = EventoMacroModel.objects.filter(created_at__month=mesActual.month, clasificacion='VT')
+
+@api_view(['POST'])
+def getEvetosByFecha(request):
+    inicio = datetime.strptime(request.data['fechaIni'][:19], '%Y-%m-%dT%H:%M:%S')
+    print(inicio, request.data['fechaFin'][:19])
+    fin = datetime.strptime(request.data['fechaFin'][:19], '%Y-%m-%dT%H:%M:%S')
+    todos = EventoMacroModel.objects.filter(inicio__range=(inicio, fin))
+    serializer = EventoMacroSerializer(todos, many=True)
+    eventoMacros2 = EventoMacroModel.objects.filter(inicio__range=(inicio, fin)).filter(eventolocalizadomodel__isnull=False).values_list()
+    print(eventoMacros2.query)
+    return Response(eventoMacros2)
+
+@api_view(['POST'])
+def getEventosByFileter(request):
+    clasificacion = request.data['tipoEvento']
+    volcan = request.data['volcan']
+    localizado = request.data['localizado']
+    fechaIni = datetime.strptime(request.data['fechaIni'][:19], '%Y-%m-%dT%H:%M:%S')
+    print(fechaIni)
+    fechaFin = datetime.strptime(request.data['fechaFin'][:19], '%Y-%m-%dT%H:%M:%S')
+    print(fechaFin)
+    #rangeML = request.data['rangeML']
+    #rangeDR = request.data['rangeDR']
+
+    if(localizado):
+        eventoMacros = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=True, clasificacion__in=clasificacion,
+                                                    volcan_id=volcan, inicio__range=(fechaIni, fechaFin)
+                                                    #eventolocalizadomodel__ml__range=(rangeML[0], rangeML[1]),eventolocalizadomodel__dr__range=(rangeDR[0], rangeDR[1])
+                                                    ).values('evento_macro_id',
+                                                                                                     'clasificacion', 'volcan_id', 'inicio', 'confiabilidad','created_at',
+                                                                                                     'eventolocalizadomodel',
+                                                                                                     'eventolocalizadomodel__lat',
+                                                                                                     'eventolocalizadomodel__lon',
+                                                                                                     'eventolocalizadomodel__z',
+                                                                                                     'eventolocalizadomodel__ml',
+                                                                                                     'eventolocalizadomodel__gap')
+    else:
+        eventoMacros = EventoMacroModel.objects.filter(clasificacion__in=clasificacion,volcan_id=volcan, inicio__range=(fechaIni, fechaFin)
+                                                       #eventolocalizadomodel__ml__range=(0, 10)
+                                                       #eventolocalizadomodel__dr__range=(0, 10)
+                                                       ).values('evento_macro_id',
+                                                                                       'clasificacion','volcan_id', 'inicio', 'confiabilidad',
+                                                                                       'eventolocalizadomodel',
+                                                                                       'eventolocalizadomodel__lat',
+                                                                                       'eventolocalizadomodel__lon',
+                                                                                       'eventolocalizadomodel__z',
+                                                                                       'eventolocalizadomodel__ml',
+                                                                                       'eventolocalizadomodel__gap')
+
+
+    return Response(eventoMacros)
 
 @api_view(['GET'])
 def resumenDash(request):
