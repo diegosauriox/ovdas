@@ -52,6 +52,16 @@ def getLocalizacionByAlertas(request):
 
 
 @api_view(['GET'])
+def getLocalibyId(request,id):
+    
+    #localizaciones = EventoLocalizadoModel.objects.all()
+    localizaciones=EventoLocalizadoModel.objects.filter(evento_macro=id)
+    
+    serializer = EventoLocaliSerializer(localizaciones, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
 def dataToPdf(request):
     serializer_context = {
         'request': Request(request),

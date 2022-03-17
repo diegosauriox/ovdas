@@ -33,11 +33,15 @@ from background_task import background
 
 @api_view(['GET'])
 def obtenerAlertas(request):
-    alertas = AlertasModel.objects.select_related('evento')
+    alertas = AlertasModel.objects.all()
+    print("hola")
+    
     datosAlerta=[]
-    for alerta in alertas: 
-        datos=getEstacionesByEventoMacroById(alerta.evento_id)
+    for alerta in alertas:
+        print(alerta.evento_id) 
+        datos=getEstacionesByEventoMacroById(alerta.evento_id)     
         clasificacion=datos["clasificacion"]
+        print(clasificacion)
         volcan_id=datos["volcanid"]
         nombreVolcan=getNombreVolcanById(volcan_id) 
         ml=getMlById(alerta.evento_id)

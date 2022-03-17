@@ -58,8 +58,8 @@ def getEstacionesByEventoMacro(request,id):
 
 
 def getEstacionesByEventoMacroById(id):
-    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)
     
+    eventoMacro= EventoMacroModel.objects.get(evento_macro_id=id)  
     datos= {"volcanid":eventoMacro.volcan_id, "clasificacion": eventoMacro.clasificacion}
     return datos
 
