@@ -10,5 +10,6 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('createWave/<fecha>', views.create),
+    path('createByFechaEstacion', views.createByFechaEstacion)
     #path('algo/', views.algo),
 ]

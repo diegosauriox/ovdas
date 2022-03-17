@@ -50,10 +50,16 @@ def create(request,fecha):
     network='99'
 
     """ Define tiempo """
+<<<<<<< HEAD
     #date1='2020-02-18 '+ fecha   
     #date1='2020-03-25 11:57:59'
+=======
+    #date1='2020-02-18 '+ fecha
+        
+    date1='2017-11-24 00:59:43'
+>>>>>>> ee4b081d84c4c4b41db6236f94d15cea76bdcc7c
     #date2='2020-02-18 00:10:00'
-    dt1=datetime.datetime.strptime(fecha[:19],'%Y-%m-%dT%H:%M:%S')
+    dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
     
     #dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
     #dt2=datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
@@ -77,25 +83,94 @@ def create(request,fecha):
     tiempos=[]
     lista.append(datosXZ)
     lista.append(datosYZ)
-
+    aux = '2017-11-24 01:00:22.305'
     for tiempo in st_tiempo:
+        #t1 = datetime.datetime.strptime(fecha)
         tiempoAñadir=str(datetime.datetime.fromtimestamp(tiempo))
-        if tiempoAñadir[3:]=="304":
-            print(tiempoAñadir)
-        
         tiempos.append(tiempoAñadir[:23])
-        
+    if (aux == tiempos[6933]):
+        print( 'es igual')
+
+    print(aux)
+    print(tiempos[6933])
+    print('fecha')
     datos.append(lista)
     datos.append(tiempos)
-    aux="2017-11-24 01:00:22.304"
+
     
 
     # lista.append(datosXE)
     # lista.append(datosYE)
     # lista.append(datosXN)
     # lista.append(datosYN)
-    print(tiempos.index(aux))
+    #print(tiempos.index('2017-12-12 09:25:04.472'))
     return Response(datos,status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def createByFechaEstacion(request):
+
+    # nombre=str(request.data.get('nombre'))
+    # fecha=str(request.data.get('hora_inicio'))
+    # fecha='11:57:59'
+
+    fecha = request.data['fecha']
+    # print(fecha)
+
+    nombre = request.data['est']
+    station_list = [nombre]
+    stattion = pyrocko.model.station.load_stations(ruta)
+    network = '99'
+
+    """ Define tiempo """
+    # date1='2020-02-18 '+ fecha
+
+    date1 = request.data['fecha']
+    # date2='2020-02-18 00:10:00'
+    dt1 = datetime.datetime.strptime(date1[:19], '%Y-%m-%dT%H:%M:%S')
+
+    # dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
+    # dt2=datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
+
+    posix_dt1 = time.mktime(dt1.timetuple()) - 30
+    posix_dt2 = posix_dt1 + 120  # time.mktime(dt2.timetuple())
+
+    st_final = []
+    st_tiempo = []
+    """ Carga trazas de forma remota """
+    st_final, st_tiempo = read_stations(st_final, st_tiempo, posix_dt1, posix_dt2, station_list, network)
+    # 0=Z 1=E 2=N
+    datosXZ = st_final[0].get_xdata()
+    datosYZ = st_final[0].get_ydata()
+    # datosXE=st_final[1].get_xdata()
+    # datosYE=st_final[1].get_ydata()
+    # datosXN=st_final[2].get_xdata()
+    # datosYN=st_final[2].get_ydata()
+    datos = []
+    lista = []
+    tiempos = []
+    lista.append(datosXZ)
+    lista.append(datosYZ)
+    aux = '2017-11-24 01:00:22.305'
+    for tiempo in st_tiempo:
+        # t1 = datetime.datetime.strptime(fecha)
+        tiempoAñadir = str(datetime.datetime.fromtimestamp(tiempo))
+        tiempos.append(tiempoAñadir[:23])
+    if (aux == tiempos[6933]):
+        print('es igual')
+
+    print(aux)
+    print(tiempos[6933])
+    print('fecha')
+    datos.append(lista)
+    datos.append(tiempos)
+
+    # lista.append(datosXE)
+    # lista.append(datosYE)
+    # lista.append(datosXN)
+    # lista.append(datosYN)
+    # print(tiempos.index('2017-12-12 09:25:04.472'))
+    return Response(datos, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def createAllTrazas(request):

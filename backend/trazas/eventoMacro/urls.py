@@ -17,6 +17,7 @@ urlpatterns = [
     path('updateEventoMacro/<id>', views.update),
     path('getEstacionesVolcanId/<id>', views.getEstacionesByEventoMacro),
     path('resumenDash', views.resumenDash),
-    path('getEvetosByFecha', views.getEventosByFileter)
+    path('getEvetosByFecha', views.getEventosByFileter),
+    path('getTrazasByEventos/<id>', views.getTrazasByEventos),
 
 ]
