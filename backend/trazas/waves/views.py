@@ -38,23 +38,19 @@ def algo(request):
 
 
 @api_view(['GET'])
-def create(request,fecha):
-    
+def create(request,fecha):   
     # nombre=str(request.data.get('nombre'))
     # fecha=str(request.data.get('hora_inicio'))
     #fecha='11:57:59'
-
     fecha=fecha
     #print(fecha)
-
     nombre='FRE'
     station_list=[nombre]
     stattion=pyrocko.model.station.load_stations(ruta)
     network='99'
 
     """ Define tiempo """
-    #date1='2020-02-18 '+ fecha
-        
+    #date1='2020-02-18 '+ fecha   
     #date1='2020-03-25 11:57:59'
     #date2='2020-02-18 00:10:00'
     dt1=datetime.datetime.strptime(fecha[:19],'%Y-%m-%dT%H:%M:%S')
