@@ -208,6 +208,17 @@ def getEvetosByFecha(request):
     print(eventoMacros2.query)
     return Response(eventoMacros2)
 
+@api_view(['GET'])
+def getTrazasByEventos(request, id):
+
+    eventoMacros = EventoMacroModel.objects.filter(avistamientoregistromodel__isnull=False, evento_macro_id=id).values('evento_macro_id',
+                                                            'clasificacion', 'volcan_id',
+                                                            'avistamientoregistromodel',
+                                                            'avistamientoregistromodel__t_p',
+                                                            'avistamientoregistromodel__coda')
+
+    return Response(eventoMacros)
+
 @api_view(['POST'])
 def getEventosByFileter(request):
     clasificacion = request.data['tipoEvento']
