@@ -14,6 +14,7 @@ from django.core import serializers
 from criterioAlerta.views import getUmbralDR as getUmbralDR
 from criterioAlerta.views import getUmbralML as getUmbralML
 from alertas.models import AlertasModel
+from django.db.models import Max
 
 def getAll():
     parametro = ParmFisDiscretoModel.objects.all()[:10000]
@@ -44,7 +45,13 @@ def recorrerParametros():
     #for parametro in parametros:
     #    evento_macro_id = parametro.evento_macro_id
     #    print(evento_macro_id)
-
+@api_view(['GET'])
+def getMaxDr(request):
+    serializer_context = {
+        'request': Request(request),
+    }
+    drMax = ParmFisDiscretoModel.objects.aggregate(Max('dr_c'))
+    return Response(drMax, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def index(request):

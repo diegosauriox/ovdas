@@ -14,6 +14,7 @@ urlpatterns = [
     #path('parametros/', views.recorrerParametros),
     path('createCriterio', views.create),
     path('deleteCriterio/<id>', views.destroy),
-    path('updateCriterio/<id>', views.update)
+    path('updateCriterio/<id>', views.update),
+    path('getMaxDr', views.getMaxDr)
 
 ]
