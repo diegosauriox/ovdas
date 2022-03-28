@@ -11,7 +11,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('indexpara/', views.index),
-    path('parametros/', views.recorrerParametros),
+    #path('parametros/', views.recorrerParametros),
     path('createCriterio', views.create),
     path('deleteCriterio/<id>', views.destroy),
     path('updateCriterio/<id>', views.update)

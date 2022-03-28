@@ -21,6 +21,11 @@ from eventoLocali.views import getMlById as getMlById
 from eventoLocali.views import getAllLocalizadoByMl as getAllLocalizadoByMl
 from eventoLocali.views import getAllCountLocalizado as getAllCountLocalizado
 from eventoMacro.views import getEventoMacroId as getEventoMacroId
+from paramDiscrFisc.views import recorrerParametros as recorrerParametros
+from paramDiscrFisc.views import getParametrosEntreFechas as getParametrosEntreFechas
+
+from criterioAlerta.views import getUmbralDR as getUmbralDR
+from criterioAlerta.views import getUmbralML as getUmbralML
 from django.core.exceptions import ObjectDoesNotExist
 import mysql.connector
 from django.core import serializers
@@ -84,6 +89,22 @@ def crearAlertaVT():
         alerta.save()
         """ return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_204_NO_CONTENT) """
+
+def crearAlertasMlDr():
+
+    parametros = getParametrosEntreFechas()
+    for parametro in parametros:
+        criterioDr=getUmbralDR(parametro["evento_macro"]["volcan_id"])
+        criterioMl=getUmbralML(parametro["evento_macro"]["volcan_id"])
+        if(parametro["ml"]>=criterioMl):
+            eventoMacro=getEventoMacroId(parametro["evento_macro"]["evento_macro_id"])  
+            alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad Ml sobre el criterio")
+            alerta.save()
+        if(parametro["dr_c"]>=criterioDr):
+            eventoMacro=getEventoMacroId(parametro["evento_macro"]["evento_macro_id"])  
+            alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad Dr sobre el criterio")
+            alerta.save()
+
 #-------------------------------------
 
 def createAlertas(id):

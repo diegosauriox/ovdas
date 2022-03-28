@@ -1,4 +1,5 @@
 from eventoMacro.views import getEventoMacroId
+from datetime import date, datetime, timedelta
 from .models import ParmFisDiscretoModel
 from eventoMacro.models import EventoMacroModel
 from .serializers import ParamDiscrFisiSerializer
@@ -20,11 +21,16 @@ def getAll():
     #return Response(serializer.data, status=status.HTTP_200_OK)
     return serializer.data
 
-@api_view(['GET'])
-def recorrerParametros(request):
-    serializer_context = {
-        'request': Request(request),
-    }
+def getParametrosEntreFechas():
+    fechaActual=datetime.now()
+    fecha1=fechaActual.strftime("%Y-%m-%d %H:%M:%S")
+    fecha2=(fechaActual-timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
+    parametros=ParmFisDiscretoModel.objects.filter(tiempo__range=('2017-11-16 00:00:00',"2017-12-16 00:00:00"))
+    serializer = ParamDiscrFisiSerializer(parametros, many=True)
+    return serializer.data
+
+def recorrerParametros():
+    
     parametros = getAll()
     for  parametro in parametros:
         criterioDr=getUmbralDR(parametro["evento_macro"]["volcan_id"])
@@ -33,7 +39,6 @@ def recorrerParametros(request):
             eventoMacro=getEventoMacroId(parametro["evento_macro"]["evento_macro_id"])  
             alerta= AlertasModel(evento=eventoMacro)
             alerta.save()
-    return Response(parametros,status=status.HTTP_200_OK)
     # for parametro in parametros:
       
     #for parametro in parametros:
