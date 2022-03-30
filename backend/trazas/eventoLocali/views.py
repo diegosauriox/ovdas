@@ -154,7 +154,7 @@ def loadLastItem(request):
         'request': Request(request),
     }
     #localizaciones = EventoLocalizadoModel.objects.filter(ml__gte = 2).order_by('evento_loc_id')[:5]
-    localizaciones = EventoLocalizadoModel.objects.values_list('evento_loc_id', 'ml')
+    localizaciones = EventoLocalizadoModel.objects.values_list('evento_loc_id', 'ml')[:5]
     print(localizaciones)
     serializer = EventoLocaliSerializer2(localizaciones, context=serializer_context, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
