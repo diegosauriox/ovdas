@@ -1,6 +1,6 @@
 from .models import AlertasModel
 from datetime import datetime
-from alertas.views import crearAlertaVT, crearAlertasMlDr
+from alertas.views import crearAlertaVT, crearAlertasMlDr, crearTodasAlertasMlDr
 def subirAlertas():
     today= datetime.today().strftime('%Y-%m-%d')
     alerta= AlertasModel(created_at=d1)
@@ -11,3 +11,6 @@ def cargarAlertaVT():
 
 def cargarAlertaMlDr():
     crearAlertasMlDr()
+
+def cargarTodasAlertasMlDr():
+    crearTodasAlertasMlDr()
