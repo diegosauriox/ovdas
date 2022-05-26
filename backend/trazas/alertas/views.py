@@ -91,9 +91,9 @@ def crearAlertaVT():
         """ return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_204_NO_CONTENT) """
 
-def crearAlertasMlDr():
+def crearAlertasMlDr(t1,t2):
 
-    parametros = getParametrosEntreFechas()
+    parametros = getParametrosEntreFechas(t1,t2)
     for parametro in parametros:
         criterioDr=getUmbralDR(parametro["evento_macro"]["volcan_id"])
         criterioMl=getUmbralML(parametro["evento_macro"]["volcan_id"])
