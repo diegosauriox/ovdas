@@ -269,7 +269,7 @@ def resumenDash(request):
     lp = EventoMacroModel.objects.filter(created_at__month=mesActual.month, clasificacion='LP')
     tr = EventoMacroModel.objects.filter(created_at__month=mesActual.month, clasificacion='TR')
     localizaciones = EventoLocalizadoModel.objects.filter(created_at__month=mesActual.month)
-    conteoResumen = {'todos': todos.count(), 'vt': vt.count(), 'lp': lp.count(), 'tr': tr.count(), 'localizaciones': localizaciones}
+    conteoResumen = {'todos': todos.count(), 'vt': vt.count(), 'lp': lp.count(), 'tr': tr.count(), 'localizaciones': localizaciones.count()}
 
     #CONTEO DE EVENTOS POR MES
 
@@ -302,7 +302,7 @@ def resumenDash(request):
         arrEventosVT.append(objVT)
         arrEventosLP.append(objLP)
         arrEventosTR.append(objTR)
-    print(conteoResumen)
+
     eventosMes = {}
     eventosMes['eventosMacro'] = arrEventosMacro[::-1]
     eventosVT = {}
@@ -319,5 +319,6 @@ def resumenDash(request):
     dashboard.append(eventosLP)
     dashboard.append(eventosTR)
     dashboard.append(conteoResumen)
+
     return Response(dashboard)
 
