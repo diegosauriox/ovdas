@@ -22,13 +22,16 @@ def getAll():
     #return Response(serializer.data, status=status.HTTP_200_OK)
     return serializer.data
 
-def getParametrosEntreFechas():
+def getParametrosEntreFechas(t1,t2):
     fechaActual=datetime.now()
     fecha1=fechaActual.strftime("%Y-%m-%d %H:%M:%S")
     fecha2=(fechaActual-timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
-    parametros=ParmFisDiscretoModel.objects.filter(tiempo__range=('2017-11-16 00:00:00',"2017-12-16 00:00:00"))
+    parametros=ParmFisDiscretoModel.objects.filter(tiempo__range=(t1,t2))
     serializer = ParamDiscrFisiSerializer(parametros, many=True)
     return serializer.data
+
+
+
 
 def recorrerParametros():
     

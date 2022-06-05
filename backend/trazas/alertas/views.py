@@ -23,6 +23,7 @@ from eventoLocali.views import getAllCountLocalizado as getAllCountLocalizado
 from eventoMacro.views import getEventoMacroId as getEventoMacroId
 from paramDiscrFisc.views import recorrerParametros as recorrerParametros
 from paramDiscrFisc.views import getParametrosEntreFechas as getParametrosEntreFechas
+from paramDiscrFisc.views import getAll as getParametrosAll
 
 from criterioAlerta.views import getUmbralDR as getUmbralDR
 from criterioAlerta.views import getUmbralML as getUmbralML
@@ -90,9 +91,9 @@ def crearAlertaVT():
         """ return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_204_NO_CONTENT) """
 
-def crearAlertasMlDr():
+def crearAlertasMlDr(t1,t2):
 
-    parametros = getParametrosEntreFechas()
+    parametros = getParametrosEntreFechas(t1,t2)
     for parametro in parametros:
         criterioDr=getUmbralDR(parametro["evento_macro"]["volcan_id"])
         criterioMl=getUmbralML(parametro["evento_macro"]["volcan_id"])
@@ -105,6 +106,20 @@ def crearAlertasMlDr():
             alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad Dr sobre el criterio")
             alerta.save()
 
+
+def crearTodasAlertasMlDr():
+    parametros = getParametrosAll()
+    for parametro in parametros:
+        criterioDr=getUmbralDR(parametro["evento_macro"]["volcan_id"])
+        criterioMl=getUmbralML(parametro["evento_macro"]["volcan_id"])
+        if(parametro["ml"]>=criterioMl):
+            eventoMacro=getEventoMacroId(parametro["evento_macro"]["evento_macro_id"])  
+            alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad Ml sobre el criterio")
+            alerta.save()
+        if(parametro["dr_c"]>=criterioDr):
+            eventoMacro=getEventoMacroId(parametro["evento_macro"]["evento_macro_id"])  
+            alerta= AlertasModel(evento=eventoMacro,motivo="Cantidad Dr sobre el criterio")
+            alerta.save()
 #-------------------------------------
 
 def createAlertas(id):
