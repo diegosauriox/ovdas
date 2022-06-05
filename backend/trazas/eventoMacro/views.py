@@ -228,13 +228,13 @@ def getEventosByFileter(request):
     print(fechaIni)
     fechaFin = datetime.strptime(request.data['fechaFin'][:19], '%Y-%m-%dT%H:%M:%S')
     print(fechaFin)
-    #rangeML = request.data['rangeML']
-    #rangeDR = request.data['rangeDR']
+    rangeML = request.data['rangeML']
+    rangeDR = request.data['rangeDR']
 
     if(localizado):
         eventoMacros = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=True, clasificacion__in=clasificacion,
-                                                    volcan_id=volcan, inicio__range=(fechaIni, fechaFin)
-                                                    #eventolocalizadomodel__ml__range=(rangeML[0], rangeML[1]),eventolocalizadomodel__dr__range=(rangeDR[0], rangeDR[1])
+                                                    volcan_id=volcan, inicio__range=(fechaIni, fechaFin),
+                                                    eventolocalizadomodel__ml__range=(float(rangeML[0]), float(rangeML[1])) #,eventolocalizadomodel__dr__range=(float(rangeDR[0]), float(rangeDR[1]))
                                                     ).values('evento_macro_id',
                                                                                                      'clasificacion', 'volcan_id', 'inicio', 'confiabilidad','created_at',
                                                                                                      'eventolocalizadomodel',
@@ -244,9 +244,9 @@ def getEventosByFileter(request):
                                                                                                      'eventolocalizadomodel__ml',
                                                                                                      'eventolocalizadomodel__gap')
     else:
-        eventoMacros = EventoMacroModel.objects.filter(clasificacion__in=clasificacion,volcan_id=volcan, inicio__range=(fechaIni, fechaFin)
+        eventoMacros = EventoMacroModel.objects.filter(clasificacion__in=clasificacion,volcan_id=volcan, inicio__range=(fechaIni, fechaFin),
                                                        #eventolocalizadomodel__ml__range=(0, 10)
-                                                       #eventolocalizadomodel__dr__range=(0, 10)
+                                                       parmfisdiscretomodel__dr_c__range=(float(rangeDR[0]), float(rangeDR[1]))
                                                        ).values('evento_macro_id',
                                                                                        'clasificacion','volcan_id', 'inicio', 'confiabilidad',
                                                                                        'eventolocalizadomodel',
@@ -254,7 +254,7 @@ def getEventosByFileter(request):
                                                                                        'eventolocalizadomodel__lon',
                                                                                        'eventolocalizadomodel__z',
                                                                                        'eventolocalizadomodel__ml',
-                                                                                       'eventolocalizadomodel__gap')
+                                                                                       'eventolocalizadomodel__gap', 'parmfisdiscretomodel__dr_c')
 
 
     return Response(eventoMacros)
