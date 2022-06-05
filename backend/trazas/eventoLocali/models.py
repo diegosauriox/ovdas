@@ -20,6 +20,7 @@ class EventoLocalizadoModel(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
 
+
     class Meta:
         managed = False
         db_table = 'evento_localizado'
