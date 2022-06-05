@@ -270,7 +270,7 @@ def resumenDash(request):
     tr = EventoMacroModel.objects.filter(created_at__month=mesActual.month, clasificacion='TR')
     localizaciones = EventoLocalizadoModel.objects.filter(created_at__month=mesActual.month)
     conteoResumen = {'todos': todos.count(), 'vt': vt.count(), 'lp': lp.count(), 'tr': tr.count(), 'localizaciones': localizaciones.count()}
-
+    #correcion
     #CONTEO DE EVENTOS POR MES
 
     now = datetime.now()
