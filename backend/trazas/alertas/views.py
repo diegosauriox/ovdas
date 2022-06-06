@@ -21,7 +21,7 @@ from eventoLocali.views import getMlById as getMlById
 from eventoLocali.views import getAllLocalizadoByMl as getAllLocalizadoByMl
 from eventoLocali.views import getAllCountLocalizado as getAllCountLocalizado
 from eventoMacro.views import getEventoMacroId as getEventoMacroId
-from paramDiscrFisc.views import recorrerParametros as recorrerParametros
+from paramDiscrFisc.views import getMlbyMacroId, recorrerParametros as recorrerParametros
 from paramDiscrFisc.views import getParametrosEntreFechas as getParametrosEntreFechas
 from paramDiscrFisc.views import getAll as getParametrosAll
 
@@ -44,15 +44,18 @@ def obtenerAlertas(request):
     
     datosAlerta=[]
     for alerta in alertas:
-        print(alerta.evento_id) 
+         
         datos=getEstacionesByEventoMacroById(alerta.evento_id)     
         clasificacion=datos["clasificacion"]
-        print(clasificacion)
+        
         volcan_id=datos["volcanid"]
         nombreVolcan=getNombreVolcanById(volcan_id) 
-        ml=getMlById(alerta.evento_id)
-        datosAlerta.append({"volcan":nombreVolcan,"ml":ml,"clasificacion":clasificacion,"motivo":alerta.motivo,"tiempo":alerta.created_at}) 
-        print (datosAlerta)
+        ml=getMlbyMacroId(alerta.evento_id)
+        tiempoIni=getEventoMacroId(alerta.evento_id).inicio
+        eventoMacro=alerta.evento_id
+        #print(tiempoIni.inicio)
+        datosAlerta.append({"volcan":nombreVolcan,"evento_macro_id":eventoMacro,"tiempoIni":tiempoIni,"ml":ml,"clasificacion":clasificacion,"motivo":alerta.motivo,"tiempo":alerta.created_at}) 
+        #print (datosAlerta)
     reverse=np.flip(datosAlerta)
     return Response(reverse,status=status.HTTP_200_OK)
 

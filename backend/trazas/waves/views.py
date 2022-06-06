@@ -2,6 +2,8 @@ from django.http import JsonResponse
 import time
 from datetime import datetime
 import numpy as np
+from avistamientoRegistro.views import getAvistamientoByMacroId
+from identificacion.views import getEstacionByCodeEvent
 from waves.traces_ufro import *
 from pyrocko import trace
 import pyrocko.gui as gui
@@ -37,29 +39,33 @@ def algo(request):
 
 
 
-@api_view(['GET'])
-def create(request,fecha):   
+@api_view(['POST'])
+def create(request):   
     # nombre=str(request.data.get('nombre'))
     # fecha=str(request.data.get('hora_inicio'))
     #fecha='11:57:59'
-    fecha=fecha
-    #print(fecha)
-    nombre='FRE'
-    station_list=[nombre]
-    stattion=pyrocko.model.station.load_stations(ruta)
-    network='99'
+     # nombre=str(request.data.get('nombre'))
+    # fecha=str(request.data.get('hora_inicio'))
+    # fecha='11:57:59'
+    code_event=getAvistamientoByMacroId(request.data[0]['eventoMacroId'])
+    estacion=getEstacionByCodeEvent(code_event)
+    # print(fecha)
+
+    station_list = [estacion]
+    stattion = pyrocko.model.station.load_stations(ruta)
+    network = '99'
 
     """ Define tiempo """
-<<<<<<< HEAD
-    #date1='2020-02-18 '+ fecha   
-    #date1='2020-03-25 11:57:59'
-=======
-    #date1='2020-02-18 '+ fecha
-        
-    date1='2017-11-24 00:59:43'
->>>>>>> ee4b081d84c4c4b41db6236f94d15cea76bdcc7c
-    #date2='2020-02-18 00:10:00'
-    dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
+    # date1='2020-02-18 '+ fecha
+
+    date1 = request.data[0]['fecha']
+    
+    fecha=list(date1)
+    fecha[10]="T"
+    cambiar=""
+    
+    # date2='2020-02-18 00:10:00'
+    dt1 = datetime.datetime.strptime(cambiar.join(fecha)[:19], '%Y-%m-%dT%H:%M:%S')
     
     #dt1=datetime.datetime.strptime(date1,'%Y-%m-%d %H:%M:%S')
     #dt2=datetime.datetime.strptime(date2,'%Y-%m-%d %H:%M:%S')
@@ -109,8 +115,7 @@ def create(request,fecha):
 
 @api_view(['POST'])
 def createByFechaEstacion(request):
-
-    # nombre=str(request.data.get('nombre'))
+# nombre=str(request.data.get('nombre'))
     # fecha=str(request.data.get('hora_inicio'))
     # fecha='11:57:59'
 

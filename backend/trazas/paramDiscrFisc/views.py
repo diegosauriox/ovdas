@@ -30,6 +30,10 @@ def getParametrosEntreFechas(t1,t2):
     serializer = ParamDiscrFisiSerializer(parametros, many=True)
     return serializer.data
 
+def getMlbyMacroId(id):
+    parametro=ParmFisDiscretoModel.objects.filter(evento_macro_id=id)
+    serializer=ParamDiscrFisiSerializer(parametro, many=True)
+    return serializer.data[0]["ml"]
 
 
 

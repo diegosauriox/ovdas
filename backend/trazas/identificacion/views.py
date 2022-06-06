@@ -1,3 +1,4 @@
+from pickle import TRUE
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 # Importar el modelo
@@ -46,7 +47,11 @@ def show(id):
     estacion = IdentificacionSenalModel.objects.get(cod_event=id)
     return HttpResponse(estacion)
 
-
+def getEstacionByCodeEvent(id):
+    estacion = IdentificacionSenalModel.objects.filter(cod_event=id)
+    serializer = IdentificacionSenalSerializer(estacion,many=True)
+    return serializer.data[0]["est"]
+    
 @api_view(["PUT"])
 def update(request, id):
     try:

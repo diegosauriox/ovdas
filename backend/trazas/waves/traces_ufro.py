@@ -24,7 +24,7 @@ import os
 rutaJAR=os.getcwd()+"/waves/usgs.jar"
 rutaGAIN=os.getcwd()+"/waves/Gain_esta.conf"
 
-def read_stations(str_final,st_tiempo,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
+def read_stations(str_final,st_tiempo,posix_dt1,posix_dt2,station_list,network,comp=['Z','E','N'],server_ip='172.16.40.70',port=16022):
     
     for station in station_list:
         #try:
@@ -37,7 +37,7 @@ def read_stations(str_final,st_tiempo,posix_dt1,posix_dt2,station_list,network,c
         
     
     return str_final,st_tiempo
-def read_traces(str_final, st_tiempo,posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='146.83.206.104',port=29384):
+def read_traces(str_final, st_tiempo,posix_dt1,posix_dt2,station,network,comp=['Z','E','N'],server_ip='172.16.40.70',port=16022):
     try:
         jp.startJVM(classpath=[rutaJAR])
     except:

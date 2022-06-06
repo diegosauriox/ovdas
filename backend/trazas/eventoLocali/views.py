@@ -9,7 +9,7 @@ from requests import Request
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from eventoMacro.views import getEventoMacroId
+from eventoMacro.views import getClasificacion, getEventoMacroId
 from alertas.serializers import AlertasSerializer2
 from .models import EventoLocalizadoModel
 from .serializers import EventoLocaliSerializer, EventoLocaliSerializer2, EventoLocaliSerializer3
@@ -48,7 +48,7 @@ def getLocalizacionByAlertas(request):
     reverse=np.flip(localizadosByAlertas)
     localizacionSerializer=EventoLocaliSerializer(reverse,many=True)
 
-    return Response(localizacionSerializer.data,status=status.HTTP_200_OK)
+    return Response(reverse,status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -154,7 +154,14 @@ def loadLastItem(request):
         'request': Request(request),
     }
     #localizaciones = EventoLocalizadoModel.objects.filter(ml__gte = 2).order_by('evento_loc_id')[:5]
-    localizaciones = EventoLocalizadoModel.objects.values_list('evento_loc_id', 'ml')[:5]
-    print(localizaciones)
+    localizaciones = EventoLocalizadoModel.objects.values_list('evento_macro_id','evento_loc_id', 'ml','z')[:5]
+    
+    #print(localizaciones[0][0])
+    """ data=list(localizaciones)
+    for localizacion in data:
+        localizacion=list(localizacion)    
+        print(getClasificacion(localizacion[0]))
+        localizacion.insert(0,getClasificacion(localizacion[0]))
+     """
     serializer = EventoLocaliSerializer2(localizaciones, context=serializer_context, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(localizaciones, status=status.HTTP_200_OK)
