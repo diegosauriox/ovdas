@@ -14,6 +14,7 @@ urlpatterns = [
     path('guardarAlertas/',views.guardarAlertas),
     path('getAllAlertas/',views.getAllAlertas),
     path('alertaVT/',views.crearAlertaVT),
+    path('alertasDash', views.getAlertasDash)
 
     
 ]

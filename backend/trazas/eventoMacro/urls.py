@@ -19,5 +19,6 @@ urlpatterns = [
     path('resumenDash', views.resumenDash),
     path('getEvetosByFecha', views.getEventosByFileter),
     path('getTrazasByEventos/<id>', views.getTrazasByEventos),
+    path('getEventosCSV', views.getEventosCSV)
 
 ]
