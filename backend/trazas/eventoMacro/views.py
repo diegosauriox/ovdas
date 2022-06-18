@@ -22,6 +22,7 @@ from django.core import serializers
 from mysql.connector import Error
 import json
 import locale
+import csv
 
 
 # Create your viewss here.
@@ -231,13 +232,13 @@ def getEventosByFileter(request):
     print(fechaIni)
     fechaFin = datetime.strptime(request.data['fechaFin'][:19], '%Y-%m-%dT%H:%M:%S')
     print(fechaFin)
-    #rangeML = request.data['rangeML']
-    #rangeDR = request.data['rangeDR']
+    rangeML = request.data['rangeML']
+    rangeDR = request.data['rangeDR']
 
     if(localizado):
         eventoMacros = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=True, clasificacion__in=clasificacion,
-                                                    volcan_id=volcan, inicio__range=(fechaIni, fechaFin)
-                                                    #eventolocalizadomodel__ml__range=(rangeML[0], rangeML[1]),eventolocalizadomodel__dr__range=(rangeDR[0], rangeDR[1])
+                                                    volcan_id=volcan, inicio__range=(fechaIni, fechaFin),
+                                                    eventolocalizadomodel__ml__range=(float(rangeML[0]), float(rangeML[1])) #,eventolocalizadomodel__dr__range=(float(rangeDR[0]), float(rangeDR[1]))
                                                     ).values('evento_macro_id',
                                                                                                      'clasificacion', 'volcan_id', 'inicio', 'confiabilidad','created_at',
                                                                                                      'eventolocalizadomodel',
@@ -245,20 +246,21 @@ def getEventosByFileter(request):
                                                                                                      'eventolocalizadomodel__lon',
                                                                                                      'eventolocalizadomodel__z',
                                                                                                      'eventolocalizadomodel__ml',
-                                                                                                     'eventolocalizadomodel__gap')
+                                                                                                     'eventolocalizadomodel__gap').distinct()
     else:
-        eventoMacros = EventoMacroModel.objects.filter(clasificacion__in=clasificacion,volcan_id=volcan, inicio__range=(fechaIni, fechaFin)
-                                                       #eventolocalizadomodel__ml__range=(0, 10)
-                                                       #eventolocalizadomodel__dr__range=(0, 10)
-                                                       ).values('evento_macro_id',
-                                                                                       'clasificacion','volcan_id', 'inicio', 'confiabilidad',
-                                                                                       'eventolocalizadomodel',
-                                                                                       'eventolocalizadomodel__lat',
-                                                                                       'eventolocalizadomodel__lon',
-                                                                                       'eventolocalizadomodel__z',
-                                                                                       'eventolocalizadomodel__ml',
-                                                                                       'eventolocalizadomodel__gap')
-
+        eventoMacros = EventoMacroModel.objects.filter(parmfisdiscretomodel__isnull=False, volcan__isnull=False,
+                    inicio__range=(fechaIni, fechaFin),parmfisdiscretomodel__dr_c__range=(float(rangeDR[0]), float(rangeDR[1]))).values('evento_macro_id',
+            'clasificacion',
+            'volcan_id', 'inicio',
+            'parmfisdiscretomodel__ml',
+            'parmfisdiscretomodel__fecha',
+            'parmfisdiscretomodel__dr_c',
+            'parmfisdiscretomodel__freq',
+            'parmfisdiscretomodel__energia',
+            'volcan__nombre',
+            'eventolocalizadomodel__lon',
+            'eventolocalizadomodel__lat',
+            'eventolocalizadomodel__z').distinct()
 
     return Response(eventoMacros)
 
@@ -325,3 +327,63 @@ def resumenDash(request):
 
     return Response(dashboard)
 
+@api_view(['POST'])
+def getEventosCSV(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+
+    response = HttpResponse(
+        content_type='text/csv'
+    )
+    clasificacion = request.data['tipoEvento']
+    volcan = request.data['volcan']
+    localizado = request.data['localizado']
+    fechaIni = datetime.strptime(request.data['fechaIni'][:19], '%Y-%m-%dT%H:%M:%S')
+    fechaFin = datetime.strptime(request.data['fechaFin'][:19], '%Y-%m-%dT%H:%M:%S')
+    rangeML = request.data['rangeML']
+    rangeDR = request.data['rangeDR']
+
+    if (localizado):
+        eventoMacros = EventoMacroModel.objects.filter(eventolocalizadomodel__isnull=True,
+                                                       clasificacion__in=clasificacion,
+                                                       volcan_id=volcan, inicio__range=(fechaIni, fechaFin),
+                                                       eventolocalizadomodel__ml__range=(
+                                                       float(rangeML[0]), float(rangeML[1]))
+                                                       # ,eventolocalizadomodel__dr__range=(float(rangeDR[0]), float(rangeDR[1]))
+                                                       ).values('evento_macro_id',
+                                                                'clasificacion', 'volcan_id', 'inicio', 'confiabilidad',
+                                                                'created_at',
+                                                                'eventolocalizadomodel',
+                                                                'eventolocalizadomodel__lat',
+                                                                'eventolocalizadomodel__lon',
+                                                                'eventolocalizadomodel__z',
+                                                                'eventolocalizadomodel__ml',
+                                                                'eventolocalizadomodel__gap').distinct()
+    else:
+        eventoMacros = EventoMacroModel.objects.filter(parmfisdiscretomodel__isnull=False, volcan__isnull=False,
+                                                       inicio__range=(fechaIni, fechaFin),
+                                                       parmfisdiscretomodel__dr_c__range=(
+                                                       float(rangeDR[0]), float(rangeDR[1]))).values('evento_macro_id',
+                                                                                                     'clasificacion',
+                                                                                                     'volcan_id',
+                                                                                                     'inicio',
+                                                                                                     'parmfisdiscretomodel__ml',
+                                                                                                     'parmfisdiscretomodel__fecha',
+                                                                                                     'parmfisdiscretomodel__dr_c',
+                                                                                                     'parmfisdiscretomodel__freq',
+                                                                                                     'parmfisdiscretomodel__energia',
+                                                                                                     'volcan__nombre',
+                                                                                                     'eventolocalizadomodel__lon',
+                                                                                                     'eventolocalizadomodel__lat',
+                                                                                                     'eventolocalizadomodel__z').distinct()
+    writer = csv.writer(response)
+
+    writer = csv.writer(response)
+    writer.writerow(['evento_macro_id', 'fecha_ocurrido', 'clasificacion', 'ml', 'dr', 'frecuencia','energia', 'guardado'])
+    eventos = eventoMacros.values_list('evento_macro_id', 'parmfisdiscretomodel__fecha', 'clasificacion', 'parmfisdiscretomodel__ml', 'parmfisdiscretomodel__dr_c', 'parmfisdiscretomodel__freq' , 'parmfisdiscretomodel__energia', 'created_at')
+    for value in eventos:
+        writer.writerow(value)
+
+    #writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+    #writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+    return response

@@ -24,7 +24,7 @@ from eventoMacro.views import getEventoMacroId as getEventoMacroId
 from paramDiscrFisc.views import getMlbyMacroId, recorrerParametros as recorrerParametros
 from paramDiscrFisc.views import getParametrosEntreFechas as getParametrosEntreFechas
 from paramDiscrFisc.views import getAll as getParametrosAll
-
+from eventoMacro.models import EventoMacroModel
 from criterioAlerta.views import getUmbralDR as getUmbralDR
 from criterioAlerta.views import getUmbralML as getUmbralML
 from django.core.exceptions import ObjectDoesNotExist
@@ -129,3 +129,18 @@ def createAlertas(id):
     alerta = AlertasModel(evento=id)
     alerta.save()
     return True
+
+@api_view(['GET'])
+def getAlertasDash(request):
+    eventoMacros = EventoMacroModel.objects.filter(parmfisdiscretomodel__isnull=True, volcan__isnull=False, eventolocalizadomodel__isnull=True).values('evento_macro_id',
+                                                                'clasificacion', 'volcan_id', 'inicio',
+                                                                'parmfisdiscretomodel__ml',
+                                                                'parmfisdiscretomodel__dr_c',
+                                                                'volcan__nombre',
+                                                                'eventolocalizadomodel__lon',
+                                                                'eventolocalizadomodel__lat', 'eventolocalizadomodel__z').distinct()
+    alertas = AlertasModel.objects.filter(evento__parmfisdiscretomodel__isnull=False, evento__volcan__isnull=False).values('evento_id', 'evento__clasificacion', 'evento__parmfisdiscretomodel__ml', 'evento__parmfisdiscretomodel__dr_c',
+                                            'evento__parmfisdiscretomodel', 'evento__parmfisdiscretomodel__energia', 'evento__parmfisdiscretomodel__freq',  'evento__volcan__nombre', 'evento__eventolocalizadomodel__z',
+                                            'evento__eventolocalizadomodel__lat', 'evento__eventolocalizadomodel__lon').distinct()
+    print(alertas.query)
+    return Response(alertas, status=status.HTTP_200_OK)
