@@ -50,7 +50,7 @@ def show(id):
 def getEstacionByCodeEvent(id):
     estacion = IdentificacionSenalModel.objects.filter(cod_event=id)
     serializer = IdentificacionSenalSerializer(estacion,many=True)
-    return serializer.data[0]["est"]
+    return serializer.data[0]
     
 @api_view(["PUT"])
 def update(request, id):

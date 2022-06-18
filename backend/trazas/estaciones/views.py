@@ -62,7 +62,7 @@ def create(request):
 def getAll():
     estaciones = EstacionModel.objects.all()
     serializer = EstacionSerializer(estaciones, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return serializer.data
 
 @api_view(['GET'])
 def show(request):

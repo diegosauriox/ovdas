@@ -41,7 +41,7 @@ def PSCoda(request,id):
 def getAvistamientoByMacroId(id):
     avistamiento=AvistamientoRegistroModel.objects.filter(evento_macro_id=id)
     serializer = AvistamientoRegistroSerializer(avistamiento,many=True)
-    return serializer.data[0]["cod_event"]
+    return serializer.data
 
 @api_view(['GET'])
 def index(request):

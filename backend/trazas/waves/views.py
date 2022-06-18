@@ -3,7 +3,9 @@ import time
 from datetime import datetime
 import numpy as np
 from avistamientoRegistro.views import getAvistamientoByMacroId
+from eventoMacro.views import getEventoMacroId
 from identificacion.views import getEstacionByCodeEvent
+from volcan.views import getVolcanbyCodEvent
 from waves.traces_ufro import *
 from pyrocko import trace
 import pyrocko.gui as gui
@@ -22,10 +24,74 @@ from django.core import serializers
 from mysql.connector import Error
 import json
 from eventoMacro.models import EventoMacroModel
-from estaciones.views import estacioneByVolcan as estacionByVolcan
+from estaciones.views import estacioneByVolcan as estacionByVolcan, getAll
 import os 
-
+from datetime import datetime
+from obspy.clients.earthworm import Client
+from obspy import UTCDateTime
 ruta=os.getcwd()+"/waves/Estaciones_Pyrocko.pf"
+
+
+@api_view(['GET'])
+def nuevoGetTraza(request,id):
+    cod_event=getAvistamientoByMacroId(id)
+    ti=UTCDateTime(getEventoMacroId(id).inicio)
+    tf=UTCDateTime(getEventoMacroId(id).fin)
+    
+    client = Client("172.16.40.70", 16022,timeout=15)
+    fulldata=[]
+    #INTENTO QUE FUNCIONA DIEGO TRAER TODAS LAS ESTACIONES CON TRAZAS 
+    for i in range(len(cod_event)):
+ 
+        volcan=getEstacionByCodeEvent(cod_event[i]["cod_event"])["volcan"]
+        estacion=list(cod_event[i]["cod_event"])
+        ts=cod_event[i]["t_s"]
+        tp=cod_event[i]["t_p"]
+        nombreEstacion=estacion[0]+estacion[1]+estacion[2]
+        wave=client.get_waveforms('TC',nombreEstacion+"Z",volcan,'HHZ',ti,tf)
+        tiempos=wave[0].times("timestamp")*1000
+        datos=wave[0].data
+        listaF=[]
+        for i in range(len(datos)):
+            listaF.append([tiempos[i],datos[i]])
+        fulldata.append([listaF,nombreEstacion,ts,tp])
+    
+
+    ## Aqui obtenemos el paquete de trazas
+    wave=client.get_waveforms('TC','FREZ','99','HHZ',ti,tf )
+
+    wave_fil=wave.filter(type='bandpass',freqmin=0.8,freqmax=12)
+    
+   
+    ###### Aquí haciamos algo que no recuerdo
+
+    """ INTENTO TRAER FECHAS *FUNCIONA
+    for i in range(len(estaciones)):
+        try:
+            wave=client.get_waveforms('TC',estaciones[i]["estacion_id"]+"Z",estaciones[i]["volcan"]["volcan_id"],'HHZ',ti,tf)
+            datos=wave[0].data
+            fulldata.append([datos,estaciones[i]["estacion_id"]])
+        except:
+
+            print(i)
+            
+    tiempos=wave[0].times("utcdatetime")    
+        
+    ts=[]
+    tiempos2=wave[0].times("timestamp")*1000
+    for tiempo in tiempos:
+        d=tiempo.datetime
+        ts.append(time.mktime(d.timetuple())*1000)
+        
+    
+    datosF=wave[0].data
+
+    listaF=[]
+    for i in range(len(datosF)):
+        listaF.append([tiempos2[i],datosF[i]])
+ """
+
+    return Response(fulldata,status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -34,10 +100,6 @@ def algo(request):
         'request': Request(request),
     }
     return Response("xao", status=status.HTTP_200_OK)
-
-
-
-
 
 @api_view(['POST'])
 def create(request):   
@@ -151,6 +213,7 @@ def createByFechaEstacion(request):
     # datosYE=st_final[1].get_ydata()
     # datosXN=st_final[2].get_xdata()
     # datosYN=st_final[2].get_ydata()
+    print(datosXZ)
     datos = []
     lista = []
     tiempos = []
