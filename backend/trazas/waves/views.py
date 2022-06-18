@@ -5,7 +5,7 @@ import numpy as np
 from avistamientoRegistro.views import getAvistamientoByMacroId
 from eventoMacro.views import getEventoMacroId
 from identificacion.views import getEstacionByCodeEvent
-from volcan.views import getVolcanbyCodEvent
+
 from waves.traces_ufro import *
 from pyrocko import trace
 import pyrocko.gui as gui
