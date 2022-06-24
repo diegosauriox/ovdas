@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 import time
-from datetime import datetime
+from datetime import date, datetime
 import numpy as np
 from avistamientoRegistro.views import getAvistamientoByMacroId
 from eventoMacro.views import getEventoMacroId
@@ -32,8 +32,10 @@ from obspy import UTCDateTime
 ruta=os.getcwd()+"/waves/Estaciones_Pyrocko.pf"
 
 
-@api_view(['GET'])
-def nuevoGetTraza(request,id):
+@api_view(['POST'])
+def nuevoGetTraza(request):
+    id=request.data["eventoMacro"]
+    filtrada=request.data["filtrada"]
     cod_event=getAvistamientoByMacroId(id)
     ti=UTCDateTime(getEventoMacroId(id).inicio)
     tf=UTCDateTime(getEventoMacroId(id).fin)
@@ -42,17 +44,22 @@ def nuevoGetTraza(request,id):
     fulldata=[]
     #INTENTO QUE FUNCIONA DIEGO TRAER TODAS LAS ESTACIONES CON TRAZAS 
     for i in range(len(cod_event)):
- 
+        
         volcan=getEstacionByCodeEvent(cod_event[i]["cod_event"])["volcan"]
         estacion=list(cod_event[i]["cod_event"])
         ts=cod_event[i]["t_s"]
         tp=cod_event[i]["t_p"]
+        tiempoSstamp=time.mktime(datetime.strptime(ts,"%Y-%m-%dT%H:%M:%S.%fZ").timetuple())
         nombreEstacion=estacion[0]+estacion[1]+estacion[2]
         wave=client.get_waveforms('TC',nombreEstacion+"Z",volcan,'HHZ',ti,tf)
         tiempos=wave[0].times("timestamp")*1000
-        datos=wave[0].data
+        if(filtrada==1):
+            datos=wave[0].data
+        elif(filtrada==0):
+            datos=wave.filter(type='bandpass',freqmin=0.8,freqmax=12)[0].data
         listaF=[]
         for i in range(len(datos)):
+            
             listaF.append([tiempos[i],datos[i]])
         fulldata.append([listaF,nombreEstacion,ts,tp])
     
@@ -60,7 +67,7 @@ def nuevoGetTraza(request,id):
     ## Aqui obtenemos el paquete de trazas
     wave=client.get_waveforms('TC','FREZ','99','HHZ',ti,tf )
 
-    wave_fil=wave.filter(type='bandpass',freqmin=0.8,freqmax=12)
+    #wave_fil=wave.filter(type='bandpass',freqmin=0.8,freqmax=12)
     
    
     ###### Aquí haciamos algo que no recuerdo

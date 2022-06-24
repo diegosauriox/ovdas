@@ -11,7 +11,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('createWave', views.create),
     path('createByFechaEstacion', views.createByFechaEstacion),
-    path('nuevoGetTraza/<id>', views.nuevoGetTraza),
+    path('nuevoGetTraza', views.nuevoGetTraza),
     
     #path('algo/', views.algo),
 ]
